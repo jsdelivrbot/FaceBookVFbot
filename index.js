@@ -4,9 +4,12 @@ var https = require('https');
 var express = require('express');
 const Agent = require('node-agent-sdk').Agent;
 var echoAgent = new Agent({
-  accountId: '13099967',
-  username: 'botLivePerson',
-  password: 'Mypassword123!!!'
+	accountId: '13099967',
+	username: 'facebookbot',
+	appKey: 'e1fdfd1a05c5415890b4279235b4dac6',
+	secret: '66482e8afaeb9460',
+	accessToken: '268f398c9fbd41c6a939aee1a60a7455',
+	accessTokenSecret: '6996463d0940bbe0'
 });
 
 var bearer = "";
