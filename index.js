@@ -313,7 +313,7 @@ function FaceBookWelcomeMessage(dialogID, timestamp){
 			skill: FaceBookSkill
 		}]
 
-		}, null, metadata, function(err) {
+		}, function(err) {
    			if (err) { 
 				console.error(err) 
     		}
