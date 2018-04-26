@@ -266,15 +266,15 @@ function closeChat(dialogID){
 }
 
 
-function FaceBookWelcomeMessage(dialogID, timestamp){
+function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 	var d = new Date(timestamp);
 	var dateOfWeek = d.getDay();
 	var hourOfWeek = d.getHours();
 	if (dateOfWeek == 0 || ((hourOfWeek < 9) || (hourOfWeek > 20))){
-		var messageFB = "siamo off-hours!";
+		var messageFB = "Benvenuto " + fbName + " nel servizio clienti Vodafone. I nostri operatori sono disponibili dal lunedi al sabato dalle 9.00 alle 21.00";
 	}
 	else{
-		var messageFB = "siamo da te quanto prima!";
+		var messageFB = "Benvenuto" +  fbName + " nel servizio clienti Vodafone. Un operatore ti rispondera’ appena possibile.";
 	}
 	
 	echoAgent.updateConversationField({
@@ -646,7 +646,7 @@ function proceedWithActions(){
 			var howManyMessagesFaceBook = answer[m].messageRecords.length;
 			if(howManyMessagesFaceBook){
 				if(answer[m].messageRecords[(howManyMessagesFaceBook - 1)].sentBy === "Consumer"){
-					FaceBookWelcomeMessage(answer[m].info.conversationId, answer[m].info.startTimeL);
+					FaceBookWelcomeMessage(answer[m].info.conversationId, answer[m].info.startTimeL, answer[m].consumerParticipants.firstName);
 				}
 			}
 		}
