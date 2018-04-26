@@ -270,7 +270,7 @@ function FaceBookWelcomeMessage(dialogID, timestamp){
 	var d = new Date(timestamp);
 	var dateOfWeek = d.getDay();
 	var hourOfWeek = d.getHours();
-	if (dateOfWeek == 0 || ((hourOfWeek < 8) || (hourOfWeek > 20))){
+	if (dateOfWeek == 0 || ((hourOfWeek < 9) || (hourOfWeek > 20))){
 		var messageFB = "siamo off-hours!";
 	}
 	else{
