@@ -15,11 +15,12 @@ var echoAgent = new Agent({
 var bearer = "";
 var agentsLogged = [];
 var activeSkills = [];
+var FaceBookSkill = 1089726032;
 var answer = [];
 var limboskill = 1051213232;
 var risvegliataskill = 1051213332;
 var accountNumber = 13099967;
-var botID = 1051214932;
+var botID = 1089636032;
 var customBotID = accountNumber + "." + botID;
 var agentJSON = {};
 var skill = "xyz";
@@ -269,6 +270,75 @@ function FaceBookWelcomeMessage(dialogID, timestamp){
 	var d = new Date(timestamp);
 	var dateOfWeek = d.getDay();
 	var hourOfWeek = d.getHours();
+	if (dateOfWeek == 0 || ((hourOfWeek < 8) || (hourOfWeek > 20))){
+		var messageFB = "siamo off-hours!";
+	}
+	else{
+		var messageFB = "siamo da te quanto prima!";
+	}
+	
+	echoAgent.updateConversationField({
+		'conversationId': dialogID,
+		'conversationField': [
+		{
+			field: 'ParticipantsChange',
+			type: 'ADD',
+			userId: customBotID,
+			role: 'ASSIGNED_AGENT'
+		}]
+		}, (e, resp) => {
+   			if (e) { 
+				console.error(e) 
+    		}
+	});
+	echoAgent.publishEvent({
+		'dialogId': dialogID,
+		'event': {
+			message: messageFB, // escalation message
+			contentType: "text/plain",
+			type: "ContentEvent"
+			}
+
+		}, (e, resp) => {
+   			if (e) { 
+				console.error(e) 
+    		}
+	});
+	echoAgent.updateConversationField({
+		'conversationId': dialogID,
+		'conversationField': [
+		{
+			field: "Skill",
+			type: "UPDATE",
+			skill: FaceBookSkill
+		}]
+
+		}, null, metadata, function(err) {
+   			if (err) { 
+				console.error(err) 
+    		}
+	});	
+	echoAgent.updateConversationField({
+		'conversationId': dialogID,
+		'conversationField': [
+							
+			{
+			field: 'ParticipantsChange',
+			type: 'REMOVE',
+			userId: customBotID,
+			role: 'ASSIGNED_AGENT'
+			}]
+
+		}, (e, resp) => {
+   			if (e) { 
+				console.error(e) 
+    		}
+    		console.log("Transfering..." , resp)
+	});
+
+	
+	
+	
 	 
 	
 	
