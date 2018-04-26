@@ -265,7 +265,14 @@ function closeChat(dialogID){
 }
 
 
-
+function FaceBookWelcomeMessage(dialogID, timestamp){
+	var d = new Date(timestamp);
+	var dateOfWeek = d.getDay();
+	var hourOfWeek = d.getHours();
+	 
+	
+	
+}
 
 
 
@@ -565,6 +572,16 @@ function proceedWithActions(){
 	console.log("ACTIONS");
 
 	for (var m = 0; m < (answer.length); m++){
+		if(answer[m].info.latestSkillName === "facebook_bot"){
+			var howManyMessagesFaceBook = answer[m].messageRecords.length;
+			if(howManyMessagesFaceBook){
+				if(answer[m].messageRecords[(howManyMessagesFaceBook - 1)].sentBy === "Consumer"){
+					FaceBookWelcomeMessage(answer[m].info.conversationId, answer[m].info.startTimeL);
+				}
+			}
+		}
+		else{
+
 
 		var howManyMessages = answer[m].messageRecords.length;
 			if(howManyMessages){
@@ -616,6 +633,7 @@ function proceedWithActions(){
 				}
 
 		 	}
+		}
 
 	}
 
