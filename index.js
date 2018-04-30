@@ -93,6 +93,7 @@ app.get('/add', function(req, res, next) {
 			console.log(arraylength);
 			for (var i = 0; i > arraylength; i++){
 				if(b[i].hasOwnProperty('transfers')){
+					console.log("inside");
 					if (typeof b[i].transfers !== 'undefined' && b[i].transfers.length > 0) {
 						var arraylength = b[i].transfers.length;
 						for (var z = (arraylength -1); z > -1; z--){
