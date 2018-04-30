@@ -364,7 +364,7 @@ function markConvFB(){
 			if(err) {
 				console.log(err);
 			} else {
-				// console.log("joining completed");
+				console.log("joining completed");
 			}
 	});
 
@@ -383,7 +383,7 @@ function markConvFB(){
 			if(err) {
 				console.log(err);
 			} else {
-				// console.log("transfered completed");
+				console.log("transfered completed");
 			}
 	});
 
@@ -401,7 +401,7 @@ function markConvFB(){
 			if(err) {
 				console.log(err);
 			} else {
-				// console.log("leave completed");
+				console.log("leave completed");
 			}
 	});
 
