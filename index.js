@@ -35,6 +35,7 @@ var vfTag;
 var triplettauno;
 var triplettadue;
 var triplettatre;
+var visitorID;
 
 
 
@@ -63,6 +64,7 @@ app.get('/add', function(req, res, next) {
 	triplettauno = req.query.triplettauno;
 	triplettadue = req.query.triplettadue;
 	triplettatre = req.query.triplettatre;
+	visitorID = req.query.visitorID;
 	var retrieve = req.query.retrieve;
 
 
@@ -75,15 +77,18 @@ app.get('/add', function(req, res, next) {
 	if(retrieve === "1"){
 		var request = require('request');
 		var oauth = "Bearer " + bearer;
+		var body = {"consumer":visitorID,"status":["OPEN","CLOSE"]};
 		var url = 'https://lo.msghist.liveperson.net/messaging_history/api/account/13099967/conversations/consumer/search?=Order:[desc]';
 		request.post({
 			url: url,
 			json: true,
+			body: body,
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': oauth
 			}
 		}, function (e, r, b) {
+			res.send(b);
 			activeSkills = b;
 		});
 
@@ -102,7 +107,7 @@ app.get('/add', function(req, res, next) {
   
 	
 	// Output result in a JSON object
-	res.send({'result': convID});
+	// res.send({'result': convID});
 });
 
 
