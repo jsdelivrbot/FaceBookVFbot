@@ -91,6 +91,8 @@ app.get('/add', function(req, res, next) {
 			res.send(b);
 			activeSkills = b;
 		});
+		
+		
 
 
 	}
