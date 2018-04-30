@@ -98,7 +98,8 @@ app.get('/add', function(req, res, next) {
 							if(b[i].transfers[z].hasOwnProperty('contextData')){
 								if(b[i].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
 									var numero_telefono = b[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].name;
-									if (numero_telefono !== undefined || telefono !== "---"){
+									if (numero_telefono !== undefined || numero_telefono !== "---"){
+										console.log(numero_telefono);
 										var numero_ricontatto = b[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[1].name;
 										var numero_cfiscale = b[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[2].name;
 										z = 0;
