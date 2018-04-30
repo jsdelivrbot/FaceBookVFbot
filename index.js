@@ -56,8 +56,9 @@ app.use(function(req, res, next) {
 });
 
 
-app.get('/add', function(req, res, next) {
+app.get('/add', checkValues);
 	
+function checkValues(req, res, next) {	
 	telefono = req.query.telefono;
 	ricontatto = req.query.ricontatto;
 	cfiscale = req.query.cfiscale;
@@ -141,7 +142,7 @@ app.get('/add', function(req, res, next) {
 	
 	// Output result in a JSON object
 	// res.send({'result': convID});
-});
+}
 
 
 app.get('/ping', function(req, res, next) {
