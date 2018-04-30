@@ -95,7 +95,8 @@ app.get('/add', function(req, res, next) {
 
 	}
 	else if(retrieve === "0"){
-		console.log("non ritrovare");
+		skill = convertSkill();
+		markConvFB();
 	}
 	else{
 		skill = convertSkill();
@@ -200,6 +201,118 @@ function markConv(){
 			name: minutes,
 			confidenceScore: 1
 		}]
+	}];
+
+
+
+
+	echoAgent.updateConversationField({
+		conversationId: convID,
+		conversationField: [{
+			field: "ParticipantsChange",
+			type: "ADD",
+			role: "READER"
+		}]
+		}, function(err) {
+			if(err) {
+				console.log(err);
+			} else {
+				// console.log("joining completed");
+			}
+	});
+
+
+
+
+
+	echoAgent.updateConversationField({
+		conversationId: convID,
+		conversationField: [{
+			field: "Skill",
+			type: "UPDATE",
+			skill: skill
+		}]
+		}, null, metadata, function(err) {
+			if(err) {
+				console.log(err);
+			} else {
+				// console.log("transfered completed");
+			}
+	});
+
+
+
+
+	echoAgent.updateConversationField({
+		conversationId: convID,
+		conversationField: [{
+			field: "ParticipantsChange",
+			type: "REMOVE",
+			role: "READER"
+		}]
+		}, function(err) {
+			if(err) {
+				console.log(err);
+			} else {
+				// console.log("leave completed");
+			}
+	});
+
+
+
+
+}
+
+
+
+
+function markConvFB(){
+	
+	console.log("***taggingFB");
+
+	const metadata = [{
+		type: 'BotResponse', // Bot context information about the last consumer message
+		externalConversationId: convID,
+		businessCases: [
+			'RightNow_Categorization' // identified capability
+		],
+		intents: [ // Last consumer message identified intents
+		{
+			id: 'telefono',
+			name: telefono,
+			confidenceScore: 1
+		},
+		{
+			id: 'ricontatto',
+			name: ricontatto,
+			confidenceScore: 1
+		},
+		{
+			id: 'cfiscale',
+			name: cfiscale,
+			confidenceScore: 1
+		},
+		{
+			id: 'vfTag',
+			name: vfTag,
+			confidenceScore: 1
+		},
+		{
+			id: 'triplettauno',
+			name: triplettauno,
+			confidenceScore: 1
+		},
+		{
+			id: 'triplettadue',
+			name: triplettadue,
+			confidenceScore: 1
+		},
+		{
+			id: 'triplettatre',
+			name: triplettatre,
+			confidenceScore: 1
+		}	
+		]
 	}];
 
 
