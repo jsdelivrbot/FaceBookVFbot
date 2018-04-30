@@ -88,10 +88,33 @@ app.get('/add', function(req, res, next) {
 				'Authorization': oauth
 			}
 		}, function (e, r, b) {
-			res.send(b);
-			activeSkills = b;
+			
+			var arraylength = b.metadata.count;
+			for (var i = 0; i > arraylength; i++){
+				if(b[i].hasOwnProperty('transfers')){
+					if (typeof b[i].transfers !== 'undefined' && b[i].transfers.length > 0) {
+						var arraylength = b[i].transfers.length;
+						for (var z = (arraylength -1); z > -1; z--){
+							if(b[i].transfers[z].hasOwnProperty('contextData')){
+								if(b[i].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
+									var numero_telefono = b[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].name;
+									if (numero_telefono !== undefined || telefono !== "---"){
+										var numero_ricontatto = b[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[1].name;
+										var numero_cfiscale = b[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[2].name;
+										z = 0;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			res.send([numero_telefono,numero_ricontatto,numero_cfiscale]);
 		});
 		
+		
+	
 		
 
 
