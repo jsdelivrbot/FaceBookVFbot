@@ -71,10 +71,23 @@ app.get('/add', function(req, res, next) {
 	minutes = req.query.minutes;
 	convID = req.query.convID;
 	skill = req.query.skill;
-	console.log("***" + triplettauno + "***" + triplettadue + "***" + triplettatre + "***" + vfTag + "***");
 	
 	if(retrieve === "1"){
-		console.log("ritrova");
+		var request = require('request');
+		var oauth = "Bearer " + bearer;
+		var url = 'https://lo.msghist.liveperson.net/messaging_history/api/account/13099967/conversations/consumer/search?=Order:[desc]';
+		request.post({
+			url: url,
+			json: true,
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': oauth
+			}
+		}, function (e, r, b) {
+			activeSkills = b;
+		});
+
+
 	}
 	else if(retrieve === "0"){
 		console.log("non ritrovare");
