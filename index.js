@@ -101,13 +101,13 @@ app.get('/add', function(req, res, next) {
 							if(b.conversationHistoryRecords[i].transfers[z].hasOwnProperty('contextData')){
 								if(b.conversationHistoryRecords[i].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
 									console.log("inside");
-									var numero_telefono = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].name;
-									console.log(numero_telefono);
-									if (numero_telefono !== undefined || numero_telefono !== "---"){
-										console.log(numero_telefono);
+									if(b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
+										console.log("inside")
+										var numero_telefono = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].name;
 										var numero_ricontatto = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[1].name;
 										var numero_cfiscale = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[2].name;
 										z = 0;
+									
 									}
 								}
 							}
