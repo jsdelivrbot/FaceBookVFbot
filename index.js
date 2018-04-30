@@ -80,8 +80,8 @@ app.get('/add', function(req, res, next) {
 		console.log("non ritrovare");
 	}
 	else{
-		markConv();
 		skill = convertSkill();
+		markConv();
 	}
 		
 	
