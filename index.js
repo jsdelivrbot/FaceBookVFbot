@@ -90,21 +90,15 @@ function checkValues(req, res, next) {
 				'Authorization': oauth
 			}
 		}, function (e, r, b) {
-			console.log(b);
 			var arraylength = b._metadata.count;
-			console.log(arraylength);
 			for (var i = 0; i < arraylength; i++){
-				console.log("inside");
 				if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
-					console.log("inside");
 					if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined' && b.conversationHistoryRecords[i].transfers.length > 0) {
 						var arraylength = b.conversationHistoryRecords[i].transfers.length;
 						for (var z = (arraylength -1); z > -1; z--){
 							if(b.conversationHistoryRecords[i].transfers[z].hasOwnProperty('contextData')){
 								if(b.conversationHistoryRecords[i].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
-									console.log("inside");
 									if(b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
-										console.log("inside")
 										var numero_telefono = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].name;
 										var numero_ricontatto = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[1].name;
 										var numero_cfiscale = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[2].name;
@@ -365,7 +359,7 @@ function markConvFB(){
 			if(err) {
 				console.log(err);
 			} else {
-				console.log("joining completed");
+				// console.log("joining completed");
 			}
 	});
 
@@ -384,7 +378,7 @@ function markConvFB(){
 			if(err) {
 				console.log(err);
 			} else {
-				console.log("transfered completed");
+				// console.log("transfered completed");
 			}
 	});
 
@@ -402,7 +396,7 @@ function markConvFB(){
 			if(err) {
 				console.log(err);
 			} else {
-				console.log("leave completed");
+				// console.log("leave completed");
 			}
 	});
 
