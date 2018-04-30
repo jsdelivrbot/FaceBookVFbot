@@ -91,7 +91,7 @@ app.get('/add', function(req, res, next) {
 			console.log(b);
 			var arraylength = b._metadata.count;
 			console.log(arraylength);
-			for (var i = 0; i > arraylength; i++){
+			for (var i = 0; i < arraylength; i++){
 				console.log("inside");
 				if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
 					console.log("inside");
