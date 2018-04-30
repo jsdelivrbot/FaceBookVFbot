@@ -130,10 +130,12 @@ function checkValues(req, res, next) {
 	else if(retrieve === "0"){
 		skill = convertSkill();
 		markConvFB();
+		res.send([skill]);
 	}
 	else{
 		skill = convertSkill();
 		markConv();
+		res.send([skill]);
 	}
 		
 	
