@@ -437,7 +437,7 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 		var messageFB = "Benvenuto " + fbName + " nel servizio clienti Vodafone. I nostri operatori sono disponibili dal lunedi al sabato dalle 9.00 alle 21.00";
 	}
 	else{
-		var messageFB = "Benvenuto" +  fbName + " nel servizio clienti Vodafone. Un operatore ti rispondera’ appena possibile.";
+		var messageFB = "Benvenuto " +  fbName + " nel servizio clienti Vodafone. Un operatore ti rispondera’ appena possibile.";
 	}
 	
 	echoAgent.updateConversationField({
