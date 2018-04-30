@@ -89,7 +89,7 @@ app.get('/add', function(req, res, next) {
 			}
 		}, function (e, r, b) {
 			
-			var arraylength = b.metadata.count;
+			var arraylength = b._metadata.count;
 			for (var i = 0; i > arraylength; i++){
 				if(b[i].hasOwnProperty('transfers')){
 					if (typeof b[i].transfers !== 'undefined' && b[i].transfers.length > 0) {
