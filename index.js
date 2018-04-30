@@ -92,20 +92,20 @@ app.get('/add', function(req, res, next) {
 			var arraylength = b._metadata.count;
 			console.log(arraylength);
 			for (var i = 0; i > arraylength; i++){
-				if(b[i].hasOwnProperty('transfers')){
+				if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
 					console.log("inside");
-					if (typeof b[i].transfers !== 'undefined' && b[i].transfers.length > 0) {
-						var arraylength = b[i].transfers.length;
+					if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined' && b.conversationHistoryRecords[i].transfers.length > 0) {
+						var arraylength = b.conversationHistoryRecords[i].transfers.length;
 						for (var z = (arraylength -1); z > -1; z--){
-							if(b[i].transfers[z].hasOwnProperty('contextData')){
-								if(b[i].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
+							if(b.conversationHistoryRecords[i].transfers[z].hasOwnProperty('contextData')){
+								if(b.conversationHistoryRecords[i].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
 									console.log("inside");
-									var numero_telefono = b[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].name;
+									var numero_telefono = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].name;
 									console.log(numero_telefono);
 									if (numero_telefono !== undefined || numero_telefono !== "---"){
 										console.log(numero_telefono);
-										var numero_ricontatto = b[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[1].name;
-										var numero_cfiscale = b[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[2].name;
+										var numero_ricontatto = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[1].name;
+										var numero_cfiscale = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[2].name;
 										z = 0;
 									}
 								}
