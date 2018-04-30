@@ -28,6 +28,14 @@ var convID = "682e0bbe-f7af-477b-97ba-461a6bd91780";
 var yesno = "";
 var comments = "";
 var minutes = "";
+var telefono;
+var ricontatto;
+var cfiscale;
+var vfTag;
+var triplettauno;
+var triplettadue;
+var triplettatre;
+
 
 
 
@@ -47,13 +55,24 @@ app.use(function(req, res, next) {
 
 
 app.get('/add', function(req, res, next) {
+	
+	telefono = req.query.telefono;
+	ricontatto = req.query.ricontatto;
+	cfiscale = req.query.cfiscale;
+	vfTag = req.query.vfTag;
+	triplettauno = req.query.triplettauno;
+	triplettadue = req.query.triplettadue;
+	triplettatre = req.query.triplettatre;
+	var retrieve = req.query.retrieve;
+
 
 	yesno = req.query.yesno;
 	comments = req.query.comments;
 	minutes = req.query.minutes;
 	convID = req.query.convID;
 	skill = req.query.skill;
-	console.log("***" + yesno + "***" + comments + "***" + convID + "***" + skill + "***");
+	console.log("***" + triplettauno + "***" + triplettadue + "***" + triplettatre + "***" + vfTag + "***");
+	
 	skill = convertSkill();
 	markConv();
   
