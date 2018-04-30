@@ -98,7 +98,9 @@ app.get('/add', function(req, res, next) {
 						for (var z = (arraylength -1); z > -1; z--){
 							if(b[i].transfers[z].hasOwnProperty('contextData')){
 								if(b[i].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
+									console.log("inside");
 									var numero_telefono = b[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].name;
+									console.log(numero_telefono);
 									if (numero_telefono !== undefined || numero_telefono !== "---"){
 										console.log(numero_telefono);
 										var numero_ricontatto = b[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[1].name;
