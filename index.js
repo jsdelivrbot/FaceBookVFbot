@@ -73,8 +73,19 @@ app.get('/add', function(req, res, next) {
 	skill = req.query.skill;
 	console.log("***" + triplettauno + "***" + triplettadue + "***" + triplettatre + "***" + vfTag + "***");
 	
-	skill = convertSkill();
-	markConv();
+	if(retrieve === "1"){
+		console.log("ritrova");
+	}
+	else if(retrieve === "0"){
+		console.log("non ritrovare");
+	}
+	else{
+		markConv();
+		skill = convertSkill();
+	}
+		
+	
+
   
 	
 	// Output result in a JSON object
