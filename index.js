@@ -48,7 +48,7 @@ app.set('port', (process.env.PORT || 5000));
 
 // Required to allow access to the service across different domains
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", "https://marcodagolini.github.io");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.header('Content-Type', 'text/plain');
   next();
