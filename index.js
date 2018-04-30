@@ -88,8 +88,9 @@ app.get('/add', function(req, res, next) {
 				'Authorization': oauth
 			}
 		}, function (e, r, b) {
-			
+			console.log(b);
 			var arraylength = b._metadata.count;
+			console.log(arraylength);
 			for (var i = 0; i > arraylength; i++){
 				if(b[i].hasOwnProperty('transfers')){
 					if (typeof b[i].transfers !== 'undefined' && b[i].transfers.length > 0) {
