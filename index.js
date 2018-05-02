@@ -95,8 +95,8 @@ function checkValues(req, res, next) {
 				console.log("inside i");
 				if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
 					if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined' && b.conversationHistoryRecords[i].transfers.length > 0) {
-						var arraylength = b.conversationHistoryRecords[i].transfers.length;
-						for (var z = (arraylength -1); z > -1; z--){
+						var arraylength2 = b.conversationHistoryRecords[i].transfers.length;
+						for (var z = (arraylength2 -1); z > -1; z--){
 							console.log("inside z");
 							if(b.conversationHistoryRecords[i].transfers[z].hasOwnProperty('contextData')){
 								if(b.conversationHistoryRecords[i].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
