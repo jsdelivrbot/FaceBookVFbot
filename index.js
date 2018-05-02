@@ -534,15 +534,19 @@ function closeChat(dialogID){
    									if (e) { 
 										console.error(e) 
     									}
-    									console.log("Transfering..." , resp)
+									else {
+										console.log("transfered completed");
+										echoAgent.updateConversationField({
+											conversationId: dialogID,
+											conversationField: [{
+												field: "ConversationStateField",
+												conversationState: "CLOSE"
+											}]
+										});
+									}
+    									
 							});
-							echoAgent.updateConversationField({
-								conversationId: dialogID,
-								conversationField: [{
-									field: "ConversationStateField",
-									conversationState: "CLOSE"
-								}]
-							});
+							
 
 						}
 					});
