@@ -448,7 +448,7 @@ function closeChat(dialogID){
 		var request = require('request');
 		var oauth = "Bearer " + bearer;
 		var body = {"conversationId":dialogID};
-		var pushedTags;
+		var pushedTags = "something";
 		var url = 'https://lo.msghist.liveperson.net/messaging_history/api/account/13099967/conversations/conversation/search';
 		request.post({
 			url: url,
