@@ -491,6 +491,22 @@ function closeChat(dialogID){
 					});
 			
 				} else{
+					
+					echoAgent.updateConversationField({
+						'conversationId': dialogID,
+						'conversationField': [
+							{
+							field: 'ParticipantsChange',
+							type: 'ADD',
+							userId: customBotID,
+							role: 'MANAGER'
+							}]
+						}, (e, resp) => {
+   							if (e) { 
+								console.error(e) 
+    							}
+					});
+
 		
 					echoAgent.publishEvent({
 						'dialogId': dialogID,
