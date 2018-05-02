@@ -92,19 +92,16 @@ function checkValues(req, res, next) {
 		}, function (e, r, b) {
 			var arraylength = b._metadata.count;
 			for (var i = 0; i < arraylength; i++){
-				console.log("inside i");
 				if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
 					if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined' && b.conversationHistoryRecords[i].transfers.length > 0) {
 						var arraylength2 = b.conversationHistoryRecords[i].transfers.length;
 						for (var z = (arraylength2 -1); z > -1; z--){
-							console.log("inside z");
 							if(b.conversationHistoryRecords[i].transfers[z].hasOwnProperty('contextData')){
 								if(b.conversationHistoryRecords[i].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
 									if(b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
 										var numero_telefono = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].name;
 										var numero_ricontatto = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[1].name;
 										var numero_cfiscale = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[2].name;
-										console.log(numero_telefono + "***" + numero_ricontatto + "***" + numero_cfiscale);
 										z = 0;
 										i = arraylength;
 									
@@ -464,6 +461,7 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 	var d = new Date(timestamp);
 	var dateOfWeek = d.getDay();
 	var hourOfWeek = d.getHours();
+	console.log(dateOfWeek + "***" + hourOfWeek);
 	if (dateOfWeek == 0 || ((hourOfWeek < 9) || (hourOfWeek > 20))){
 		var messageFB = "Benvenuto " + fbName + " nel servizio clienti Vodafone. I nostri operatori sono disponibili dal lunedi al sabato dalle 9.00 alle 21.00";
 	}
