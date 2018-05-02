@@ -958,9 +958,15 @@ function proceedWithActions(){
 				}
 
 					
-				var moveToLimbo = (Date.now() - (1000*60*15));            // timestamp "move to Limbo" conversation
+				var moveToLimbo = (Date.now() - (1000*60*2));            // timestamp "move to Limbo" conversation
 				var closure = (Date.now() - (1000*60*60*24));            // timestamp closure conversation
-				var whatTime = answer[m].messageRecords[(howManyMessages - 1)].timeL;
+				var whatTime = 0;
+				for (var k = (howManyMessages - 1); k > 0; k--){
+					if(answer[m].messageRecords[k].sentBy === "Agent" && answer[m].messageRecords[k].participantId !== "1089636032"){
+						whatTime = answer[m].messageRecords[k].timeL;
+					}
+				}
+				
 					
 				if((answer[m].messageRecords[(howManyMessages - 1)].sentBy === "Consumer") && (answer[m].info.latestSkillId === limboskill)){
 					console.log("***wakingup");
