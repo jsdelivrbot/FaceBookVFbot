@@ -444,15 +444,87 @@ function retrieveAgentsLogged(){
 
 
 function closeChat(dialogID){
+	
+		var request = require('request');
+		var oauth = "Bearer " + bearer;
+		var body = {"conversationId":dialogID};
+		var pushedTags;
+		var url = 'https://lo.msghist.liveperson.net/messaging_history/api/account/13099967/conversations/conversation/search';
+		request.post({
+			url: url,
+			json: true,
+			body: body,
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': oauth
+			}
+		}, function (e, r, b) {
+			var arraylength = b._metadata.count;
+			for (var i = 0; i < arraylength; i++){
+				if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
+					if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined' && b.conversationHistoryRecords[i].transfers.length > 0) {
+						var arraylength2 = b.conversationHistoryRecords[i].transfers.length;
+						for (var z = (arraylength2 -1); z > -1; z--){
+							if(b.conversationHistoryRecords[i].transfers[z].hasOwnProperty('contextData')){
+								if(b.conversationHistoryRecords[i].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
+									if(b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
+										pushedTags = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[3].name;
+										z = 0;
+										i = arraylength;
+									
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+		});
+		
+		
+	
+		
+
 
 	
-	echoAgent.updateConversationField({
-            conversationId: dialogID,
-            conversationField: [{
-                    field: "ConversationStateField",
-                    conversationState: "CLOSE"
-                }]
-        });
+	if(pushedTags.includes("Contatto Outbound KO")){
+		echoAgent.updateConversationField({
+			conversationId: dialogID,
+			conversationField: [{
+				field: "ConversationStateField",
+				conversationState: "CLOSE"
+			}]
+		});
+			
+	} else{
+		
+		echoAgent.publishEvent({
+			'dialogId': dialogID,
+			'event': {
+				message: "completa la nostra survey!! https://www.vodafone.it", // escalation message
+				contentType: "text/plain",
+				type: "ContentEvent"
+				}
+
+			}, (e, resp) => {
+   				if (e) { 
+					console.error(e) 
+    			} else {
+				echoAgent.updateConversationField({
+					conversationId: dialogID,
+					conversationField: [{
+						field: "ConversationStateField",
+						conversationState: "CLOSE"
+					}]
+				});
+
+			}
+		});
+		
+		
+	}
+
 
 
 }
