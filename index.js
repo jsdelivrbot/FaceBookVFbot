@@ -930,10 +930,10 @@ function proceedWithActions(){
 						thisConversationHasResponse = 1;
 						q = howManyMessages;
 					}
-					if(answer[m].messageRecords[q].sentBy === "Consumer"){
+					else if(answer[m].messageRecords[q].sentBy === "Consumer"){
 						q = howManyMessages;
 					}
-					if(answer[m].messageRecords[q].sentBy === "Agent" && answer[m].messageRecords[q].participantId === "1089636032"){
+					else if(answer[m].messageRecords[q].sentBy === "Agent" && answer[m].messageRecords[q].participantId === "1089636032"){
 						thisConversationHasAlert = 1;
 					}
 					   
