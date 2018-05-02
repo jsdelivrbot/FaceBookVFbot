@@ -505,7 +505,9 @@ function closeChat(dialogID, agentID){
 						}, (e, resp) => {
    							if (e) { 
 								console.error(e) 
-    							}
+    							} else {
+								console.log("agent out");
+							}
 					});
 					
 					echoAgent.updateConversationField({
@@ -520,7 +522,9 @@ function closeChat(dialogID, agentID){
 						}, (e, resp) => {
    							if (e) { 
 								console.error(e) 
-    							}
+    							} else {
+								console.log("agent in");
+							}
 					});
 
 		
@@ -536,6 +540,7 @@ function closeChat(dialogID, agentID){
    						if (e) { 
 							console.error(e) 
     						} else {
+							console.log("message sent");
 							echoAgent.updateConversationField({
 								'conversationId': dialogID,
 								'conversationField': [
