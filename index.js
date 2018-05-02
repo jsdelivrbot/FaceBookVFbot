@@ -443,7 +443,7 @@ function retrieveAgentsLogged(){
 
 
 
-function closeChat(dialogID){
+function closeChat(dialogID, agentID){
 	
 		var request = require('request');
 		var oauth = "Bearer " + bearer;
@@ -480,6 +480,7 @@ function closeChat(dialogID){
 				}
 			}
 			console.log(pushedTags);
+			var agentToRemove = accountNumber + "." + agentID
 			
 				if(pushedTags.includes("Contatto Outbound KO")){
 					echoAgent.updateConversationField({
@@ -497,9 +498,24 @@ function closeChat(dialogID){
 						'conversationField': [
 							{
 							field: 'ParticipantsChange',
+							type: 'REMOVE',
+							userId: agentToRemove,
+							role: 'ASSIGNED_AGENT'
+							}]
+						}, (e, resp) => {
+   							if (e) { 
+								console.error(e) 
+    							}
+					});
+					
+					echoAgent.updateConversationField({
+						'conversationId': dialogID,
+						'conversationField': [
+							{
+							field: 'ParticipantsChange',
 							type: 'ADD',
 							userId: customBotID,
-							role: 'MANAGER'
+							role: 'ASSIGNED_AGENT'
 							}]
 						}, (e, resp) => {
    							if (e) { 
@@ -527,7 +543,7 @@ function closeChat(dialogID){
 									field: 'ParticipantsChange',
 									type: 'REMOVE',
 									userId: customBotID,
-									role: 'MANAGER'
+									role: 'ASSIGNED_AGENT'
 									}]
 
 								}, (e, resp) => {
@@ -1089,7 +1105,7 @@ function proceedWithActions(){
 		 			if (answer[m].messageRecords[(howManyMessages - 1)].sentBy === "Agent" && whatTime){
 						if (whatTime < closure){
 							console.log("***closing");
-							closeChat(answer[m].info.conversationId);
+							closeChat(answer[m].info.conversationId, answer[m].info.latestAgentId);
 		 				}
 		 			}
 				}
