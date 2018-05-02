@@ -91,7 +91,6 @@ function checkValues(req, res, next) {
 			}
 		}, function (e, r, b) {
 			var arraylength = b._metadata.count;
-			console.log(b);
 			for (var i = 0; i < arraylength; i++){
 				if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
 					if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined' && b.conversationHistoryRecords[i].transfers.length > 0) {
@@ -103,6 +102,7 @@ function checkValues(req, res, next) {
 										var numero_telefono = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].name;
 										var numero_ricontatto = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[1].name;
 										var numero_cfiscale = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[2].name;
+										console.log(numero_telefono + "***" + numero_ricontatto + "***" + numero_cfiscale);
 										z = 0;
 										i = arraylength;
 									
