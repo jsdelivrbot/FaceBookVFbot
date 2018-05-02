@@ -923,18 +923,23 @@ function proceedWithActions(){
 				var sendAlert = (Date.now() - (1000*60*1));            // timestamp "send Alert" conversation
 				var whatTimeAlert = answer[m].messageRecords[(howManyMessages - 1)].timeL;
 				for (var q = 0; q < howManyMessages; q++){
+					console.log("loop");
 					if(answer[m].messageRecords[q].sentBy === "Agent" && answer[m].messageRecords[q].participantId !== "1089636032"){
 						if(whatTimeAlert < sendAlert && !thisConversationHasAlert){
 							sendAlertMessageFB(answer[m].info.conversationId);
+							console.log("send alert");
 						}
 						thisConversationHasResponse = 1;
 						q = howManyMessages;
+						console.log("agente");
 					}
 					else if(answer[m].messageRecords[q].sentBy === "Consumer"){
 						q = howManyMessages;
+						console.log("consumer");
 					}
 					else if(answer[m].messageRecords[q].sentBy === "Agent" && answer[m].messageRecords[q].participantId === "1089636032"){
 						thisConversationHasAlert = 1;
+						console.log("already sent");
 					}
 					   
 				}
