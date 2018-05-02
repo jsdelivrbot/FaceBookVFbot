@@ -509,7 +509,20 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
    			if (err) { 
 				console.error(err) 
     		}
-	});	
+	});
+	echoAgent.updateConversationField({
+		'conversationId': dialogID,
+		'conversationField': [
+		{
+			field: "ManualETTR",
+			time: Date.now()
+		}]
+		}, (e, resp) => {
+   			if (e) { 
+				console.error(e) 
+    			}
+	});
+
 	echoAgent.updateConversationField({
 		'conversationId': dialogID,
 		'conversationField': [
