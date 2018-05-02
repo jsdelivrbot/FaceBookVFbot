@@ -479,6 +479,7 @@ function closeChat(dialogID){
 					}
 				}
 			}
+			console.log(pushedTags);
 			
 				if(pushedTags.includes("Contatto Outbound KO")){
 					echoAgent.updateConversationField({
