@@ -804,12 +804,14 @@ function wakeUpChat(dialogID, agentName) {
 				if(activeSkills[m].name === skillPreviousAgent){
 					transferToActualSkill = activeSkills[m].id;
 					m = activeSkills.length;
+					console.log("found");
 				}
 
 			}
 		}
 		else{
 			transferToActualSkill = risvegliataskill;
+			console.log("not found");
 		}
 
 		console.log(transferToActualSkill);
