@@ -507,70 +507,72 @@ function closeChat(dialogID, agentID){
 								console.error(e) 
     							} else {
 								console.log("agent out");
+								echoAgent.updateConversationField({
+									'conversationId': dialogID,
+									'conversationField': [
+										{
+										field: 'ParticipantsChange',
+										type: 'ADD',
+										userId: customBotID,
+										role: 'ASSIGNED_AGENT'
+										}]
+									}, (e, resp) => {
+   										if (e) { 
+											console.error(e) 
+    										} else {
+											console.log("agent in");
+											echoAgent.publishEvent({
+												'dialogId': dialogID,
+												'event': {
+													message: "completa la nostra survey!! https://www.vodafone.it", // escalation message
+													contentType: "text/plain",
+													type: "ContentEvent"
+													}
+
+												}, (e, resp) => {
+   												if (e) { 
+													console.error(e) 
+    												} else {
+													console.log("message sent");
+													echoAgent.updateConversationField({
+														'conversationId': dialogID,
+														'conversationField': [
+															{
+															field: 'ParticipantsChange',
+															type: 'REMOVE',
+															userId: customBotID,
+															role: 'ASSIGNED_AGENT'
+															}]
+
+														}, (e, resp) => {
+   															if (e) { 
+																console.error(e) 
+    															}
+															else {
+																console.log("transfered completed");
+																echoAgent.updateConversationField({
+																	conversationId: dialogID,
+																	conversationField: [{
+																		field: "ConversationStateField",
+																		conversationState: "CLOSE"
+																	}]
+																});
+															}
+    									
+													});
+							
+
+												}
+											});
+										}
+								});
 							}
 					});
 					
-					echoAgent.updateConversationField({
-						'conversationId': dialogID,
-						'conversationField': [
-							{
-							field: 'ParticipantsChange',
-							type: 'ADD',
-							userId: customBotID,
-							role: 'ASSIGNED_AGENT'
-							}]
-						}, (e, resp) => {
-   							if (e) { 
-								console.error(e) 
-    							} else {
-								console.log("agent in");
-							}
-					});
+					
 
 		
-					echoAgent.publishEvent({
-						'dialogId': dialogID,
-						'event': {
-							message: "completa la nostra survey!! https://www.vodafone.it", // escalation message
-							contentType: "text/plain",
-							type: "ContentEvent"
-							}
-
-						}, (e, resp) => {
-   						if (e) { 
-							console.error(e) 
-    						} else {
-							console.log("message sent");
-							echoAgent.updateConversationField({
-								'conversationId': dialogID,
-								'conversationField': [
-									{
-									field: 'ParticipantsChange',
-									type: 'REMOVE',
-									userId: customBotID,
-									role: 'ASSIGNED_AGENT'
-									}]
-
-								}, (e, resp) => {
-   									if (e) { 
-										console.error(e) 
-    									}
-									else {
-										console.log("transfered completed");
-										echoAgent.updateConversationField({
-											conversationId: dialogID,
-											conversationField: [{
-												field: "ConversationStateField",
-												conversationState: "CLOSE"
-											}]
-										});
-									}
-    									
-							});
-							
-
-						}
-					});
+					
 		
 		
 				}
