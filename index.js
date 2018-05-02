@@ -798,6 +798,7 @@ function wakeUpChat(dialogID, agentName) {
 
 		var transferToActualSkill = 0;
 		var skillPreviousAgent = "***" + agentName;
+		console.log(skillPreviousAgent);
 		if(checkIfConnected(agentName)){
 			for (var m = 0; m < (activeSkills.length); m++){
 				if(activeSkills[m].name === skillPreviousAgent){
@@ -811,7 +812,7 @@ function wakeUpChat(dialogID, agentName) {
 			transferToActualSkill = risvegliataskill;
 		}
 
-
+		console.log(transferToActualSkill);
 		
 		echoAgent.updateConversationField({
 			'conversationId': dialogID,
