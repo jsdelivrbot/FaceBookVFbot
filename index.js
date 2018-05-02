@@ -550,13 +550,15 @@ function closeChat(dialogID, agentID){
     															}
 															else {
 																console.log("transfered completed");
-																echoAgent.updateConversationField({
-																	conversationId: dialogID,
-																	conversationField: [{
-																		field: "ConversationStateField",
-																		conversationState: "CLOSE"
-																	}]
-																});
+																setTimeout(function(){
+																	echoAgent.updateConversationField({
+																		conversationId: dialogID,
+																		conversationField: [{
+																			field: "ConversationStateField",
+																			conversationState: "CLOSE"
+																		}]
+																	});
+																}, 3000);
 															}
     									
 													});
