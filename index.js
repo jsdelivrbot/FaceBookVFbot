@@ -267,7 +267,7 @@ function markConv(){
 			if(err) {
 				console.log(err);
 			} else {
-				// console.log("transfered completed");
+				console.log("transfered completed");
 			}
 	});
 
@@ -379,7 +379,7 @@ function markConvFB(){
 			if(err) {
 				console.log(err);
 			} else {
-				// console.log("transfered completed");
+				console.log("transfered completed");
 			}
 	});
 
@@ -508,7 +508,9 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 		}, function(err) {
    			if (err) { 
 				console.error(err) 
-    		}
+    		} else {
+				console.log("transfered completed");
+			}
 	});
 
 	echoAgent.updateConversationField({
@@ -621,6 +623,7 @@ function limboChat(dialogID, agentID) {
    				if (err) { 
 					console.error(err) 
     				} else{
+					console.log("transferring complete");
 
 				echoAgent.updateConversationField({
 					'conversationId': dialogID,
@@ -864,7 +867,9 @@ function wakeUpChat(dialogID, agentName) {
 			}, null, metadata, function(err) {
    				if (err) { 
 					console.error(err) 
-    			}
+    			} else {
+				console.log("transfered completed");
+			}
 		});
 
 
