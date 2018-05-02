@@ -848,7 +848,7 @@ function proceedWithActions(){
 			if(howManyMessages){
 				var thisConversationHasResponse = 0;
 				for (var q = 0; q < howManyMessages; q++){
-					if(answer[m].messageRecords[q].sentBy === "Agent"){
+					if(answer[m].messageRecords[q].sentBy === "Agent" && answer[m].messageRecords[q].participantId !== "1089636032"){
 						thisConversationHasResponse = 1;
 						q = howManyMessages;
 					}
