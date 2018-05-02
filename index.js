@@ -91,6 +91,7 @@ function checkValues(req, res, next) {
 			}
 		}, function (e, r, b) {
 			var arraylength = b._metadata.count;
+			console.log(b);
 			for (var i = 0; i < arraylength; i++){
 				if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
 					if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined' && b.conversationHistoryRecords[i].transfers.length > 0) {
