@@ -521,6 +521,22 @@ function closeChat(dialogID){
 							console.error(e) 
     						} else {
 							echoAgent.updateConversationField({
+								'conversationId': dialogID,
+								'conversationField': [
+									{
+									field: 'ParticipantsChange',
+									type: 'REMOVE',
+									userId: customBotID,
+									role: 'MANAGER'
+									}]
+
+								}, (e, resp) => {
+   									if (e) { 
+										console.error(e) 
+    									}
+    									console.log("Transfering..." , resp)
+							});
+							echoAgent.updateConversationField({
 								conversationId: dialogID,
 								conversationField: [{
 									field: "ConversationStateField",
