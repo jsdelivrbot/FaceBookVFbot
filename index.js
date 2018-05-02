@@ -12,6 +12,7 @@ var echoAgent = new Agent({
 	accessTokenSecret: '6996463d0940bbe0'
 });
 
+
 var bearer = "";
 var agentsLogged = [];
 var activeSkills = [];
