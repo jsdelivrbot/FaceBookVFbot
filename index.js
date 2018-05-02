@@ -697,6 +697,76 @@ function checkIfConnected(agentName){
 }
 
 
+function sendAlertMessageFB(dialogID) {
+	
+	
+		const metadata = [{
+			type: 'BotResponse', // Bot context information about the last consumer message
+			externalConversationId: dialogID,
+			businessCases: [
+				'RightNow_Categorization' // identified capability
+			],
+			intents: [ // Last consumer message identified intents
+			{
+				id: 'alert',
+				name: "---",
+				confidenceScore: 1
+			}]
+		}];
+
+		
+		echoAgent.updateConversationField({
+			'conversationId': dialogID,
+			'conversationField': [
+				{
+				field: 'ParticipantsChange',
+				type: 'ADD',
+				userId: customBotID,
+				role: 'ASSIGNED_AGENT'
+				}]
+			}, (e, resp) => {
+   				if (e) { 
+					console.error(e) 
+    			}
+		});
+
+
+		echoAgent.publishEvent({
+			'dialogId': dialogID,
+			'event': {
+				message: "ciao! hai ricevuto un messaggio!!", // escalation message
+				contentType: "text/plain",
+				type: "ContentEvent"
+				}
+
+			}, (e, resp) => {
+   				if (e) { 
+					console.error(e) 
+    			}
+		});
+
+		
+		echoAgent.updateConversationField({
+			'conversationId': dialogID,
+			'conversationField': [
+							
+				{
+				field: 'ParticipantsChange',
+				type: 'REMOVE',
+				userId: customBotID,
+				role: 'ASSIGNED_AGENT'
+				}]
+
+			}, (e, resp) => {
+   				if (e) { 
+					console.error(e) 
+    			}
+    			console.log("Transfering..." , resp)
+		});
+	
+}
+
+
 function wakeUpChat(dialogID, agentName) {
 
 		var isSent = 0;
@@ -849,10 +919,22 @@ function proceedWithActions(){
 		var howManyMessages = answer[m].messageRecords.length;
 			if(howManyMessages){
 				var thisConversationHasResponse = 0;
+				var thisConversationHasAlert = 0;
+				var sendAlert = (Date.now() - (1000*60*1));            // timestamp "send Alert" conversation
+				var whatTimeAlert = answer[m].messageRecords[(howManyMessages - 1)].timeL;
 				for (var q = 0; q < howManyMessages; q++){
 					if(answer[m].messageRecords[q].sentBy === "Agent" && answer[m].messageRecords[q].participantId !== "1089636032"){
+						if(whatTimeAlert < sendAlert && !thisConversationHasAlert){
+							sendAlertMessageFB(answer[m].info.conversationId);
+						}
 						thisConversationHasResponse = 1;
 						q = howManyMessages;
+					}
+					if(answer[m].messageRecords[q].sentBy === "Consumer"){
+						q = howManyMessages;
+					}
+					if(answer[m].messageRecords[q].sentBy === "Agent" && answer[m].messageRecords[q].participantId === "1089636032"){
+						thisConversationHasAlert = 1;
 					}
 					   
 				}
