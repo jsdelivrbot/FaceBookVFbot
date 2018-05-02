@@ -798,20 +798,17 @@ function wakeUpChat(dialogID, agentName) {
 
 		var transferToActualSkill = 0;
 		var skillPreviousAgent = "***" + agentName;
-		console.log(skillPreviousAgent);
 		if(checkIfConnected(agentName)){
 			for (var m = 0; m < (activeSkills.length); m++){
 				if(activeSkills[m].name === skillPreviousAgent){
 					transferToActualSkill = activeSkills[m].id;
 					m = activeSkills.length;
-					console.log("found");
 				}
 
 			}
 		}
 		else{
 			transferToActualSkill = risvegliataskill;
-			console.log("not found");
 		}
 
 		console.log(transferToActualSkill);
@@ -926,23 +923,18 @@ function proceedWithActions(){
 				var sendAlert = (Date.now() - (1000*60*1));            // timestamp "send Alert" conversation
 				var whatTimeAlert = answer[m].messageRecords[(howManyMessages - 1)].timeL;
 				for (var q = (howManyMessages - 1); q > 0; q--){
-					console.log("loop");
 					if(answer[m].messageRecords[q].sentBy === "Agent" && answer[m].messageRecords[q].participantId !== "1089636032"){
 						if(whatTimeAlert < sendAlert && !thisConversationHasAlert){
 							sendAlertMessageFB(answer[m].info.conversationId);
-							console.log("send alert");
 						}
 						thisConversationHasResponse = 1;
 						q = 0;
-						console.log("agente");
 					}
 					else if(answer[m].messageRecords[q].sentBy === "Consumer"){
 						q = 0;
-						console.log("consumer");
 					}
 					else if(answer[m].messageRecords[q].sentBy === "Agent" && answer[m].messageRecords[q].participantId === "1089636032"){
 						thisConversationHasAlert = 1;
-						console.log("already sent");
 					}
 					   
 				}
