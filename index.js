@@ -709,7 +709,7 @@ function sendAlertMessageFB(dialogID) {
 			intents: [ // Last consumer message identified intents
 			{
 				id: 'alert',
-				name: "---",
+				name: "alertFB",
 				confidenceScore: 1
 			}]
 		}];
@@ -722,7 +722,7 @@ function sendAlertMessageFB(dialogID) {
 				field: 'ParticipantsChange',
 				type: 'ADD',
 				userId: customBotID,
-				role: 'ASSIGNED_AGENT'
+				role: 'MANAGER'
 				}]
 			}, (e, resp) => {
    				if (e) { 
@@ -754,7 +754,7 @@ function sendAlertMessageFB(dialogID) {
 				field: 'ParticipantsChange',
 				type: 'REMOVE',
 				userId: customBotID,
-				role: 'ASSIGNED_AGENT'
+				role: 'MANAGER'
 				}]
 
 			}, (e, resp) => {
