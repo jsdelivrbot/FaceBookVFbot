@@ -980,7 +980,7 @@ function proceedWithActions(){
 						}
 					}
 				
-		 			if (answer[m].messageRecords[(howManyMessages - 1)].sentBy === "Agent"){
+		 			if (answer[m].messageRecords[(howManyMessages - 1)].sentBy === "Agent" && whatTime){
 						if (whatTime < closure){
 							console.log("***closing");
 							closeChat(answer[m].info.conversationId);
