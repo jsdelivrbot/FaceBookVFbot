@@ -479,52 +479,48 @@ function closeChat(dialogID){
 					}
 				}
 			}
-
-		});
-		
-		
-	
-		
-
-
-	
-	if(pushedTags.includes("Contatto Outbound KO")){
-		echoAgent.updateConversationField({
-			conversationId: dialogID,
-			conversationField: [{
-				field: "ConversationStateField",
-				conversationState: "CLOSE"
-			}]
-		});
 			
-	} else{
+				if(pushedTags.includes("Contatto Outbound KO")){
+					echoAgent.updateConversationField({
+						conversationId: dialogID,
+						conversationField: [{
+							field: "ConversationStateField",
+							conversationState: "CLOSE"
+						}]
+					});
+			
+				} else{
 		
-		echoAgent.publishEvent({
-			'dialogId': dialogID,
-			'event': {
-				message: "completa la nostra survey!! https://www.vodafone.it", // escalation message
-				contentType: "text/plain",
-				type: "ContentEvent"
+					echoAgent.publishEvent({
+						'dialogId': dialogID,
+						'event': {
+							message: "completa la nostra survey!! https://www.vodafone.it", // escalation message
+							contentType: "text/plain",
+							type: "ContentEvent"
+							}
+
+						}, (e, resp) => {
+   						if (e) { 
+							console.error(e) 
+    						} else {
+							echoAgent.updateConversationField({
+								conversationId: dialogID,
+								conversationField: [{
+									field: "ConversationStateField",
+									conversationState: "CLOSE"
+								}]
+							});
+
+						}
+					});
+		
+		
 				}
 
-			}, (e, resp) => {
-   				if (e) { 
-					console.error(e) 
-    			} else {
-				echoAgent.updateConversationField({
-					conversationId: dialogID,
-					conversationField: [{
-						field: "ConversationStateField",
-						conversationState: "CLOSE"
-					}]
-				});
 
-			}
 		});
 		
 		
-	}
-
 
 
 }
