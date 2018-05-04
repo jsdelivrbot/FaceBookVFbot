@@ -443,7 +443,8 @@ function retrieveAgentsLogged(){
 
 
 
-function closeChat(dialogID){
+function closeChat(dialogID, wasNPSsent){
+		console.log ("wasNPSsent = " + wasNPSsent);
 	
 		var request = require('request');
 		var oauth = "Bearer " + bearer;
@@ -1128,7 +1129,61 @@ function proceedWithActions(){
 		 			if (answer[m].messageRecords[(howManyMessages - 1)].sentBy === "Agent" && whatTime){
 						if (whatTime < closure){
 							console.log("***closing");
-							closeChat(answer[m].info.conversationId);
+							var arraylength = answer[m].messageRecords.length;
+							for (var z = 0; z < arraylength; z++){
+								if(answer[m].messageRecords[z].sentBy === "Consumer"){
+									var participantId = answer[m].messageRecords[z].participantId;
+									z = arraylength;
+								}
+							}
+							var timestampNPSsent = 0;
+							var request = require('request');
+							var oauth = "Bearer " + bearer;
+							var body = {"consumer":participantId,"status":["CLOSE"]};
+							var url = 'https://lo.msghist.liveperson.net/messaging_history/api/account/13099967/conversations/consumer/search?=Order:[desc]';
+							request.post({
+								url: url,
+								json: true,
+								body: body,
+								headers: {
+									'Content-Type': 'application/json',
+									'Authorization': oauth
+								}
+							}, function (e, r, b) {
+								var arraylength = b._metadata.count;
+								for (var i = 0; i < arraylength; i++){
+									if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
+										if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined' && b.conversationHistoryRecords[i].transfers.length > 0) {
+											var arraylength2 = b.conversationHistoryRecords[i].transfers.length;
+											for (var z = (arraylength2 -1); z > -1; z--){
+												if(b.conversationHistoryRecords[i].transfers[z].hasOwnProperty('contextData')){
+													if(b.conversationHistoryRecords[i].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
+														if(b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "NPSsent"){
+															timestampNPSsent = b.conversationHistoryRecords[i].transfers[z].timeL;
+															z = 0;
+															i = arraylength;
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							});
+							var wasNPSsent = 0;
+							var NPSmaxTime = (Date.now() - (1000*60));
+							if (timestampNPSsent > NPSmaxTime){
+								wasNPSsent = 1;
+							}
+							
+						
+	
+		
+	
+
+							
+							
+							closeChat(answer[m].info.conversationId, wasNPSsent);
 		 				}
 		 			}
 				}
