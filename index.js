@@ -502,7 +502,7 @@ function closeChat(dialogID){
 						field: 'ParticipantsChange',
 						type: 'ADD',
 						userId: customBotID,
-						role: 'MANAGER'
+						role: 'ASSIGNED_AGENT'
 						}]
 					}, (e, resp) => {
    						if (e) { 
@@ -559,7 +559,7 @@ function closeChat(dialogID){
 											field: 'ParticipantsChange',
 											type: 'REMOVE',
 											userId: customBotID,
-											role: 'MANAGER'
+											role: 'ASSIGNED_AGENT'
 											}]
 
 										}, (e, resp) => {
