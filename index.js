@@ -1171,7 +1171,7 @@ function proceedWithActions(){
 								}
 							});
 							var wasNPSsent = 0;
-							var NPSmaxTime = (Date.now() - (1000*60));
+							var NPSmaxTime = (Date.now() - (1000*60*10));
 							if (timestampNPSsent > NPSmaxTime){
 								wasNPSsent = 1;
 							}
