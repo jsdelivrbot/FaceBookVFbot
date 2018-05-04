@@ -522,6 +522,36 @@ function closeChat(dialogID){
 									console.error(e) 
     								} else {
 									console.log("message sent");
+									const metadata = [{
+										type: 'BotResponse', // Bot context information about the last consumer message
+										externalConversationId: dialogID,
+										businessCases: [
+											'RightNow_Categorization' // identified capability
+											],
+										intents: [ // Last consumer message identified intents
+											{
+												id: 'NPSsent',
+												name: Date.now(),
+												confidenceScore: 1
+											}]
+									}];
+									echoAgent.updateConversationField({
+										'conversationId': dialogID,
+										'conversationField': [
+											{
+												field: "Skill",
+												type: "UPDATE",
+												skill: limboskill
+											}]
+										}, null, metadata, function(err) {
+										if (err) {
+											console.error(err)
+										} else {
+											console.log("transfered completed");
+										}
+									});
+		
+			
 									echoAgent.updateConversationField({
 										'conversationId': dialogID,
 										'conversationField': [
