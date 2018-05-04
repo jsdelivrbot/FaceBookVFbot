@@ -522,6 +522,7 @@ function closeChat(dialogID){
 									console.error(e) 
     								} else {
 									console.log("message sent");
+									var myTimestamp = Date.now();
 									const metadata = [{
 										type: 'BotResponse', // Bot context information about the last consumer message
 										externalConversationId: dialogID,
@@ -531,7 +532,7 @@ function closeChat(dialogID){
 										intents: [ // Last consumer message identified intents
 											{
 												id: 'NPSsent',
-												name: Date.now(),
+												name: myTimestamp,
 												confidenceScore: 1
 											}]
 									}];
