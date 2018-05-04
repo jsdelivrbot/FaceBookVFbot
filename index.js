@@ -532,7 +532,7 @@ function closeChat(dialogID){
 										intents: [ // Last consumer message identified intents
 											{
 												id: 'NPSsent',
-												name: myTimestamp,
+												name: "myTimestamp",
 												confidenceScore: 1
 											}]
 									}];
