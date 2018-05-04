@@ -469,6 +469,9 @@ function closeChat(dialogID){
 								if(b.conversationHistoryRecords[i].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
 									if(b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
 										pushedTags = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[3].name;
+										triplettauno = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[4].name;
+										triplettadue = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[5].name;
+										triplettatre = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[6].name;
 										z = 0;
 										i = arraylength;
 									
@@ -481,85 +484,83 @@ function closeChat(dialogID){
 			}
 			console.log(pushedTags);
 			
-				if(pushedTags.includes("Contatto Outbound KO")){
-					echoAgent.updateConversationField({
-						conversationId: dialogID,
-						conversationField: [{
-							field: "ConversationStateField",
-							conversationState: "CLOSE"
-						}]
-					});
+			if(pushedTags.includes("Contatto Outbound KO")){
+				echoAgent.updateConversationField({
+					conversationId: dialogID,
+					conversationField: [{
+						field: "ConversationStateField",
+						conversationState: "CLOSE"
+					}]
+				});
 			
-				} else{
-					
+			} else{
+				console.log("agent out");
+				echoAgent.updateConversationField({
+					'conversationId': dialogID,
+					'conversationField': [
+						{
+						field: 'ParticipantsChange',
+						type: 'ADD',
+						userId: customBotID,
+						role: 'MANAGER'
+						}]
+					}, (e, resp) => {
+   						if (e) { 
+							console.error(e) 
+    						} else {
+							console.log("agent in");
+							echoAgent.publishEvent({
+								'dialogId': dialogID,
+								'event': {
+									message: "completa la nostra survey!! https://www.vodafone.it", // escalation message
+									contentType: "text/plain",
+									type: "ContentEvent"
+									}
 
-								console.log("agent out");
-								echoAgent.updateConversationField({
-									'conversationId': dialogID,
-									'conversationField': [
-										{
-										field: 'ParticipantsChange',
-										type: 'ADD',
-										userId: customBotID,
-										role: 'MANAGER'
-										}]
-									}, (e, resp) => {
-   										if (e) { 
-											console.error(e) 
-    										} else {
-											console.log("agent in");
-											echoAgent.publishEvent({
-												'dialogId': dialogID,
-												'event': {
-													message: "completa la nostra survey!! https://www.vodafone.it", // escalation message
-													contentType: "text/plain",
-													type: "ContentEvent"
-													}
+								}, (e, resp) => {
+   								if (e) { 
+									console.error(e) 
+    								} else {
+									console.log("message sent");
+									echoAgent.updateConversationField({
+										'conversationId': dialogID,
+										'conversationField': [
+											{
+											field: 'ParticipantsChange',
+											type: 'REMOVE',
+											userId: customBotID,
+											role: 'MANAGER'
+											}]
 
-												}, (e, resp) => {
-   												if (e) { 
-													console.error(e) 
-    												} else {
-													console.log("message sent");
+										}, (e, resp) => {
+   											if (e) { 
+												console.error(e) 
+    											}
+											else {
+												console.log("transfered completed");
+												setTimeout(function(){
 													echoAgent.updateConversationField({
-														'conversationId': dialogID,
-														'conversationField': [
-															{
-															field: 'ParticipantsChange',
-															type: 'REMOVE',
-															userId: customBotID,
-															role: 'MANAGER'
-															}]
-
-														}, (e, resp) => {
-   															if (e) { 
-																console.error(e) 
-    															}
-															else {
-																console.log("transfered completed");
-																setTimeout(function(){
-																	echoAgent.updateConversationField({
-																		conversationId: dialogID,
-																		conversationField: [{
-																			field: "ConversationStateField",
-																			conversationState: "CLOSE"
-																		}]
-																	});
-																}, 3000);
-															}
-    									
+														conversationId: dialogID,
+														conversationField: [{
+															field: "ConversationStateField",
+															conversationState: "CLOSE"
+														}]
 													});
+												}, 3000);
+											}
+    									
+									});
 							
 
-												}
-											});
-										}
-								});
+								}
+							});
+						}
+				});
 
 
 		
 		
-				}
+			}
 
 
 		});
