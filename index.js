@@ -575,10 +575,10 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 	var dateOfWeek = d.getDay();
 	var hourOfWeek = d.getHours();
 	if (dateOfWeek == 0 || ((hourOfWeek < 7) || (hourOfWeek > 18))){
-		var messageFB = "Benvenuto " + fbName + " nel servizio clienti Vodafone. I nostri operatori sono disponibili dal lunedi al sabato dalle 9.00 alle 21.00";
+		var messageFB = "Ciao " + fbName + " grazie per averci scritto. Rispondiamo ai Messaggi Privati tutti i giorni dalle 08.00 alle 22.00. Prendiamo in carico la tua segnalazione e ti risponderemo negli orari di apertura. Servizio Clienti Vodafone.";
 	}
 	else{
-		var messageFB = "Benvenuto " +  fbName + " nel servizio clienti Vodafone. Un operatore ti rispondera’ appena possibile.";
+		var messageFB = "Ciao " +  fbName + "! Benvenuto nel Servizio Clienti Vodafone su Facebook un nostro consulente gestirà la tua richiesta di assistenza. Ti invitiamo a fornirci il numero di telefono per il quale richiedi assistenza e il motivo della tua richiesta.";
 	}
 	
 	echoAgent.updateConversationField({
@@ -812,7 +812,7 @@ function checkIfConnected(agentName){
 }
 
 
-function sendAlertMessageFB(dialogID) {
+function sendAlertMessageFB(dialogID, fbName) {
 	
 	
 		const metadata = [{
@@ -849,7 +849,7 @@ function sendAlertMessageFB(dialogID) {
 		echoAgent.publishEvent({
 			'dialogId': dialogID,
 			'event': {
-				message: "ciao! hai ricevuto un messaggio!!", // escalation message
+				message: "Ciao " + fbName + " attendiamo la tua risposta se hai ancora bisogno del nostro supporto :)", // escalation message
 				contentType: "text/plain",
 				type: "ContentEvent"
 				}
@@ -1042,7 +1042,7 @@ function proceedWithActions(){
 				for (var q = (howManyMessages - 1); q > 0; q--){
 					if(answer[m].messageRecords[q].sentBy === "Agent" && answer[m].messageRecords[q].participantId !== "1089636032"){
 						if(whatTimeAlert < sendAlert && !thisConversationHasAlert){
-							sendAlertMessageFB(answer[m].info.conversationId);
+							sendAlertMessageFB(answer[m].info.conversationId, answer[m].consumerParticipants[0].firstName);
 						}
 						thisConversationHasResponse = 1;
 						q = 0;
@@ -1070,7 +1070,7 @@ function proceedWithActions(){
 				}
 
 					
-				var moveToLimbo = (Date.now() - (1000*60*11));            // timestamp "move to Limbo" conversation
+				var moveToLimbo = (Date.now() - (1000*60*15));            // timestamp "move to Limbo" conversation
 				var closure = (Date.now() - (1000*60*60*24));            // timestamp closure conversation
 				var whatTime = 0;
 				for (var k = (howManyMessages - 1); k > 0; k--){
