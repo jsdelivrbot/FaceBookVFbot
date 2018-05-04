@@ -1175,6 +1175,8 @@ function proceedWithActions(){
 							if (timestampNPSsent > NPSmaxTime){
 								wasNPSsent = 1;
 							}
+							console.log("timestampNPSsent = " + timestampNPSsent);
+							console.log("NPSmaxTime = " + NPSmaxTime);
 							
 						
 	
