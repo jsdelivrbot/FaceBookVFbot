@@ -507,7 +507,7 @@ function closeChat(dialogID, wasNPSsent){
 				cond5 = 1;
 			}
 			console.log(pushedTags);
-			console.log(cond1 + cond2 + cond3 + cond4 + cond5 + wasNPSsent);
+			console.log(cond1 + " " + cond2 + " " + cond3 + " " + cond4 + " " + cond5 + " " + wasNPSsent);
 			 
 			
 			if(cond1 || cond2 || cond3 || cond4 || cond5 || wasNPSsent){
