@@ -493,14 +493,14 @@ function closeChat(dialogID, wasNPSsent){
 				cond1 = 1;
 			}
 			if(!pushedTags === ""){
-				if(pushedTags.includes("KO%20DEFINITIVO") || pushedTags === "KO%20DEFINITIVO"){
+				if(pushedTags.includes("DEFINITIVO") || pushedTags === "DEFINITIVO"){
 					cond2 = 1;
 				}
-				if(pushedTags === "Richiesta%20dati%20mancanti"){
+				if(pushedTags === "Richiesta"){
 					cond3 = 1;
 				}
-				if(pushedTags.includes("Richiesta%20dati%20mancanti")){
-					if(!pushedTags.includes("Messaggio%20Diretto") && !pushedTags.includes("Contatto%20Outbound%20OK")){
+				if(pushedTags.includes("Richiesta")){
+					if(!pushedTags.includes("Messaggio") && !pushedTags.includes("Contatto%20Outbound%20OK")){
 						cond4 = 1;
 					}
 				}
