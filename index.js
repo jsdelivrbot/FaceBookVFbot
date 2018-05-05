@@ -500,7 +500,7 @@ function closeChat(dialogID, wasNPSsent){
 					cond2 = 1;
 				}
 				if(pushedTags.includes("Richiesta dati mancanti")){
-					if(!pushedTags.includes("Messaggio Diretto") && !pushedTags.includes("Contatto Outbound OK")){
+					if(!(pushedTags.includes("Messaggio Diretto")) && !(pushedTags.includes("Contatto Outbound OK"))){
 						cond3 = 1;
 					}
 				}
