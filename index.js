@@ -493,7 +493,7 @@ function closeChat(dialogID, wasNPSsent){
 				cond1 = 1;
 			}
 			if(!pushedTags === ""){
-				if(pushedTags.includes("KO DEFINITIVO")){
+				if(pushedTags.includes("KO DEFINITIVO") || pushedTags === "KO DEFINITIVO"){
 					cond2 = 1;
 				}
 				if(pushedTags === "Richiesta dati mancanti"){
@@ -504,7 +504,7 @@ function closeChat(dialogID, wasNPSsent){
 						cond4 = 1;
 					}
 				}
-				if(pushedTags.includes("Senza Risposta")){
+				if(pushedTags.includes("Senza Risposta") || pushedTags === "Senza Risposta"){
 					cond5 = 1;
 				}
 			}
