@@ -1129,6 +1129,7 @@ function proceedWithActions(){
 		 			if (answer[m].messageRecords[(howManyMessages - 1)].sentBy === "Agent" && whatTime){
 						if (whatTime < closure){
 							console.log("***closing");
+							var convToClose = answer[m].info.conversationId;
 							var arraylength = answer[m].messageRecords.length;
 							for (var z = 0; z < arraylength; z++){
 								if(answer[m].messageRecords[z].sentBy === "Consumer"){
@@ -1149,7 +1150,7 @@ function proceedWithActions(){
 									'Content-Type': 'application/json',
 									'Authorization': oauth
 								}
-							}, function (e, r, b, answer[m]) {
+							}, function (e, r, b) {
 								var arraylength = b._metadata.count;
 								for (var i = 0; i < arraylength; i++){
 									if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
@@ -1169,7 +1170,7 @@ function proceedWithActions(){
 															}
 															console.log("timestampNPSsent = " + timestampNPSsent);
 															console.log("NPSmaxTime = " + NPSmaxTime);
-															closeChat(answer[m].info.conversationId, wasNPSsent);
+															closeChat(convToClose, wasNPSsent);
 														}
 													}
 												}
