@@ -1149,7 +1149,7 @@ function proceedWithActions(){
 									'Content-Type': 'application/json',
 									'Authorization': oauth
 								}
-							}, function (e, r, b) {
+							}, function (e, r, b, answer[m]) {
 								var arraylength = b._metadata.count;
 								for (var i = 0; i < arraylength; i++){
 									if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
