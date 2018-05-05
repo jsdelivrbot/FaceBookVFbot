@@ -501,15 +501,15 @@ function closeChat(dialogID, wasNPSsent){
 				if(pushedTags.includes("KO DEFINITIVO")){
 					cond2 = 1;
 				}
-				if(pushedTags === "Richiesta"){
+				if(pushedTags === "Richiesta dati mancanti"){
 					cond3 = 1;
 				}
-				if(pushedTags.includes("Richiesta")){
-					if(!pushedTags.includes("Messaggio") && !pushedTags.includes("Contatto%20Outbound%20OK")){
+				if(pushedTags.includes("Richiesta dati mancanti")){
+					if(!pushedTags.includes("Messaggio Diretto") && !pushedTags.includes("Contatto Outbound OK")){
 						cond4 = 1;
 					}
 				}
-				if(pushedTags.includes("Senza%20Risposta") || pushedTags === "Senza%20Risposta"){
+				if(pushedTags.includes("Senza Risposta")){
 					cond5 = 1;
 				}
 			}
