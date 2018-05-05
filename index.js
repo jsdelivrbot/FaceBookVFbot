@@ -492,18 +492,18 @@ function closeChat(dialogID, wasNPSsent){
 				cond1 = 1;
 			}
 			if(!pushedTags === ""){
-				if(pushedTags.includes("KO DEFINITIVO") || pushedTags === "KO DEFINITIVO"){
+				if(pushedTags.includes("KO%20DEFINITIVO") || pushedTags === "KO%20DEFINITIVO"){
 					cond2 = 1;
 				}
-				if(pushedTags === "Richiesta dati mancanti"){
+				if(pushedTags === "Richiesta%20dati%20mancanti"){
 					cond3 = 1;
 				}
-				if(pushedTags.includes("Richiesta dati mancanti")){
-					if(!pushedTags.includes("Messaggio Diretto") && !pushedTags.includes("Contatto Outbound OK")){
+				if(pushedTags.includes("Richiesta%20dati%20mancanti")){
+					if(!pushedTags.includes("Messaggio%20Diretto") && !pushedTags.includes("Contatto%20Outbound%20OK")){
 						cond4 = 1;
 					}
 				}
-				if(pushedTags.includes("Senza Risposta") || pushedTags === "Senza Risposta"){
+				if(pushedTags.includes("Senza%20Risposta") || pushedTags === "Senza%20Risposta"){
 					cond5 = 1;
 				}
 			}
