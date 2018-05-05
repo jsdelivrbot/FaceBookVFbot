@@ -498,7 +498,7 @@ function closeChat(dialogID, wasNPSsent){
 			}
 			if(!(pushedTags === "" || pushedTags === undefined)){
 				console.log("inside pushedTags");
-				if(pushedTags.includes("KO DEFINITIVO") === "true"){
+				if(pushedTags.includes("KO DEFINITIVO")){
 					cond2 = 1;
 				}
 				if(pushedTags === "Richiesta"){
