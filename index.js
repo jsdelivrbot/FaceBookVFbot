@@ -489,6 +489,9 @@ function closeChat(dialogID, wasNPSsent){
 			var cond3 = 0;
 			var cond4 = 0;
 			var cond5 = 0;
+			var tfuygiuhi = pushedTags.indexOf("KO DEFINITIVO");
+			console.log(tfuygiuhi);
+			
 			if(triplettauno === "Prospect / Dummie"){
 				cond1 = 1;
 			}
