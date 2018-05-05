@@ -513,7 +513,7 @@ function closeChat(dialogID, wasNPSsent){
 			console.log(cond1 + " " + cond2 + " " + cond3 + " " + cond4 + " " + wasNPSsent);
 			 
 			
-			if(cond1 || cond2 || cond3 || cond4 || cond5 || wasNPSsent){
+			if(cond1 || cond2 || cond3 || cond4 || wasNPSsent){
 				echoAgent.updateConversationField({
 					conversationId: dialogID,
 					conversationField: [{
