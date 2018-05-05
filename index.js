@@ -1162,6 +1162,14 @@ function proceedWithActions(){
 															timestampNPSsent = b.conversationHistoryRecords[i].transfers[z].timeL;
 															z = 0;
 															i = arraylength;
+															var wasNPSsent = 0;
+															var NPSmaxTime = (Date.now() - (1000*60*10));
+															if (timestampNPSsent > NPSmaxTime){
+																wasNPSsent = 1;
+															}
+															console.log("timestampNPSsent = " + timestampNPSsent);
+															console.log("NPSmaxTime = " + NPSmaxTime);
+															closeChat(answer[m].info.conversationId, wasNPSsent);
 														}
 													}
 												}
@@ -1170,22 +1178,8 @@ function proceedWithActions(){
 									}
 								}
 							});
-							var wasNPSsent = 0;
-							var NPSmaxTime = (Date.now() - (1000*60*10));
-							if (timestampNPSsent > NPSmaxTime){
-								wasNPSsent = 1;
-							}
-							console.log("timestampNPSsent = " + timestampNPSsent);
-							console.log("NPSmaxTime = " + NPSmaxTime);
-							
-						
-	
-		
-	
-
 							
 							
-							closeChat(answer[m].info.conversationId, wasNPSsent);
 		 				}
 		 			}
 				}
