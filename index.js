@@ -496,7 +496,7 @@ function closeChat(dialogID, wasNPSsent){
 			if(triplettauno === "Prospect / Dummie"){
 				cond1 = 1;
 			}
-			if(!pushedTags === "" || !pushedTags === undefined){
+			if(!(pushedTags === "" || pushedTags === undefined)){
 				console.log("inside pushedTags");
 				if(pushedTags.includes("KO DEFINITIVO") === "true"){
 					cond2 = 1;
