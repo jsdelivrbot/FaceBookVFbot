@@ -493,7 +493,7 @@ function closeChat(dialogID, wasNPSsent){
 				cond1 = 1;
 			}
 			if(!pushedTags === ""){
-				if(pushedTags.includes("DEFINITIVO") || pushedTags === "DEFINITIVO"){
+				if(pushedTags.indexOf("KO DEFINITIVO") > 0){
 					cond2 = 1;
 				}
 				if(pushedTags === "Richiesta"){
