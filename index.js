@@ -492,20 +492,23 @@ function closeChat(dialogID, wasNPSsent){
 			if(triplettauno === "Prospect / Dummie"){
 				cond1 = 1;
 			}
-			if(pushedTags.includes("KO DEFINITIVO")){
-				cond2 = 1;
-			}
-			if(pushedTags === "Richiesta dati mancanti"){
-				cond3 = 1;
-			}
-			if(pushedTags.includes("Richiesta dati mancanti")){
-				if(!pushedTags.includes("Messaggio Diretto") && !pushedTags.includes("Contatto Outbound OK")){
-					cond4 = 1;
+			if(!pushedTags === ""){
+				if(pushedTags.includes("KO DEFINITIVO")){
+					cond2 = 1;
+				}
+				if(pushedTags === "Richiesta dati mancanti"){
+					cond3 = 1;
+				}
+				if(pushedTags.includes("Richiesta dati mancanti")){
+					if(!pushedTags.includes("Messaggio Diretto") && !pushedTags.includes("Contatto Outbound OK")){
+						cond4 = 1;
+					}
+				}
+				if(pushedTags.includes("Senza Risposta")){
+					cond5 = 1;
 				}
 			}
-			if(pushedTags.includes("Senza Risposta")){
-				cond5 = 1;
-			}
+		
 			console.log(pushedTags);
 			console.log(cond1 + " " + cond2 + " " + cond3 + " " + cond4 + " " + cond5 + " " + wasNPSsent);
 			 
