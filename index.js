@@ -502,7 +502,7 @@ function closeChat(dialogID, wasNPSsent){
 				if(pushedTags === "Richiesta dati mancanti"){
 					cond3 = 1;
 				}
-				if(pushedTags.includes("Richiesta dati mancanti")){
+				else if(pushedTags.includes("Richiesta dati mancanti")){
 					if(!pushedTags.includes("Messaggio Diretto") && !pushedTags.includes("Contatto Outbound OK")){
 						cond4 = 1;
 					}
