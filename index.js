@@ -541,7 +541,7 @@ function closeChat(dialogID, wasNPSsent){
 							echoAgent.publishEvent({
 								'dialogId': dialogID,
 								'event': {
-									message: "completa la nostra survey!! https://www.vodafone.it", // escalation message
+									message: "completa la nostra survey!! https://assets.kampyle.com/clients/vodafone/direct/form.html?region=prodEuIrland&websiteId=67241&formId=4313 [assets.kampyle.com]", // escalation message
 									contentType: "text/plain",
 									type: "ContentEvent"
 									}
