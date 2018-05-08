@@ -1241,6 +1241,7 @@ function proceedWithActions(){
 							}, function (e, r, b) {
 								var arraylength = b._metadata.count;
 								if (arraylength === 0){
+									console.log("nessuna conv");
 									closeChat(convToClose, wasNPSsent);
 								}
 								for (var i = 0; i < arraylength; i++){
