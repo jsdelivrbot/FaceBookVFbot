@@ -639,7 +639,7 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 		var messageFB = "Ciao " + fbName + " grazie per averci scritto. Rispondiamo ai Messaggi Privati tutti i giorni dalle 08.00 alle 22.00. Prendiamo in carico la tua segnalazione e ti risponderemo negli orari di apertura. Servizio Clienti Vodafone.";
 	}
 	else{
-		var messageFB = "Ciao " +  fbName + "! Benvenuto nel Servizio Clienti Vodafone su Facebook un nostro consulente gestirà la tua richiesta di assistenza. Ti invitiamo a fornirci il numero di telefono per il quale richiedi assistenza e il motivo della tua richiesta.";
+		var messageFB = "Ciao " +  fbName + "! Benvenuto nel Servizio Clienti Vodafone su Facebook, un nostro consulente gestirà a breve la tua richiesta di assistenza./n Ti ricordiamo che per poter rispondere alle tue esigenze e' sempre necessario il numero di cellulare e di rete fissa per il quale richiedi assistenza e una descrizione dettagliata della richiesta.";
 	}
 	
 	echoAgent.updateConversationField({
