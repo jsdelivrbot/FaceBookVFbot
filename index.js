@@ -461,6 +461,7 @@ function closeChat(dialogID, wasNPSsent){
 				'Authorization': oauth
 			}
 		}, function (e, r, b) {
+			console.log("inside closing");
 			var arraylength = b._metadata.count;
 			for (var i = 0; i < arraylength; i++){
 				if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
