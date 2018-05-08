@@ -1216,6 +1216,7 @@ function proceedWithActions(){
 						if (whatTime < closure){
 							console.log("***closing");
 							var convToClose = answer[m].info.conversationId;
+							var wasNPSsent = 0;
 							var arraylength = answer[m].messageRecords.length;
 							for (var z = 0; z < arraylength; z++){
 								if(answer[m].messageRecords[z].sentBy === "Consumer"){
@@ -1238,6 +1239,9 @@ function proceedWithActions(){
 								}
 							}, function (e, r, b) {
 								var arraylength = b._metadata.count;
+								if (arraylength === 0){
+									closeChat(convToClose, wasNPSsent);
+								}
 								for (var i = 0; i < arraylength; i++){
 									if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
 										if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined' && b.conversationHistoryRecords[i].transfers.length > 0) {
@@ -1249,7 +1253,6 @@ function proceedWithActions(){
 															timestampNPSsent = b.conversationHistoryRecords[i].transfers[z].timeL;
 															z = 0;
 															i = arraylength;
-															var wasNPSsent = 0;
 															var NPSmaxTime = (Date.now() - (1000*60*10));
 															if (timestampNPSsent > NPSmaxTime){
 																wasNPSsent = 1;
