@@ -21,6 +21,7 @@ var FaceBookSkill = 1089726032;
 var answer = [];
 var limboskill = 1051213232;
 var risvegliataskill = 1051213332;
+var outboundFBskill = 1093097632;
 var accountNumber = 13099967;
 var botID = 1089636032;
 var customBotID = accountNumber + "." + botID;
@@ -1206,7 +1207,7 @@ function proceedWithActions(){
 					wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName);
 				}
 				else{
-					if (thisConversationHasResponse && sendToLimbo !== "noLimbo" && answer[m].info.latestSkillId !== limboskill && answer[m].messageRecords[(answer[m].messageRecords.length - 1)].participantId !== botID){
+					if (thisConversationHasResponse && sendToLimbo !== "noLimbo" && answer[m].info.latestSkillId !== limboskill && answer[m].info.latestSkillId !== outboundFBskill && answer[m].messageRecords[(answer[m].messageRecords.length - 1)].participantId !== botID){
 						if((whatTime < moveToLimbo) && (answer[m].info.latestSkillId !== limboskill)){
 							console.log("***Limbo");
 							limboChat(answer[m].info.conversationId, answer[m].info.latestAgentId);
