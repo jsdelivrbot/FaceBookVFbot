@@ -702,70 +702,65 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 			}, (e, resp) => {
    				if (e) { 
 					console.error(e) 
-    			} else{
-				echoAgent.publishEvent({
-					'dialogId': dialogID,
-					'event': {
-						message: messageFB2, // escalation message
-						contentType: "text/plain",
-						type: "ContentEvent"
-						}
+    				} else{
+					echoAgent.publishEvent({
+						'dialogId': dialogID,
+						'event': {
+							message: messageFB2, // escalation message
+							contentType: "text/plain",
+							type: "ContentEvent"
+							}
 
-					}, (e, resp) => {
-   						if (e) { 
-							console.error(e) 
-    					}
-				});
-			}
+						}, (e, resp) => {
+   							if (e) { 
+								console.error(e) 
+    						}
+					});
+				}
 		});
 	}
-	echoAgent.publishEvent({
-		'dialogId': dialogID,
-		'event': {
-			message: messageFB, // escalation message
-			contentType: "text/plain",
-			type: "ContentEvent"
-			}
-
-		}, (e, resp) => {
-   			if (e) { 
-				console.error(e) 
-    		}
-	});
-	echoAgent.updateConversationField({
-		'conversationId': dialogID,
-		'conversationField': [
-		{
-			field: "Skill",
-			type: "UPDATE",
-			skill: FaceBookSkill
-		}]
-
-		}, function(err) {
-   			if (err) { 
-				console.error(err) 
-    		} else {
-				console.log("transfered completed");
-			}
-	});
-
-	echoAgent.updateConversationField({
-		'conversationId': dialogID,
-		'conversationField': [
-							
+	
+	setTimeout(function(){
+		
+		echoAgent.updateConversationField({
+			'conversationId': dialogID,
+			'conversationField': [
 			{
-			field: 'ParticipantsChange',
-			type: 'REMOVE',
-			userId: customBotID,
-			role: 'ASSIGNED_AGENT'
+				field: "Skill",
+				type: "UPDATE",
+				skill: FaceBookSkill
 			}]
 
-		}, (e, resp) => {
-   			if (e) { 
-				console.error(e) 
-    		}
-    		console.log("Transfering..." , resp)
-	});
+			}, function(err) {
+   				if (err) { 
+					console.error(err) 
+    			} else {
+					console.log("transfered completed");
+				}
+		});
+
+		echoAgent.updateConversationField({
+			'conversationId': dialogID,
+			'conversationField': [
+							
+				{
+				field: 'ParticipantsChange',
+				type: 'REMOVE',
+				userId: customBotID,
+				role: 'ASSIGNED_AGENT'
+				}]
+
+			}, (e, resp) => {
+   				if (e) { 
+					console.error(e) 
+    			}
+    			console.log("Transfering..." , resp)
+		});
+
+		
+	}, 3000);
+
+	
 
 	
 	
