@@ -1317,13 +1317,14 @@ function proceedWithActions(){
 															if (timestampNPSsent > NPSmaxTime){
 																wasNPSsent = 1;
 															}
-															if(isFacebook === 1){
-																wasNPSsent = 1;
-															}
-															console.log("timestampNPSsent = " + timestampNPSsent);
-															console.log("NPSmaxTime = " + NPSmaxTime);
-															closeChat(convToClose, wasNPSsent);
+															
 														}
+														if(isFacebook === 1){
+															wasNPSsent = 1;
+														}
+														closeChat(convToClose, wasNPSsent);
+		
+															
 													}
 												}
 											}
