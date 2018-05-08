@@ -1098,7 +1098,7 @@ function proceedWithActions(){
 			if(howManyMessages){
 				var thisConversationHasResponse = 0;
 				var thisConversationHasAlert = 0;
-				var sendAlert = (Date.now() - (1000*60*10));            // timestamp "send Alert" conversation
+				var sendAlert = (Date.now() - (1000*60*1));            // timestamp "send Alert" conversation
 				var whatTimeAlert = answer[m].messageRecords[(howManyMessages - 1)].timeL;
 				for (var q = (howManyMessages - 1); q > 0; q--){
 					if(answer[m].messageRecords[q].sentBy === "Agent" && answer[m].messageRecords[q].participantId !== "1089636032"){
@@ -1131,9 +1131,9 @@ function proceedWithActions(){
 				}
 
 					
-				var moveToLimbo = (Date.now() - (1000*60*15));            // timestamp "move to Limbo" conversation
-				var closure = (Date.now() - (1000*60*60*24));            // timestamp closure conversation
-				// var closure = (Date.now() - (1000*30));            // timestamp closure conversation
+				var moveToLimbo = (Date.now() - (1000*60*2));            // timestamp "move to Limbo" conversation
+				// var closure = (Date.now() - (1000*60*60*24));            // timestamp closure conversation
+				var closure = (Date.now() - (1000*30*3));            // timestamp closure conversation
 				var whatTime = 0;
 				for (var k = (howManyMessages - 1); k > 0; k--){
 					if(answer[m].messageRecords[k].sentBy === "Agent" && answer[m].messageRecords[k].participantId !== "1089636032"){
