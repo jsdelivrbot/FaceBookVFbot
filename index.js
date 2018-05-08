@@ -1143,6 +1143,21 @@ function proceedWithActions(){
 	console.log("ACTIONS");
 
 	for (var m = 0; m < (answer.length); m++){
+		
+		var isFacebook = 0;
+		if(answer[m].hasOwnProperty('transfers')){
+			if (typeof answer[m].transfers !== 'undefined' && answer[m].transfers.length > 0) {
+				if(answer[m].transfers[0].sourceSkillName === "facebook_bot"){
+					isFacebook = 1;
+				}
+			}
+		}
+						
+						
+					
+					
+
+		
 		if(answer[m].info.latestSkillName === "facebook_bot"){
 			var howManyMessagesFaceBook = answer[m].messageRecords.length;
 			if(howManyMessagesFaceBook){
@@ -1162,7 +1177,7 @@ function proceedWithActions(){
 				var whatTimeAlert = answer[m].messageRecords[(howManyMessages - 1)].timeL;
 				for (var q = (howManyMessages - 1); q > 0; q--){
 					if(answer[m].messageRecords[q].sentBy === "Agent" && answer[m].messageRecords[q].participantId !== "1089636032"){
-						if(whatTimeAlert < sendAlert && !thisConversationHasAlert){
+						if((whatTimeAlert < sendAlert) && !thisConversationHasAlert && (isFacebook === 1)){
 							sendAlertMessageFB(answer[m].info.conversationId, answer[m].consumerParticipants[0].firstName);
 						}
 						thisConversationHasResponse = 1;
@@ -1243,6 +1258,9 @@ function proceedWithActions(){
 								var arraylength = b._metadata.count;
 								if (arraylength === 0){
 									console.log("nessuna conv");
+									if(isFacebook === 1){
+										wasNPSsent = 1;
+									}
 									closeChat(convToClose, wasNPSsent);
 								}
 								for (var i = 0; i < arraylength; i++){
@@ -1258,6 +1276,9 @@ function proceedWithActions(){
 															i = arraylength;
 															var NPSmaxTime = (Date.now() - (1000*60*10));
 															if (timestampNPSsent > NPSmaxTime){
+																wasNPSsent = 1;
+															}
+															if(isFacebook === 1){
 																wasNPSsent = 1;
 															}
 															console.log("timestampNPSsent = " + timestampNPSsent);
