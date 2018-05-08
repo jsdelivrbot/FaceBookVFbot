@@ -635,11 +635,14 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 	var d = new Date(timestamp);
 	var dateOfWeek = d.getDay();
 	var hourOfWeek = d.getHours();
+	var offhour = 0;
 	if (dateOfWeek == 0 || ((hourOfWeek < 7) || (hourOfWeek > 18))){
+		offhour = 1;
 		var messageFB = "Ciao " + fbName + " grazie per averci scritto. Rispondiamo ai Messaggi Privati tutti i giorni dalle 08.00 alle 22.00. Prendiamo in carico la tua segnalazione e ti risponderemo negli orari di apertura. Servizio Clienti Vodafone.";
 	}
 	else{
-		var messageFB = "Ciao " +  fbName + "! Benvenuto nel Servizio Clienti Vodafone su Facebook, un nostro consulente gestirà a breve la tua richiesta di assistenza./n Ti ricordiamo che per poter rispondere alle tue esigenze e' sempre necessario il numero di cellulare e di rete fissa per il quale richiedi assistenza e una descrizione dettagliata della richiesta.";
+		var messageFB1 = "Ciao " +  fbName + "! Benvenuto nel Servizio Clienti Vodafone su Facebook, un nostro consulente gestirà a breve la tua richiesta di assistenza.";
+		var messageFB2 = "Ti ricordiamo che per poter rispondere alle tue esigenze e' sempre necessario il numero di cellulare e di rete fissa per il quale richiedi assistenza e una descrizione dettagliata della richiesta.";
 	}
 	
 	echoAgent.updateConversationField({
@@ -656,6 +659,66 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 				console.error(e) 
     		}
 	});
+	
+	
+	echoAgent.updateConversationField({
+		'conversationId': dialogID,
+		'conversationField': [
+		{
+			field: 'ParticipantsChange',
+			type: 'ADD',
+			userId: customBotID,
+			role: 'ASSIGNED_AGENT'
+		}]
+		}, (e, resp) => {
+   			if (e) { 
+				console.error(e) 
+    		}
+	});
+	
+	if (offhour === 1){
+		echoAgent.publishEvent({
+			'dialogId': dialogID,
+			'event': {
+				message: messageFB, // escalation message
+				contentType: "text/plain",
+				type: "ContentEvent"
+				}
+
+			}, (e, resp) => {
+   				if (e) { 
+					console.error(e) 
+    			}
+		});
+	} else{
+		echoAgent.publishEvent({
+			'dialogId': dialogID,
+			'event': {
+				message: messageFB1, // escalation message
+				contentType: "text/plain",
+				type: "ContentEvent"
+				}
+
+			}, (e, resp) => {
+   				if (e) { 
+					console.error(e) 
+    			} else{
+				echoAgent.publishEvent({
+					'dialogId': dialogID,
+					'event': {
+						message: messageFB2, // escalation message
+						contentType: "text/plain",
+						type: "ContentEvent"
+						}
+
+					}, (e, resp) => {
+   						if (e) { 
+							console.error(e) 
+    					}
+				});
+			}
+		});
+	}
 	echoAgent.publishEvent({
 		'dialogId': dialogID,
 		'event': {
