@@ -582,7 +582,7 @@ function closeChat(dialogID, wasNPSsent){
 							echoAgent.publishEvent({
 								'dialogId': dialogID,
 								'event': {
-									message: "completa la nostra survey!! https://assets.kampyle.com/clients/vodafone/direct/form.html?region=prodEuIrland&websiteId=67241&formId=4313", // escalation message
+									message: "Grazie per aver contattato il servizio clienti Vodafone. Ti mando un link dove puoi esprimere il tuo parere su quanto hai gradito il supporto fornito. https://assets.kampyle.com/clients/vodafone/direct/form.html?region=prodEuIrland&websiteId=67241&formId=4313", // escalation message
 									contentType: "text/plain",
 									type: "ContentEvent"
 									}
@@ -1295,11 +1295,11 @@ function proceedWithActions(){
 								}
 							}, function (e, r, b) {
 								var arraylength = b._metadata.count;
+								if(isFacebook === 1){
+									wasNPSsent = 1;
+								}
 								if (arraylength === 0){
 									console.log("nessuna conv");
-									if(isFacebook === 1){
-										wasNPSsent = 1;
-									}
 									closeChat(convToClose, wasNPSsent);
 								}
 								for (var i = 0; i < arraylength; i++){
@@ -1319,18 +1319,15 @@ function proceedWithActions(){
 															}
 															
 														}
-														if(isFacebook === 1){
-															wasNPSsent = 1;
-														}
-														closeChat(convToClose, wasNPSsent);
-		
-															
+														
+			
 													}
 												}
 											}
 										}
 									}
 								}
+								closeChat(convToClose, wasNPSsent);
 							});
 							
 							
