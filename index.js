@@ -746,7 +746,7 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 	var offhour = 0;
 	if (dateOfWeek == 0 || ((hourOfWeek < 7) || (hourOfWeek > 18))){
 		offhour = 1;
-		var messageFBout1 = "Ciao " + fbName + " grazie per averci scritto. Rispondiamo ai Messaggi Privati tutti i giorni dalle 08.00 alle 22.00. Prendiamo in carico la tua segnalazione e ti risponderemo negli orari di apertura. Servizio Clienti Vodafone.";
+		var messageFBout1 = "Ciao " + fbName + " grazie per averci scritto. Rispondiamo ai Messaggi Privati tutti i giorni dalle 08.00 alle 21.00. Prendiamo in carico la tua segnalazione e ti risponderemo negli orari di apertura. Servizio Clienti Vodafone.";
 		var messageFBout2 = "Ti ricordiamo che per poter rispondere alle tue esigenze e' sempre necessario il numero di cellulare e di rete fissa per il quale richiedi assistenza e una descrizione dettagliata della richiesta.";
 	}
 	else{
@@ -754,6 +754,9 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 		var messageFB2 = "Ti ricordiamo che per poter rispondere alle tue esigenze e' sempre necessario il numero di cellulare e di rete fissa per il quale richiedi assistenza e una descrizione dettagliata della richiesta.";
 	}
 	
+	
+	
+	/********************************** remove me before to go in  production *****************************
 	echoAgent.updateConversationField({
 		'conversationId': dialogID,
 		'conversationField': [
@@ -842,6 +845,8 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 				}
 		});
 	}
+	
+	********************************** remove me before to go in  production *****************************/
 	
 	setTimeout(function(){
 		
@@ -1056,6 +1061,8 @@ function checkIfConnected(agentName){
 
 function sendAlertMessageFB(dialogID, fbName) {
 	
+	/********************************** remove me before to go in  production *****************************
+	
 	
 		const metadata = [{
 			type: 'BotResponse', // Bot context information about the last consumer message
@@ -1120,6 +1127,8 @@ function sendAlertMessageFB(dialogID, fbName) {
     			}
     			console.log("Transfering..." , resp)
 		});
+		
+	********************************** remove me before to go in  production *****************************/
 	
 }
 
@@ -1354,8 +1363,8 @@ function proceedWithActions(){
 						if (whatTime < closure){
 							console.log("***closing");
 							console.log("isFacebook = " + isFacebook);
-							checkNPSwasSent(m, isFacebook);
-							
+							// checkNPSwasSent(m, isFacebook);
+							checkNPSwasSent(m, 0); // remove before production!!!!!
 							
 		 				}
 		 			}
