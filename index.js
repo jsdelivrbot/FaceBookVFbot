@@ -1286,6 +1286,7 @@ function proceedWithActions(){
 		 			if (answer[m].messageRecords[(howManyMessages - 1)].sentBy === "Agent" && whatTime){
 						if (whatTime < closure){
 							console.log("***closing");
+							console.log("isFacebook = " + isFacebook);
 							var convToClose = answer[m].info.conversationId;
 							var wasNPSsent = 0;
 							var arraylength = answer[m].messageRecords.length;
