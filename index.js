@@ -1295,13 +1295,15 @@ function proceedWithActions(){
 								}
 							}, function (e, r, b) {
 								var arraylength = b._metadata.count;
-								if(isFacebook === 1){
+								if(isFacebook === 0){
 									wasNPSsent = 1;
 								}
 								if (arraylength === 0){
 									console.log("nessuna conv");
+									console.log("sto chiudendo. wasNPSsent = " + wasNPSsent);
 									closeChat(convToClose, wasNPSsent);
 								}
+								
 								for (var i = 0; i < arraylength; i++){
 									if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
 										if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined' && b.conversationHistoryRecords[i].transfers.length > 0) {
