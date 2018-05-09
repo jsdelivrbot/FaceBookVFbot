@@ -1338,7 +1338,7 @@ function proceedWithActions(){
 				}
 
 					
-				var moveToLimbo = (Date.now() - (1000*60*11));            // timestamp "move to Limbo" conversation
+				var moveToLimbo = (Date.now() - (1000*60*15));            // timestamp "move to Limbo" conversation
 				var closure = (Date.now() - (1000*60*60*24));            // timestamp closure conversation
 				// var closure = (Date.now() - (1000*60*3));            // timestamp closure conversation
 				var whatTime = 0;
