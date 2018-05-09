@@ -1297,6 +1297,7 @@ function proceedWithActions(){
 								var arraylength = b._metadata.count;
 								if(isFacebook === 0){
 									wasNPSsent = 1;
+									console.log("marked point 1");
 								}
 								if (arraylength === 0){
 									console.log("nessuna conv");
@@ -1318,6 +1319,7 @@ function proceedWithActions(){
 															var NPSmaxTime = (Date.now() - (1000*60*10));
 															if (timestampNPSsent > NPSmaxTime){
 																wasNPSsent = 1;
+																console.log("marked point 2");
 															}
 															
 														}
