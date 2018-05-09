@@ -756,37 +756,39 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 	
 	
 	
+	
+	echoAgent.updateConversationField({
+		'conversationId': dialogID,
+		'conversationField': [
+		{
+			field: 'ParticipantsChange',
+			type: 'ADD',
+			userId: customBotID,
+			role: 'ASSIGNED_AGENT'
+		}]
+		}, (e, resp) => {
+   			if (e) { 
+				console.error(e) 
+    		}
+	});
+	
+	
+	echoAgent.updateConversationField({
+		'conversationId': dialogID,
+		'conversationField': [
+		{
+			field: 'ParticipantsChange',
+			type: 'ADD',
+			userId: customBotID,
+			role: 'ASSIGNED_AGENT'
+		}]
+		}, (e, resp) => {
+   			if (e) { 
+				console.error(e) 
+    		}
+	});
+	
 	/********************************** remove me before to go in  production *****************************
-	echoAgent.updateConversationField({
-		'conversationId': dialogID,
-		'conversationField': [
-		{
-			field: 'ParticipantsChange',
-			type: 'ADD',
-			userId: customBotID,
-			role: 'ASSIGNED_AGENT'
-		}]
-		}, (e, resp) => {
-   			if (e) { 
-				console.error(e) 
-    		}
-	});
-	
-	
-	echoAgent.updateConversationField({
-		'conversationId': dialogID,
-		'conversationField': [
-		{
-			field: 'ParticipantsChange',
-			type: 'ADD',
-			userId: customBotID,
-			role: 'ASSIGNED_AGENT'
-		}]
-		}, (e, resp) => {
-   			if (e) { 
-				console.error(e) 
-    		}
-	});
 	
 	if (offhour === 1){
 		echoAgent.publishEvent({
