@@ -1283,7 +1283,7 @@ function proceedWithActions(){
 						}
 					}
 				
-		 			if (answer[m].messageRecords[(howManyMessages - 1)].sentBy === "Agent" && whatTime){
+		 			if (thisConversationHasResponse && whatTime){
 						if (whatTime < closure){
 							console.log("***closing");
 							console.log("isFacebook = " + isFacebook);
