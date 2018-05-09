@@ -677,7 +677,7 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 	var dateOfWeek = d.getDay();
 	var hourOfWeek = d.getHours();
 	var offhour = 0;
-	if (dateOfWeek == 0 || ((hourOfWeek < 7) || (hourOfWeek > 19))){
+	if (dateOfWeek == 0 || ((hourOfWeek < 7) || (hourOfWeek > 18))){
 		offhour = 1;
 		var messageFB = "Ciao " + fbName + " grazie per averci scritto. Rispondiamo ai Messaggi Privati tutti i giorni dalle 08.00 alle 22.00. Prendiamo in carico la tua segnalazione e ti risponderemo negli orari di apertura. Servizio Clienti Vodafone.";
 	}
