@@ -1311,7 +1311,7 @@ function proceedWithActions(){
 								}
 							}, function (e, r, b) {
 								var arraylength = b._metadata.count;
-								if(isFacebook == 0){
+								if(isFacebook < 1){
 									wasNPSsent = 1;
 									console.log("marked point 1");
 								}
