@@ -1042,7 +1042,7 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 
 
 
-function limboChat(dialogID, agentID) {
+function limboChat(dialogID, agentID, channel) {
 
 	var agentToRemove = accountNumber + "." + agentID
 	
@@ -1537,10 +1537,21 @@ function proceedWithActions(){
 	for (var m = 0; m < (answer.length); m++){
 		
 		var isFacebook = 0;
+		var channel = "web";
 		if(answer[m].hasOwnProperty('transfers')){
 			if (typeof answer[m].transfers !== 'undefined' && answer[m].transfers.length > 0) {
 				if(answer[m].transfers[0].sourceSkillName === "facebook_bot"){
 					isFacebook = 1;
+					channel = "facebook";
+				}
+			}
+		}
+		if(answer[m].hasOwnProperty('transfers')){
+			if (typeof answer[m].transfers !== 'undefined' && answer[m].transfers.length > 0) {
+				for (var y = 0; y < (answer[m].transfers.length); y++){
+					if(answer[m].transfers[y].targetSkillName === "Outbound"){
+						channel = "outbound";
+					}
 				}
 			}
 		}
@@ -1624,7 +1635,7 @@ function proceedWithActions(){
 					if (thisConversationHasResponse && answer[m].info.latestSkillId !== limboskill && answer[m].info.latestSkillId !== outboundFBskill && answer[m].messageRecords[(answer[m].messageRecords.length - 1)].participantId !== botID){
 						if((whatTime < moveToLimbo) && (answer[m].info.latestSkillId !== limboskill)){
 							console.log("***Limbo");
-							limboChat(answer[m].info.conversationId, answer[m].info.latestAgentId);
+							limboChat(answer[m].info.conversationId, answer[m].info.latestAgentId, channel);
 						}
 					}
 				
