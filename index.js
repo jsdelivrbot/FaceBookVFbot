@@ -312,7 +312,7 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
 				field: 'ParticipantsChange',
 				type: 'ADD',
 				userId: customBotID,
-				role: 'READER'
+				role: 'MANAGER'
 				}]
 			}, (e, resp) => {
    				if (e) { 
@@ -370,7 +370,7 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
 				field: 'ParticipantsChange',
 				type: 'REMOVE',
 				userId: customBotID,
-				role: 'READER'
+				role: 'MANAGER'
 				}]
 
 			}, (e, resp) => {
