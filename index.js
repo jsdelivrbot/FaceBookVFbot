@@ -256,6 +256,8 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
 	
 		var agentToRemove = accountNumber + "." + agentID
 		console.log(numeroMinAwake + " *** " + agentID + " *** " + dialogID);
+		var awakeTimestamp = Date.now() + (numeroMinAwake*60*1000);
+		console.log(awakeTimestamp);
 	
 	
 		const metadata = [{
@@ -266,18 +268,8 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
 			],
 			intents: [ // Last consumer message identified intents
 			{
-				id: 'yesno',
-				name: "---",
-				confidenceScore: 1
-			},
-			{
-				id: 'comments',
-				name: "---",
-				confidenceScore: 1
-			},
-			{
-				id: 'minutes',
-				name: "limbo",
+				id: 'awakeLater',
+				name: awakeTimestamp,
 				confidenceScore: 1
 			}]
 		}];
