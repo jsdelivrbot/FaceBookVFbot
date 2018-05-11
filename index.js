@@ -289,7 +289,8 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
 				}]
 			}, (e, resp) => {
    				if (e) { 
-					console.error(e) 
+					console.error(e);
+					console.error("error_removing_assigned_awake");
     			}
 		});
 
@@ -308,7 +309,8 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
 				}]
 			}, (e, resp) => {
    				if (e) { 
-					console.error(e) 
+					console.error(e);
+					console.error("error_adding_bot_awake");
     			}
 		});
 
@@ -325,7 +327,8 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
 
 			}, null, metadata, function(err) {
    				if (err) { 
-					console.error(err) 
+					console.error(err);
+					console.error("error_changing_skill_awake");
     				} else{
 					console.log("transferring complete");
 
@@ -338,7 +341,8 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
 						}]
 					}, (e, resp) => {
    						if (e) { 
-							console.error(e) 
+							console.error(e);
+							console.error("error_changing_ETTR_awake");
     						}
 				});
 
@@ -364,7 +368,8 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
 
 			}, (e, resp) => {
    				if (e) { 
-					console.error(e) 
+					console.error(e);
+					console.error("error_removing_bot_awake");
     			}
     			console.log("Transfering..." , resp)
 		});
