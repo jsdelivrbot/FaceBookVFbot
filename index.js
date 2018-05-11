@@ -20,6 +20,7 @@ var activeSkills = [];
 var FaceBookSkill = 1089726032;
 var answer = [];
 var limboskill = 1051213232;
+var freezeskill = 1096182732;
 var risvegliataskill = 1051213332;
 var outboundFBskill = 1093097632;
 var accountNumber = 13099967;
@@ -72,6 +73,7 @@ function checkValues(req, res, next) {
 	visitorID = req.query.visitorID;
 	var retrieve = req.query.retrieve;
 	var numeroMinAwake = req.query.numeroMinAwake;
+	var agentID = req.query.agentID;
 
 
 	yesno = req.query.yesno;
@@ -166,9 +168,8 @@ function checkValues(req, res, next) {
 
 	}
 	else if(retrieve === "2"){
-		skill = convertSkill();
-		awakeLater(numeroMinAwake);
-		res.send([skill]);
+		awakeLater(numeroMinAwake, agentID, convID);
+		res.send("done");
 	}
 	else if(retrieve === "0"){
 		skill = convertSkill();
@@ -251,8 +252,134 @@ function convertSkill(){
 }
 
 
-function awakeLater(numeroMinAwake){
-	console.log ("inside awake");
+function awakeLater(numeroMinAwake, agentID, dialogID){
+	
+		var agentToRemove = accountNumber + "." + agentID
+		console.log(numeroMinAwake + " *** " + agentID + " *** " + dialogID);
+	
+	
+		const metadata = [{
+			type: 'BotResponse', // Bot context information about the last consumer message
+			externalConversationId: dialogID,
+			businessCases: [
+				'RightNow_Categorization' // identified capability
+			],
+			intents: [ // Last consumer message identified intents
+			{
+				id: 'yesno',
+				name: "---",
+				confidenceScore: 1
+			},
+			{
+				id: 'comments',
+				name: "---",
+				confidenceScore: 1
+			},
+			{
+				id: 'minutes',
+				name: "limbo",
+				confidenceScore: 1
+			}]
+		}];
+
+
+		
+
+		
+		echoAgent.updateConversationField({
+			'conversationId': dialogID,
+			'conversationField': [
+				{
+				field: 'ParticipantsChange',
+				type: 'REMOVE',
+				userId: agentToRemove,
+				role: 'ASSIGNED_AGENT'
+				}]
+			}, (e, resp) => {
+   				if (e) { 
+					console.error(e) 
+    			}
+		});
+
+
+
+
+
+		echoAgent.updateConversationField({
+			'conversationId': dialogID,
+			'conversationField': [
+				{
+				field: 'ParticipantsChange',
+				type: 'ADD',
+				userId: customBotID,
+				role: 'ASSIGNED_AGENT'
+				}]
+			}, (e, resp) => {
+   				if (e) { 
+					console.error(e) 
+    			}
+		});
+
+
+		
+		echoAgent.updateConversationField({
+			'conversationId': dialogID,
+			'conversationField': [
+				{
+				field: "Skill",
+				type: "UPDATE",
+				skill: freezeskill
+				}]
+
+			}, null, metadata, function(err) {
+   				if (err) { 
+					console.error(err) 
+    				} else{
+					console.log("transferring complete");
+
+				echoAgent.updateConversationField({
+					'conversationId': dialogID,
+					'conversationField': [
+						{
+						field: "ManualETTR",
+						time: Date.now()
+						}]
+					}, (e, resp) => {
+   						if (e) { 
+							console.error(e) 
+    						}
+				});
+
+
+			}
+		});
+	
+		
+
+
+
+		
+		echoAgent.updateConversationField({
+			'conversationId': dialogID,
+			'conversationField': [
+							
+				{
+				field: 'ParticipantsChange',
+				type: 'REMOVE',
+				userId: customBotID,
+				role: 'ASSIGNED_AGENT'
+				}]
+
+			}, (e, resp) => {
+   				if (e) { 
+					console.error(e) 
+    			}
+    			console.log("Transfering..." , resp)
+		});
+
+
+
+
 }
 
 
