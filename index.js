@@ -171,12 +171,16 @@ function checkValues(req, res, next) {
 		awakeLater(numeroMinAwake, agentID, convID);
 		res.send("done");
 	}
+	else if(retrieve === "3"){
+		limboChat(agentID, convID);
+		res.send("done");
+	}
 	else if(retrieve === "0"){
 		skill = convertSkill();
 		markConvFB();
 		res.send([skill]);
 	}
-	else{
+	else if(retrieve === "web"){
 		skill = convertSkill();
 		markConv();
 		res.send([skill]);
