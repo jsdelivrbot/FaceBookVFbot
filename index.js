@@ -346,7 +346,28 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
    								if (e) { 
 									console.error(e);
 									console.error("error_changing_ETTR_awake");
-    								}
+    								} else{
+									echoAgent.updateConversationField({
+										'conversationId': dialogID,
+										'conversationField': [
+							
+											{
+											field: 'ParticipantsChange',
+											type: 'REMOVE',
+											userId: customBotID,
+											role: 'ASSIGNED_AGENT'
+											}]
+
+										}, (e, resp) => {
+   											if (e) { 
+												console.error(e);
+												console.error("error_removing_bot_awake");
+    										}
+    										console.log("Transfering..." , resp)
+									});
+									
+									
+								}
 						});
 
 
@@ -354,36 +375,6 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
 				});
 			}
 		});
-
-
-		
-		
-	
-		
-
-
-
-		
-		echoAgent.updateConversationField({
-			'conversationId': dialogID,
-			'conversationField': [
-							
-				{
-				field: 'ParticipantsChange',
-				type: 'REMOVE',
-				userId: customBotID,
-				role: 'ASSIGNED_AGENT'
-				}]
-
-			}, (e, resp) => {
-   				if (e) { 
-					console.error(e);
-					console.error("error_removing_bot_awake");
-    			}
-    			console.log("Transfering..." , resp)
-		});
-
-
 
 
 }
