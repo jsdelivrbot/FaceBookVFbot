@@ -1279,6 +1279,8 @@ function sendAlertMessageFB(dialogID, fbName) {
 }
 
 
+
+
 function wakeUpChat(dialogID, agentName, isFacebook) {
 
 		var isSent = 0;
@@ -1414,7 +1416,113 @@ function wakeUpChat(dialogID, agentName, isFacebook) {
 }
 
 
+function unFreeze(dialogID, agentName) {
 
+
+	
+		const metadata = [{
+			type: 'BotResponse', // Bot context information about the last consumer message
+			externalConversationId: dialogID,
+			businessCases: [
+				'RightNow_Categorization' // identified capability
+			],
+			intents: [ // Last consumer message identified intents
+			{
+				id: 'yesno',
+				name: "---",
+				confidenceScore: 1
+			},
+			{
+				id: 'comments',
+				name: "---",
+				confidenceScore: 1
+			},
+			{
+				id: 'minutes',
+				name: "unfreeze",
+				confidenceScore: 1
+			}]
+		}];
+
+		var transferToActualSkill = 0;
+		var skillPreviousAgent = "***" + agentName;
+		if(checkIfConnected(agentName)){
+			for (var m = 0; m < (activeSkills.length); m++){
+				if(activeSkills[m].name === skillPreviousAgent){
+					transferToActualSkill = activeSkills[m].id;
+					m = activeSkills.length;
+				}
+
+			}
+		}
+		else{
+			transferToActualSkill = risvegliataskill;
+		}
+
+		console.log(transferToActualSkill);
+		
+		echoAgent.updateConversationField({
+			'conversationId': dialogID,
+			'conversationField': [
+				{
+				field: 'ParticipantsChange',
+				type: 'ADD',
+				userId: customBotID,
+				role: 'ASSIGNED_AGENT'
+				}]
+			}, (e, resp) => {
+   				if (e) { 
+					console.error(e);
+					console.error("error_adding_bot_unfreeze");
+    			}
+		});
+
+		echoAgent.updateConversationField({
+			'conversationId': dialogID,
+			'conversationField': [
+				{
+				field: "Skill",
+				type: "UPDATE",
+				skill: transferToActualSkill
+				}]
+
+			}, null, metadata, function(err) {
+   				if (err) { 
+					console.error(err);
+					console.error("error_changing_skill_unfreeze");
+    			} else {
+				console.log("transfered completed");
+			}
+		});
+
+
+
+		
+		echoAgent.updateConversationField({
+			'conversationId': dialogID,
+			'conversationField': [
+							
+				{
+				field: 'ParticipantsChange',
+				type: 'REMOVE',
+				userId: customBotID,
+				role: 'ASSIGNED_AGENT'
+				}]
+
+			}, (e, resp) => {
+   				if (e) { 
+					console.error(e);
+					console.error("error_removing_bot_unfreeze");
+    			}
+    			console.log("Transfering..." , resp)
+		});
+
+
+
+
+
+
+}
 
 
 
@@ -1477,7 +1585,8 @@ function proceedWithActions(){
 						var arraylength = answer[m].transfers.length;
 						if(answer[m].transfers[(arraylength -1)].hasOwnProperty('contextData')){
 							if(answer[m].transfers[(arraylength -1)].contextData.hasOwnProperty('structuredMetadata')){
-								var sendToLimbo = answer[m].transfers[(arraylength -1)].contextData.structuredMetadata[0].botResponse.intents[2].name;
+								var isToBeAwakened = answer[m].transfers[(arraylength -1)].contextData.structuredMetadata[0].botResponse.intents[0].id;
+								var isToBeAwakenedTimestamp = answer[m].transfers[(arraylength -1)].contextData.structuredMetadata[0].botResponse.intents[0].name;
 							}
 						}
 						
@@ -1496,13 +1605,19 @@ function proceedWithActions(){
 					}
 				}
 				
-					
-				if((answer[m].messageRecords[(howManyMessages - 1)].sentBy === "Consumer") && (answer[m].info.latestSkillId === limboskill)){
+				if(isToBeAwakened === "awakeLater"){
+					if(isToBeAwakenedTimestamp < (Date.now())){
+						console.log("***unfreezing");
+						unFreeze(answer[m].info.conversationId, answer[m].info.latestAgentLoginName);
+					}
+				}
+				
+				else if((answer[m].messageRecords[(howManyMessages - 1)].sentBy === "Consumer") && (answer[m].info.latestSkillId === limboskill)){
 					console.log("***wakingup");
 					wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, isFacebook);
 				}
 				else{
-					if (thisConversationHasResponse && sendToLimbo !== "noLimbo" && answer[m].info.latestSkillId !== limboskill && answer[m].info.latestSkillId !== outboundFBskill && answer[m].messageRecords[(answer[m].messageRecords.length - 1)].participantId !== botID){
+					if (thisConversationHasResponse && answer[m].info.latestSkillId !== limboskill && answer[m].info.latestSkillId !== outboundFBskill && answer[m].messageRecords[(answer[m].messageRecords.length - 1)].participantId !== botID){
 						if((whatTime < moveToLimbo) && (answer[m].info.latestSkillId !== limboskill)){
 							console.log("***Limbo");
 							limboChat(answer[m].info.conversationId, answer[m].info.latestAgentId);
