@@ -325,7 +325,7 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
 						{
 						field: "Skill",
 						type: "UPDATE",
-						skill: freezeskill
+						skill: 1096182732
 						}]
 
 					}, null, metadata, function(err) {
