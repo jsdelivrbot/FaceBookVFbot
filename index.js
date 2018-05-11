@@ -421,6 +421,7 @@ function markConv(){
 		}, function(err) {
 			if(err) {
 				console.log(err);
+				console.error("error_adding_bot_markconv");
 			} else {
 				// console.log("joining completed");
 			}
@@ -440,6 +441,7 @@ function markConv(){
 		}, null, metadata, function(err) {
 			if(err) {
 				console.log(err);
+				console.error("error_changing_skill_markconv");
 			} else {
 				console.log("transfered completed");
 			}
@@ -458,6 +460,7 @@ function markConv(){
 		}, function(err) {
 			if(err) {
 				console.log(err);
+				console.error("error_removing_bot_markconv");
 			} else {
 				// console.log("leave completed");
 			}
@@ -533,6 +536,7 @@ function markConvFB(){
 		}, function(err) {
 			if(err) {
 				console.log(err);
+				console.error("error_adding_bot_markconvFB");
 			} else {
 				// console.log("joining completed");
 			}
@@ -552,6 +556,7 @@ function markConvFB(){
 		}, null, metadata, function(err) {
 			if(err) {
 				console.log(err);
+				console.error("error_changing_skill_markconvFB");
 			} else {
 				console.log("transfered completed");
 			}
@@ -570,6 +575,7 @@ function markConvFB(){
 		}, function(err) {
 			if(err) {
 				console.log(err);
+				console.error("error_removing_bot_markconvFB");
 			} else {
 				// console.log("leave completed");
 			}
@@ -776,7 +782,8 @@ function closeChat(dialogID, wasNPSsent){
 						}]
 					}, (e, resp) => {
    						if (e) { 
-							console.error(e) 
+							console.error(e);
+							console.error("error_adding_bot_NPS");
     						} else {
 							console.log("agent in");
 							echoAgent.publishEvent({
@@ -789,7 +796,8 @@ function closeChat(dialogID, wasNPSsent){
 
 								}, (e, resp) => {
    								if (e) { 
-									console.error(e) 
+									console.error(e);
+									console.error("error_sending_msg_NPS");
     								} else {
 									console.log("message sent");
 									var myTimestamp = Date.now();
@@ -816,7 +824,8 @@ function closeChat(dialogID, wasNPSsent){
 											}]
 										}, null, metadata, function(err) {
 										if (err) {
-											console.error(err)
+											console.error(err);
+											console.error("error_changing_skill_NPS");
 										} else {
 											console.log("transfered completed");
 										}
@@ -835,7 +844,8 @@ function closeChat(dialogID, wasNPSsent){
 
 										}, (e, resp) => {
    											if (e) { 
-												console.error(e) 
+												console.error(e);
+												console.error("error_removing_bot_NPS");
     											}
 											else {
 												console.log("transfered completed");
@@ -890,20 +900,6 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 	
 	
 	
-	echoAgent.updateConversationField({
-		'conversationId': dialogID,
-		'conversationField': [
-		{
-			field: 'ParticipantsChange',
-			type: 'ADD',
-			userId: customBotID,
-			role: 'ASSIGNED_AGENT'
-		}]
-		}, (e, resp) => {
-   			if (e) { 
-				console.error(e) 
-    		}
-	});
 	
 	
 	echoAgent.updateConversationField({
@@ -917,7 +913,8 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 		}]
 		}, (e, resp) => {
    			if (e) { 
-				console.error(e) 
+				console.error(e);
+				console.error("error_adding_bot_welcomeFB");
     		}
 	});
 	
@@ -934,7 +931,8 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 
 			}, (e, resp) => {
    				if (e) { 
-					console.error(e) 
+					console.error(e);
+					console.error("error_sending_msg_welcomeFB1");
     				} else{
 					echoAgent.publishEvent({
 						'dialogId': dialogID,
@@ -946,7 +944,8 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 
 						}, (e, resp) => {
    							if (e) { 
-								console.error(e) 
+								console.error(e);
+								console.error("error_sending_msg_welcomeFB2");
     						}
 					});
 				}
@@ -962,7 +961,8 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 
 			}, (e, resp) => {
    				if (e) { 
-					console.error(e) 
+					console.error(e);
+					console.error("error_sending_msg_welcomeFB3");
     				} else{
 					echoAgent.publishEvent({
 						'dialogId': dialogID,
@@ -974,7 +974,8 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 
 						}, (e, resp) => {
    							if (e) { 
-								console.error(e) 
+								console.error(e);
+								console.error("error_sending_msg_welcomeFB4");
     						}
 					});
 				}
@@ -996,7 +997,8 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 
 			}, function(err) {
    				if (err) { 
-					console.error(err) 
+					console.error(err);
+					console.error("error_changing_skill_welcomeFB");
     			} else {
 					console.log("transfered completed");
 				}
@@ -1015,7 +1017,8 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 
 			}, (e, resp) => {
    				if (e) { 
-					console.error(e) 
+					console.error(e);
+					console.error("error_removing_bot_welcomeFB");
     			}
     			console.log("Transfering..." , resp)
 		});
@@ -1079,7 +1082,8 @@ function limboChat(dialogID, agentID) {
 				}]
 			}, (e, resp) => {
    				if (e) { 
-					console.error(e) 
+					console.error(e);
+					console.error("error_removing_agent_limbo");
     			}
 		});
 
@@ -1098,7 +1102,8 @@ function limboChat(dialogID, agentID) {
 				}]
 			}, (e, resp) => {
    				if (e) { 
-					console.error(e) 
+					console.error(e);
+					console.error("error_adding_bot_limbo");
     			}
 		});
 
@@ -1115,7 +1120,8 @@ function limboChat(dialogID, agentID) {
 
 			}, null, metadata, function(err) {
    				if (err) { 
-					console.error(err) 
+					console.error(err);
+					console.error("error_changing_skill_limbo");
     				} else{
 					console.log("transferring complete");
 
@@ -1128,7 +1134,8 @@ function limboChat(dialogID, agentID) {
 						}]
 					}, (e, resp) => {
    						if (e) { 
-							console.error(e) 
+							console.error(e);
+							console.error("error_changing_ETTR_limbo");
     						}
 				});
 
@@ -1154,7 +1161,8 @@ function limboChat(dialogID, agentID) {
 
 			}, (e, resp) => {
    				if (e) { 
-					console.error(e) 
+					console.error(e);
+					console.error("error_removing_bot_limbo");
     			}
     			console.log("Transfering..." , resp)
 		});
@@ -1225,7 +1233,8 @@ function sendAlertMessageFB(dialogID, fbName) {
 				}]
 			}, (e, resp) => {
    				if (e) { 
-					console.error(e) 
+					console.error(e);
+					console.error("error_adding_bot_alertFB");
     			}
 		});
 
@@ -1240,7 +1249,8 @@ function sendAlertMessageFB(dialogID, fbName) {
 
 			}, (e, resp) => {
    				if (e) { 
-					console.error(e) 
+					console.error(e);
+					console.error("error_sending_msg_alertFB");
     			}
 		});
 
@@ -1258,7 +1268,8 @@ function sendAlertMessageFB(dialogID, fbName) {
 
 			}, (e, resp) => {
    				if (e) { 
-					console.error(e) 
+					console.error(e);
+					console.error("error_removing_bot_alertFB");
     			}
     			console.log("Transfering..." , resp)
 		});
@@ -1325,7 +1336,8 @@ function wakeUpChat(dialogID, agentName, isFacebook) {
 				}]
 			}, (e, resp) => {
    				if (e) { 
-					console.error(e) 
+					console.error(e);
+					console.error("error_adding_bot_wakeUp");
     			}
 		});
 
@@ -1342,7 +1354,8 @@ function wakeUpChat(dialogID, agentName, isFacebook) {
 
 				}, (e, resp) => {
    					if (e) { 
-						console.error(e) 
+						console.error(e);
+						console.error("error_sending_msg_wakeUp");
     				}
 			});
 			isSent = 1;
@@ -1364,7 +1377,8 @@ function wakeUpChat(dialogID, agentName, isFacebook) {
 
 			}, null, metadata, function(err) {
    				if (err) { 
-					console.error(err) 
+					console.error(err);
+					console.error("error_changing_skill_wakeUp");
     			} else {
 				console.log("transfered completed");
 			}
@@ -1386,7 +1400,8 @@ function wakeUpChat(dialogID, agentName, isFacebook) {
 
 			}, (e, resp) => {
    				if (e) { 
-					console.error(e) 
+					console.error(e);
+					console.error("error_removing_bot_wakeUp");
     			}
     			console.log("Transfering..." , resp)
 		});
