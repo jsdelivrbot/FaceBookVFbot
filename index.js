@@ -1508,17 +1508,6 @@ function proceedWithActions(){
 		 	}
 		}
 		
-		if(answer[m].info.startTimeL < 1526036400000){
-			echoAgent.updateConversationField({
-				conversationId: answer[m].info.conversationId,
-				conversationField: [{
-					field: "ConversationStateField",
-					conversationState: "CLOSE"
-				}]
-			});
-			console.log("closing");
-		}
-		
 
 	}
 
