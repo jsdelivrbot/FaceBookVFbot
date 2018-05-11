@@ -22,6 +22,9 @@ var answer = [];
 var limboskill = 1051213232;
 var freezeskill = 1096182732;
 var risvegliataskill = 1051213332;
+var human_risvegliata_skill = 1096374432;
+var facebook_risvegliata_skill = 1096374632;
+var outbound_risvegliata_skill = 1096374732;
 var outboundFBskill = 1093097632;
 var accountNumber = 13099967;
 var botID = 1089636032;
@@ -1042,7 +1045,7 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 
 
 
-function limboChat(dialogID, agentID, channel) {
+function limboChat(dialogID, agentID) {
 
 	var agentToRemove = accountNumber + "." + agentID
 	
@@ -1285,7 +1288,7 @@ function sendAlertMessageFB(dialogID, fbName) {
 
 
 
-function wakeUpChat(dialogID, agentName, isFacebook) {
+function wakeUpChat(dialogID, agentName, channel) {
 
 		var isSent = 0;
 	
@@ -1326,7 +1329,16 @@ function wakeUpChat(dialogID, agentName, isFacebook) {
 			}
 		}
 		else{
-			transferToActualSkill = risvegliataskill;
+			if (channel === "web"){
+				transferToActualSkill = human_risvegliata_skill;
+			}
+			if (channel === "facebook"){
+				transferToActualSkill = facebook_risvegliata_skill;
+			}
+			if (channel === "outbound"){
+				transferToActualSkill = outbound_risvegliata_skill;
+			}
+			
 		}
 
 		console.log(transferToActualSkill);
@@ -1348,7 +1360,7 @@ function wakeUpChat(dialogID, agentName, isFacebook) {
 		});
 
 
-		if((transferToActualSkill === risvegliataskill) && (!isSent) && (!isFacebook)){
+		if((transferToActualSkill === risvegliataskill) && (!isSent) && (channel !== "web")){
 
 			echoAgent.publishEvent({
 				'dialogId': dialogID,
@@ -1420,113 +1432,7 @@ function wakeUpChat(dialogID, agentName, isFacebook) {
 }
 
 
-function unFreeze(dialogID, agentName) {
 
-
-	
-		const metadata = [{
-			type: 'BotResponse', // Bot context information about the last consumer message
-			externalConversationId: dialogID,
-			businessCases: [
-				'RightNow_Categorization' // identified capability
-			],
-			intents: [ // Last consumer message identified intents
-			{
-				id: 'yesno',
-				name: "---",
-				confidenceScore: 1
-			},
-			{
-				id: 'comments',
-				name: "---",
-				confidenceScore: 1
-			},
-			{
-				id: 'minutes',
-				name: "unfreeze",
-				confidenceScore: 1
-			}]
-		}];
-
-		var transferToActualSkill = 0;
-		var skillPreviousAgent = "***" + agentName;
-		if(checkIfConnected(agentName)){
-			for (var m = 0; m < (activeSkills.length); m++){
-				if(activeSkills[m].name === skillPreviousAgent){
-					transferToActualSkill = activeSkills[m].id;
-					m = activeSkills.length;
-				}
-
-			}
-		}
-		else{
-			transferToActualSkill = risvegliataskill;
-		}
-
-		console.log(transferToActualSkill);
-		
-		echoAgent.updateConversationField({
-			'conversationId': dialogID,
-			'conversationField': [
-				{
-				field: 'ParticipantsChange',
-				type: 'ADD',
-				userId: customBotID,
-				role: 'ASSIGNED_AGENT'
-				}]
-			}, (e, resp) => {
-   				if (e) { 
-					console.error(e);
-					console.error("error_adding_bot_unfreeze");
-    			}
-		});
-
-		echoAgent.updateConversationField({
-			'conversationId': dialogID,
-			'conversationField': [
-				{
-				field: "Skill",
-				type: "UPDATE",
-				skill: transferToActualSkill
-				}]
-
-			}, null, metadata, function(err) {
-   				if (err) { 
-					console.error(err);
-					console.error("error_changing_skill_unfreeze");
-    			} else {
-				console.log("transfered completed");
-			}
-		});
-
-
-
-		
-		echoAgent.updateConversationField({
-			'conversationId': dialogID,
-			'conversationField': [
-							
-				{
-				field: 'ParticipantsChange',
-				type: 'REMOVE',
-				userId: customBotID,
-				role: 'ASSIGNED_AGENT'
-				}]
-
-			}, (e, resp) => {
-   				if (e) { 
-					console.error(e);
-					console.error("error_removing_bot_unfreeze");
-    			}
-    			console.log("Transfering..." , resp)
-		});
-
-
-
-
-
-
-}
 
 
 
@@ -1623,19 +1529,19 @@ function proceedWithActions(){
 				if(isToBeAwakened === "awakeLater"){
 					if(isToBeAwakenedTimestamp < (Date.now())){
 						console.log("***unfreezing");
-						unFreeze(answer[m].info.conversationId, answer[m].info.latestAgentLoginName);
+						wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel);
 					}
 				}
 				
 				else if((answer[m].messageRecords[(howManyMessages - 1)].sentBy === "Consumer") && (answer[m].info.latestSkillId === limboskill)){
 					console.log("***wakingup");
-					wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, isFacebook);
+					wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel);
 				}
 				else{
 					if (thisConversationHasResponse && answer[m].info.latestSkillId !== limboskill && answer[m].info.latestSkillId !== outboundFBskill && answer[m].messageRecords[(answer[m].messageRecords.length - 1)].participantId !== botID){
 						if((whatTime < moveToLimbo) && (answer[m].info.latestSkillId !== limboskill)){
 							console.log("***Limbo");
-							limboChat(answer[m].info.conversationId, answer[m].info.latestAgentId, channel);
+							limboChat(answer[m].info.conversationId, answer[m].info.latestAgentId);
 						}
 					}
 				
