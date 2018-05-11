@@ -1268,7 +1268,7 @@ function sendAlertMessageFB(dialogID, fbName) {
 }
 
 
-function wakeUpChat(dialogID, agentName) {
+function wakeUpChat(dialogID, agentName, isFacebook) {
 
 		var isSent = 0;
 	
@@ -1330,7 +1330,7 @@ function wakeUpChat(dialogID, agentName) {
 		});
 
 
-		if((transferToActualSkill === risvegliataskill) && (!isSent)){
+		if((transferToActualSkill === risvegliataskill) && (!isSent) && (!isFacebook)){
 
 			echoAgent.publishEvent({
 				'dialogId': dialogID,
@@ -1484,7 +1484,7 @@ function proceedWithActions(){
 					
 				if((answer[m].messageRecords[(howManyMessages - 1)].sentBy === "Consumer") && (answer[m].info.latestSkillId === limboskill)){
 					console.log("***wakingup");
-					wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName);
+					wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, isFacebook);
 				}
 				else{
 					if (thisConversationHasResponse && sendToLimbo !== "noLimbo" && answer[m].info.latestSkillId !== limboskill && answer[m].info.latestSkillId !== outboundFBskill && answer[m].messageRecords[(answer[m].messageRecords.length - 1)].participantId !== botID){
