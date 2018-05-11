@@ -71,6 +71,7 @@ function checkValues(req, res, next) {
 	triplettatre = req.query.triplettatre;
 	visitorID = req.query.visitorID;
 	var retrieve = req.query.retrieve;
+	var numeroMinAwake = req.query.numeroMinAwake;
 
 
 	yesno = req.query.yesno;
@@ -164,6 +165,11 @@ function checkValues(req, res, next) {
 
 
 	}
+	else if(retrieve === "2"){
+		skill = convertSkill();
+		awakeLater(numeroMinAwake);
+		res.send([skill]);
+	}
 	else if(retrieve === "0"){
 		skill = convertSkill();
 		markConvFB();
@@ -245,6 +251,9 @@ function convertSkill(){
 }
 
 
+function awakeLater(numeroMinAwake){
+	console.log ("inside awake");
+}
 
 
 function markConv(){
