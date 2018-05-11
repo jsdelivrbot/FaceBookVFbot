@@ -312,50 +312,52 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
 				field: 'ParticipantsChange',
 				type: 'ADD',
 				userId: customBotID,
-				role: 'MANAGER'
+				role: 'ASSIGNED_AGENT'
 				}]
 			}, (e, resp) => {
    				if (e) { 
 					console.error(e);
 					console.error("error_adding_bot_awake");
-    			}
-		});
-
-
-		
-		echoAgent.updateConversationField({
-			'conversationId': dialogID,
-			'conversationField': [
-				{
-				field: "Skill",
-				type: "UPDATE",
-				skill: freezeskill
-				}]
-
-			}, null, metadata, function(err) {
-   				if (err) { 
-					console.error(err);
-					console.error("error_changing_skill_awake");
-    				} else{
-					console.log("transferring complete");
-
+    			}else{
 				echoAgent.updateConversationField({
 					'conversationId': dialogID,
 					'conversationField': [
 						{
-						field: "ManualETTR",
-						time: Date.now()
+						field: "Skill",
+						type: "UPDATE",
+						skill: freezeskill
 						}]
-					}, (e, resp) => {
-   						if (e) { 
-							console.error(e);
-							console.error("error_changing_ETTR_awake");
-    						}
+
+					}, null, metadata, function(err) {
+   						if (err) { 
+							console.error(err);
+							console.error("error_changing_skill_awake");
+    						} else{
+							console.log("transferring complete");
+
+						echoAgent.updateConversationField({
+							'conversationId': dialogID,
+							'conversationField': [
+								{
+								field: "ManualETTR",
+								time: Date.now()
+								}]
+							}, (e, resp) => {
+   								if (e) { 
+									console.error(e);
+									console.error("error_changing_ETTR_awake");
+    								}
+						});
+
+
+					}
 				});
-
-
 			}
 		});
+
+
+		
+		
 	
 		
 
@@ -370,7 +372,7 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
 				field: 'ParticipantsChange',
 				type: 'REMOVE',
 				userId: customBotID,
-				role: 'MANAGER'
+				role: 'ASSIGNED_AGENT'
 				}]
 
 			}, (e, resp) => {
