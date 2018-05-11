@@ -1441,18 +1441,7 @@ function proceedWithActions(){
 	console.log("ACTIONS");
 
 	for (var m = 0; m < (answer.length); m++){
-		
-		
-		echoAgent.updateConversationField({
-					conversationId: answer[m].info.conversationId,
-					conversationField: [{
-						field: "ConversationStateField",
-						conversationState: "CLOSE"
-					}]
-				});
-		
-		
-		
+
 		
 		var isFacebook = 0;
 		var channel = "web";
