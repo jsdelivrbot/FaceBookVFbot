@@ -320,6 +320,7 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
 					console.error(e);
 					console.error("error_adding_bot_awake");
     			}else{
+				setTimeout(function(){
 				echoAgent.updateConversationField({
 					'conversationId': dialogID,
 					'conversationField': [
@@ -330,8 +331,7 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
 
 						}, function(err) {}]
 
-					// }, null, metadata, function(err) {
-					}, function(err) {
+					}, null, metadata, function(err) {
    						if (err) { 
 							console.error(err);
 							console.error("error_changing_skill_awake");
@@ -376,6 +376,7 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
 
 					}
 				});
+			}, 1000);
 			}
 		});
 
