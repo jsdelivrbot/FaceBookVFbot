@@ -1518,6 +1518,7 @@ function proceedWithActions(){
 							if(answer[m].transfers[(arraylength -1)].contextData.hasOwnProperty('structuredMetadata')){
 								var isToBeAwakened = answer[m].transfers[(arraylength -1)].contextData.structuredMetadata[0].botResponse.intents[0].id;
 								var isToBeAwakenedTimestamp = parseInt(answer[m].transfers[(arraylength -1)].contextData.structuredMetadata[0].botResponse.intents[0].name);
+								console.log(isToBeAwakened + "****" + isToBeAwakenedTimestamp);
 							}
 						}
 						
