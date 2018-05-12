@@ -327,9 +327,10 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
 						field: "Skill",
 						type: "UPDATE",
 						skill: limboskill
-						}]
 
-					}, null, metadata, function(err) {
+						}, function(err) {}]
+
+					// }, null, metadata, function(err) {
    						if (err) { 
 							console.error(err);
 							console.error("error_changing_skill_awake");
