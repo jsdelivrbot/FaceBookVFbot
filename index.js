@@ -1513,8 +1513,10 @@ function proceedWithActions(){
 				
 				if(answer[m].hasOwnProperty('transfers')){
 					if (typeof answer[m].transfers !== 'undefined' && answer[m].transfers.length > 0) {
+						console.log("in1");
 						var arraylength = answer[m].transfers.length;
 						if(answer[m].transfers[(arraylength -1)].hasOwnProperty('contextData')){
+							console.log("in2");
 							if(answer[m].transfers[(arraylength -1)].contextData.hasOwnProperty('structuredMetadata')){
 								var isToBeAwakened = answer[m].transfers[(arraylength -1)].contextData.structuredMetadata[0].botResponse.intents[0].id;
 								var isToBeAwakenedTimestamp = parseInt(answer[m].transfers[(arraylength -1)].contextData.structuredMetadata[0].botResponse.intents[0].name);
