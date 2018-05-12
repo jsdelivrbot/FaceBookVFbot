@@ -282,6 +282,11 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
 				id: 'awakeLater',
 				name: awakeTimestamp,
 				confidenceScore: 1
+			},
+			{
+				id: 'minutes',
+				name: 'minutes',
+				confidenceScore: 1
 			}]
 		}];
 
