@@ -262,6 +262,9 @@ function convertSkill(){
 
 function awakeLater(numeroMinAwake, agentID, dialogID){
 	
+	console.log("agentID " + agentID);
+	console.log("dialogID " + dialogID);
+	
 		var agentToRemove = accountNumber + "." + agentID
 		console.log(numeroMinAwake + " *** " + agentID + " *** " + dialogID);
 		var awakeTimestamp = Date.now() + (numeroMinAwake*60*1000);
@@ -1043,6 +1046,9 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 
 
 function limboChat(dialogID, agentID) {
+	
+	console.log("agentID " + agentID);
+	console.log("dialogID " + dialogID);
 
 	var agentToRemove = accountNumber + "." + agentID
 	
