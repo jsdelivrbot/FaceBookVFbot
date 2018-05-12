@@ -301,7 +301,7 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
 			}, (e, resp) => {
    				if (e) { 
 					console.error(e);
-					console.error("error_removing_assigned_awake");
+					console.error("error_removing_agent_limbo");
     			}
 		});
 
@@ -321,67 +321,70 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
 			}, (e, resp) => {
    				if (e) { 
 					console.error(e);
-					console.error("error_adding_bot_awake");
-    			}else{
-				setTimeout(function(){
+					console.error("error_adding_bot_limbo");
+    			}
+		});
+
+
+		
+		echoAgent.updateConversationField({
+			'conversationId': dialogID,
+			'conversationField': [
+				{
+				field: "Skill",
+				type: "UPDATE",
+				skill: limboskill
+				}]
+
+			}, null, metadata, function(err) {
+   				if (err) { 
+					console.error(err);
+					console.error("error_changing_skill_limbo");
+    				} else{
+					console.log("transferring complete");
+
 				echoAgent.updateConversationField({
 					'conversationId': dialogID,
 					'conversationField': [
 						{
-						field: "Skill",
-						type: "UPDATE",
-						skill: limboskill
-
-						}, function(err) {}]
-
-					}, null, metadata, function(err) {
-   						if (err) { 
-							console.error(err);
-							console.error("error_changing_skill_awake");
-    						} else{
-							console.log("transferring complete");
-
-						echoAgent.updateConversationField({
-							'conversationId': dialogID,
-							'conversationField': [
-								{
-								field: "ManualETTR",
-								time: Date.now()
-								}]
-							}, (e, resp) => {
-   								if (e) { 
-									console.error(e);
-									console.error("error_changing_ETTR_awake");
-    								} else{
-									echoAgent.updateConversationField({
-										'conversationId': dialogID,
-										'conversationField': [
-							
-											{
-											field: 'ParticipantsChange',
-											type: 'REMOVE',
-											userId: customBotID,
-											role: 'ASSIGNED_AGENT'
-											}]
-
-										}, (e, resp) => {
-   											if (e) { 
-												console.error(e);
-												console.error("error_removing_bot_awake");
-    										}
-    										console.log("Transfering..." , resp)
-									});
-									
-									
-								}
-						});
-
-
-					}
+						field: "ManualETTR",
+						time: Date.now()
+						}]
+					}, (e, resp) => {
+   						if (e) { 
+							console.error(e);
+							console.error("error_changing_ETTR_limbo");
+    						}
 				});
-			}, 5000);
+
+
 			}
 		});
+	
+		
+
+
+
+		
+		echoAgent.updateConversationField({
+			'conversationId': dialogID,
+			'conversationField': [
+							
+				{
+				field: 'ParticipantsChange',
+				type: 'REMOVE',
+				userId: customBotID,
+				role: 'ASSIGNED_AGENT'
+				}]
+
+			}, (e, resp) => {
+   				if (e) { 
+					console.error(e);
+					console.error("error_removing_bot_limbo");
+    			}
+    			console.log("Transfering..." , resp)
+		});
+
 
 
 }
