@@ -263,6 +263,7 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
 	
 	console.log("agentID " + agentID);
 	console.log("dialogID " + dialogID);
+	console.log("skill " + limboskill);
 	
 		var agentToRemove = accountNumber + "." + agentID
 		console.log(numeroMinAwake + " *** " + agentID + " *** " + dialogID);
