@@ -176,7 +176,7 @@ function checkValues(req, res, next) {
 		res.send("done");
 	}
 	else if(retrieve === "3"){
-		limboChat(agentID, currentconvID);
+		limboChat(currentconvID, agentID);
 		res.send("done");
 	}
 	else if(retrieve === "0"){
