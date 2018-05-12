@@ -310,12 +310,12 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
 			},
 			{
 				id: 'minutes',
-				name: 'minutes',
+				name: "minutes",
 				confidenceScore: 1
 			},
 			{
 				id: 'hours',
-				name: 'hours',
+				name: "hours",
 				confidenceScore: 1
 			}]
 		}];
