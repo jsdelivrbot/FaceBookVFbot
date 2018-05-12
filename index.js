@@ -1517,7 +1517,7 @@ function proceedWithActions(){
 						if(answer[m].transfers[(arraylength -1)].hasOwnProperty('contextData')){
 							if(answer[m].transfers[(arraylength -1)].contextData.hasOwnProperty('structuredMetadata')){
 								var isToBeAwakened = answer[m].transfers[(arraylength -1)].contextData.structuredMetadata[0].botResponse.intents[0].id;
-								var isToBeAwakenedTimestamp = answer[m].transfers[(arraylength -1)].contextData.structuredMetadata[0].botResponse.intents[0].name;
+								var isToBeAwakenedTimestamp = parseInt(answer[m].transfers[(arraylength -1)].contextData.structuredMetadata[0].botResponse.intents[0].name);
 							}
 						}
 						
