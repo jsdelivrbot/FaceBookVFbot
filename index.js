@@ -269,6 +269,7 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
 		console.log(numeroMinAwake + " *** " + agentID + " *** " + dialogID);
 		var awakeTimestamp = Date.now() + (numeroMinAwake*60*1000);
 		console.log(awakeTimestamp);
+		awakeTimestamp = awakeTimestamp.toString();
 	
 	
 		const metadata2 = [{
@@ -306,16 +307,6 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
 			{
 				id: 'awakeLater',
 				name: awakeTimestamp,
-				confidenceScore: 1
-			},
-			{
-				id: 'minutes',
-				name: "minutes",
-				confidenceScore: 1
-			},
-			{
-				id: 'hours',
-				name: "hours",
 				confidenceScore: 1
 			}]
 		}];
