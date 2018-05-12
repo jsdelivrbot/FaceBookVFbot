@@ -82,7 +82,7 @@ function checkValues(req, res, next) {
 	yesno = req.query.yesno;
 	comments = req.query.comments;
 	minutes = req.query.minutes;
-	convID = req.query.convID;
+	var currentconvID = req.query.convID;
 	skill = req.query.skill;
 	
 	if(retrieve === "1"){
@@ -171,11 +171,11 @@ function checkValues(req, res, next) {
 
 	}
 	else if(retrieve === "2"){
-		awakeLater(numeroMinAwake, agentID, convID);
+		awakeLater(numeroMinAwake, agentID, currentconvID);
 		res.send("done");
 	}
 	else if(retrieve === "3"){
-		limboChat(agentID, convID);
+		limboChat(agentID, currentconvID);
 		res.send("done");
 	}
 	else if(retrieve === "0"){
