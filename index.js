@@ -331,6 +331,7 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
 						}, function(err) {}]
 
 					// }, null, metadata, function(err) {
+					}, function(err) {
    						if (err) { 
 							console.error(err);
 							console.error("error_changing_skill_awake");
