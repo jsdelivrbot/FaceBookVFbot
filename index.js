@@ -14,6 +14,7 @@ var echoAgent = new Agent({
 });
 
 
+
 var bearer = "";
 var agentsLogged = [];
 var activeSkills = [];
