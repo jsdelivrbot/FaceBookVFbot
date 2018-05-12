@@ -271,8 +271,32 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
 		console.log(awakeTimestamp);
 	
 	
-	
 		const metadata = [{
+			type: 'BotResponse', // Bot context information about the last consumer message
+			externalConversationId: dialogID,
+			businessCases: [
+				'RightNow_Categorization' // identified capability
+			],
+			intents: [ // Last consumer message identified intents
+			{
+				id: 'yesno',
+				name: "---",
+				confidenceScore: 1
+			},
+			{
+				id: 'comments',
+				name: "---",
+				confidenceScore: 1
+			},
+			{
+				id: 'minutes',
+				name: "limbo",
+				confidenceScore: 1
+			}]
+		}];
+
+	
+		const metadata2 = [{
 			type: 'BotResponse', // Bot context information about the last consumer message
 			externalConversationId: dialogID,
 			businessCases: [
