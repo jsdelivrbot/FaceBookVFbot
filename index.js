@@ -376,7 +376,7 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
 
 					}
 				});
-			}, 1000);
+			}, 5000);
 			}
 		});
 
