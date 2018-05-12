@@ -326,7 +326,7 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
 						{
 						field: "Skill",
 						type: "UPDATE",
-						skill: 1096182732
+						skill: limboskill
 						}]
 
 					}, null, metadata, function(err) {
