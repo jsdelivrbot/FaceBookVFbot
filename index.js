@@ -1513,14 +1513,21 @@ function proceedWithActions(){
 				
 				if(answer[m].hasOwnProperty('transfers')){
 					if (typeof answer[m].transfers !== 'undefined' && answer[m].transfers.length > 0) {
-						console.log("in1");
 						var arraylength = answer[m].transfers.length;
+						for (var w = (howManyMessages - 1); w > 0; w--){
+							if(answer[m].transfers[w].hasOwnProperty('contextData')){
+								if(answer[m].transfers[w].contextData.hasOwnProperty('structuredMetadata')){
+									if(answer[m].transfers[w].contextData.structuredMetadata[0].botResponse.intents[2].name === "risvegliata"){
+										var lastTimeAwakened = answer[m].transfers[w].timeL;
+										w = 0;
+									}
+								}
+							}
+						}
 						if(answer[m].transfers[(arraylength -2)].hasOwnProperty('contextData')){
-							console.log("in2");
 							if(answer[m].transfers[(arraylength -2)].contextData.hasOwnProperty('structuredMetadata')){
 								var isToBeAwakened = answer[m].transfers[(arraylength -2)].contextData.structuredMetadata[0].botResponse.intents[0].id;
 								var isToBeAwakenedTimestamp = parseInt(answer[m].transfers[(arraylength -2)].contextData.structuredMetadata[0].botResponse.intents[0].name);
-								console.log(isToBeAwakened + "****" + isToBeAwakenedTimestamp);
 							}
 						}
 						
@@ -1552,7 +1559,7 @@ function proceedWithActions(){
 					wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel);
 				}
 				else{
-					if (thisConversationHasResponse && answer[m].info.latestSkillId !== limboskill && answer[m].info.latestSkillId !== outboundFBskill && answer[m].info.latestSkillId !== freezeskill && answer[m].messageRecords[(answer[m].messageRecords.length - 1)].participantId !== botID){
+					if ((whatTimeAlert < lastTimeAwakened) && thisConversationHasResponse && answer[m].info.latestSkillId !== limboskill && answer[m].info.latestSkillId !== outboundFBskill && answer[m].info.latestSkillId !== freezeskill && answer[m].messageRecords[(answer[m].messageRecords.length - 1)].participantId !== botID){
 						if((whatTime < moveToLimbo) && (answer[m].info.latestSkillId !== limboskill)){
 							console.log("***Limbo");
 							limboChat(answer[m].info.conversationId, answer[m].info.latestAgentId);
