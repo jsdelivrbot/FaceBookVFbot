@@ -102,7 +102,7 @@ function checkValues(req, res, next) {
 			}
 		}, function (e, r, b) {
 			
-			if(b !== "undefined"){
+			if(b.hasOwnProperty('_metadata')){
 			
 			var arraylength = b._metadata.count;
 			for (var i = 0; i < arraylength; i++){
