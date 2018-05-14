@@ -1515,6 +1515,7 @@ function proceedWithActions(){
 				if(answer[m].hasOwnProperty('transfers')){
 					if (typeof answer[m].transfers !== 'undefined' && answer[m].transfers.length > 0) {
 						var arraylength = answer[m].transfers.length;
+						console.log(arraylength);
 						for (var w = (howManyMessages - 1); w > 0; w--){
 							if(answer[m].transfers[w].hasOwnProperty('contextData')){
 								if(answer[m].transfers[w].contextData.hasOwnProperty('structuredMetadata')){
