@@ -1557,6 +1557,12 @@ function proceedWithActions(){
 						whatTime = answer[m].messageRecords[k].timeL;
 					}
 				}
+				var postuma = 0;
+				if(lastTimeAwakened !== 0){
+					if (whatTimeAlert < lastTimeAwakened){
+						postuma = 1;
+					}
+				}
 				
 				if(isToBeAwakened === "awakeLater"){
 					console.log("thisIsToBeAwakened in " + (isToBeAwakenedTimestamp - Date.now()));
@@ -1572,7 +1578,7 @@ function proceedWithActions(){
 					wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel);
 				}
 				else{
-					if ((whatTimeAlert < lastTimeAwakened) && thisConversationHasResponse && answer[m].info.latestSkillId !== limboskill && answer[m].info.latestSkillId !== outboundFBskill && answer[m].info.latestSkillId !== freezeskill && answer[m].messageRecords[(answer[m].messageRecords.length - 1)].participantId !== botID){
+					if (!postuma && thisConversationHasResponse && answer[m].info.latestSkillId !== limboskill && answer[m].info.latestSkillId !== outboundFBskill && answer[m].info.latestSkillId !== freezeskill && answer[m].messageRecords[(answer[m].messageRecords.length - 1)].participantId !== botID){
 						if((whatTime < moveToLimbo) && (answer[m].info.latestSkillId !== limboskill)){
 							console.log("***Limbo");
 							limboChat(answer[m].info.conversationId, answer[m].info.latestAgentId);
