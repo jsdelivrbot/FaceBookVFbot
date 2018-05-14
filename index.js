@@ -1535,8 +1535,11 @@ function proceedWithActions(){
 						}
 						if(answer[m].transfers[(arraylength -2)].hasOwnProperty('contextData')){
 							if(answer[m].transfers[(arraylength -2)].contextData.hasOwnProperty('structuredMetadata')){
-								isToBeAwakened = answer[m].transfers[(arraylength -2)].contextData.structuredMetadata[0].botResponse.intents[0].id;
-								isToBeAwakenedTimestamp = parseInt(answer[m].transfers[(arraylength -2)].contextData.structuredMetadata[0].botResponse.intents[0].name);
+								if(answer[m].transfers[(arraylength -2)].contextData.structuredMetadata[0].botResponse.intents.length == 1){
+									isToBeAwakened = answer[m].transfers[(arraylength -2)].contextData.structuredMetadata[0].botResponse.intents[0].id;
+									isToBeAwakenedTimestamp = parseInt(answer[m].transfers[(arraylength -2)].contextData.structuredMetadata[0].botResponse.intents[0].name);
+								}
+								
 							}
 						}
 						
