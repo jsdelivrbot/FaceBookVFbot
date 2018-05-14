@@ -1528,7 +1528,6 @@ function proceedWithActions(){
 								}
 							}
 						}
-						console.log(arraylength);
 						if(answer[m].transfers[(arraylength -2)].hasOwnProperty('contextData')){
 							if(answer[m].transfers[(arraylength -2)].contextData.hasOwnProperty('structuredMetadata')){
 								var isToBeAwakened = answer[m].transfers[(arraylength -2)].contextData.structuredMetadata[0].botResponse.intents[0].id;
