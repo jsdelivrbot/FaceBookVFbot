@@ -102,6 +102,8 @@ function checkValues(req, res, next) {
 			}
 		}, function (e, r, b) {
 			
+			if(b !== "undefined"){
+			
 			var arraylength = b._metadata.count;
 			for (var i = 0; i < arraylength; i++){
 				if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
@@ -164,6 +166,7 @@ function checkValues(req, res, next) {
 
 				res.send([numero_telefono,numero_ricontatto,numero_cfiscale,vodafoneTag,tripletta1,tripletta2,tripletta3]);
 			});
+			}
 
 		});
 		
