@@ -1516,7 +1516,7 @@ function proceedWithActions(){
 					if (typeof answer[m].transfers !== 'undefined' && answer[m].transfers.length > 0) {
 						var arraylength = answer[m].transfers.length;
 						console.log(arraylength);
-						for (var w = (howManyMessages - 1); w > 0; w--){
+						for (var w = (arraylength - 1); w > 0; w--){
 							console.log(w);
 							console.log(answer[m].info.conversationId);
 							if(answer[m].transfers[w].hasOwnProperty('contextData')){
