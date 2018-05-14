@@ -99,6 +99,7 @@ function checkValues(req, res, next) {
 				'Authorization': oauth
 			}
 		}, function (e, r, b) {
+			
 			var arraylength = b._metadata.count;
 			for (var i = 0; i < arraylength; i++){
 				if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
@@ -1451,7 +1452,7 @@ function proceedWithActions(){
 
 	for (var m = 0; m < (answer.length); m++){
 
-		
+		if(answer[m].hasOwnProperty('messageRecords')){
 		var isFacebook = 0;
 		var channel = "web";
 		if(answer[m].hasOwnProperty('transfers')){
@@ -1582,6 +1583,8 @@ function proceedWithActions(){
 		
 
 	}
+	}
+
 
 
 
