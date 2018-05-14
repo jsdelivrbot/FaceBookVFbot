@@ -186,12 +186,12 @@ function checkValues(req, res, next) {
 	}
 	else if(retrieve === "0"){
 		skill = convertSkill();
-		markConvFB();
+		markConvFB(currentconvID);
 		res.send([skill]);
 	}
 	else if(retrieve === "web"){
 		skill = convertSkill();
-		markConv();
+		markConv(currentconvID);
 		res.send([skill]);
 	}
 		
@@ -399,13 +399,13 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
 }
 
 
-function markConv(){
+function markConv(currentconvID){
 	
 	console.log("***tagging");
 
 	const metadata = [{
 		type: 'BotResponse', // Bot context information about the last consumer message
-		externalConversationId: convID,
+		externalConversationId: currentconvID,
 		businessCases: [
 			'RightNow_Categorization' // identified capability
 		],
@@ -431,7 +431,7 @@ function markConv(){
 
 
 	echoAgent.updateConversationField({
-		conversationId: convID,
+		conversationId: currentconvID,
 		conversationField: [{
 			field: "ParticipantsChange",
 			type: "ADD",
@@ -451,7 +451,7 @@ function markConv(){
 
 
 	echoAgent.updateConversationField({
-		conversationId: convID,
+		conversationId: currentconvID,
 		conversationField: [{
 			field: "Skill",
 			type: "UPDATE",
@@ -470,7 +470,7 @@ function markConv(){
 
 
 	echoAgent.updateConversationField({
-		conversationId: convID,
+		conversationId: currentconvID,
 		conversationField: [{
 			field: "ParticipantsChange",
 			type: "REMOVE",
@@ -493,13 +493,13 @@ function markConv(){
 
 
 
-function markConvFB(){
+function markConvFB(currentconvID){
 	
 	console.log("***taggingFB");
 
 	const metadata = [{
 		type: 'BotResponse', // Bot context information about the last consumer message
-		externalConversationId: convID,
+		externalConversationId: currentconvID,
 		businessCases: [
 			'RightNow_Categorization' // identified capability
 		],
@@ -546,7 +546,7 @@ function markConvFB(){
 
 
 	echoAgent.updateConversationField({
-		conversationId: convID,
+		conversationId: currentconvID,
 		conversationField: [{
 			field: "ParticipantsChange",
 			type: "ADD",
@@ -566,7 +566,7 @@ function markConvFB(){
 
 
 	echoAgent.updateConversationField({
-		conversationId: convID,
+		conversationId: currentconvID,
 		conversationField: [{
 			field: "Skill",
 			type: "UPDATE",
@@ -585,7 +585,7 @@ function markConvFB(){
 
 
 	echoAgent.updateConversationField({
-		conversationId: convID,
+		conversationId: currentconvID,
 		conversationField: [{
 			field: "ParticipantsChange",
 			type: "REMOVE",
