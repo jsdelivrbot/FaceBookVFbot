@@ -1554,7 +1554,7 @@ function proceedWithActions(){
 					}
 				}
 				
-				else if((answer[m].messageRecords[(howManyMessages - 1)].sentBy === "Consumer") && (answer[m].info.latestSkillId === limboskill)){
+				if((answer[m].messageRecords[(howManyMessages - 1)].sentBy === "Consumer") && ((answer[m].info.latestSkillId === limboskill) || (answer[m].info.latestSkillId === freezeskill))){
 					console.log("***wakingup");
 					wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel);
 				}
