@@ -1199,26 +1199,19 @@ function limboChat(dialogID, agentID) {
 
 
 function checkIfConnected(agentName){
-
+	var weHaveAnAgent = 0;
 	if(agentsLogged.includes(agentName)){
 		var a = agentJSON.agentStatusRecords.length;
 		for (var m = 0; m < a; m++){
 			if(agentJSON.agentStatusRecords[m].agentLoginName === agentName){
-				if((agentJSON.agentStatusRecords[m].configuredMaxSlots - agentJSON.agentStatusRecords[m].busySlots)>=1){
-					console.log(agentJSON.agentStatusRecords[m].configuredMaxSlots + " ***** " + agentJSON.agentStatusRecords[m].busySlots);
-					m = a;
-					return 1;
-				}
-				else{
-					return 0;
-				}
+				m = a;
+				weHaveAnAgent = 1;
+
 			}
 
 		}
 	}
-	else{
-		return 0;
-	}
+	return weHaveAnAgent;
 
 }
 
@@ -1573,9 +1566,18 @@ function proceedWithActions(){
 					}
 				}
 				
-				if((answer[m].messageRecords[(howManyMessages - 1)].sentBy === "Consumer") && ((answer[m].info.latestSkillId === limboskill) || (answer[m].info.latestSkillId === freezeskill))){
-					console.log("***wakingup");
-					wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel);
+				if(answer[m].messageRecords[(howManyMessages - 1)].sentBy === "Consumer") {
+					if ((answer[m].info.latestSkillId === limboskill) || (answer[m].info.latestSkillId === freezeskill)){
+						console.log("***wakingup");
+						wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel);
+					} else if (answer[m].info.latestSkillName.indexOf("***") > -1){
+						console.log("inside *** skill");
+						var bringMeBackAtGeneral = (Date.now() - (1000*60*3));  // timestamp "move to the general risveglio" conversation
+						if(whatTime < bringMeBackAtGeneral){
+							
+						}
+					}
+
 				}
 				else{
 					if (!postuma && thisConversationHasResponse && answer[m].info.latestSkillId !== limboskill && answer[m].info.latestSkillId !== outboundFBskill && answer[m].info.latestSkillId !== freezeskill && answer[m].messageRecords[(answer[m].messageRecords.length - 1)].participantId !== botID){
