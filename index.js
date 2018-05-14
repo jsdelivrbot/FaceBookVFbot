@@ -1457,6 +1457,7 @@ function proceedWithActions(){
 	for (var m = 0; m < (answer.length); m++){
 
 		var isFacebook = 0;
+		var lastTimeAwakened = 0;
 		var channel = "web";
 		if(answer[m].hasOwnProperty('transfers')){
 			if (typeof answer[m].transfers !== 'undefined' && answer[m].transfers.length > 0) {
@@ -1523,7 +1524,7 @@ function proceedWithActions(){
 								if(answer[m].transfers[w].contextData.hasOwnProperty('structuredMetadata')){
 									if(answer[m].transfers[w].contextData.structuredMetadata[0].botResponse.intents.length > 2){
 										if(answer[m].transfers[w].contextData.structuredMetadata[0].botResponse.intents[2].name === "risvegliata"){
-											var lastTimeAwakened = answer[m].transfers[w].timeL;
+											lastTimeAwakened = answer[m].transfers[w].timeL;
 											w = 0;
 										}
 									}
