@@ -1517,6 +1517,7 @@ function proceedWithActions(){
 						var arraylength = answer[m].transfers.length;
 						console.log(arraylength);
 						for (var w = (howManyMessages - 1); w > 0; w--){
+							console.log(w);
 							if(answer[m].transfers[w].hasOwnProperty('contextData')){
 								if(answer[m].transfers[w].contextData.hasOwnProperty('structuredMetadata')){
 									if(answer[m].transfers[w].contextData.structuredMetadata[0].botResponse.intents[2].name === "risvegliata"){
