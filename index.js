@@ -1519,9 +1519,11 @@ function proceedWithActions(){
 						for (var w = (arraylength - 1); w > 0; w--){
 							if(answer[m].transfers[w].hasOwnProperty('contextData')){
 								if(answer[m].transfers[w].contextData.hasOwnProperty('structuredMetadata')){
-									if(answer[m].transfers[w].contextData.structuredMetadata[0].botResponse.intents[2].name === "risvegliata"){
-										var lastTimeAwakened = answer[m].transfers[w].timeL;
-										w = 0;
+									if(answer[m].transfers[w].contextData.structuredMetadata[0].botResponse.intents.length > 2){
+										if(answer[m].transfers[w].contextData.structuredMetadata[0].botResponse.intents[2].name === "risvegliata"){
+											var lastTimeAwakened = answer[m].transfers[w].timeL;
+											w = 0;
+										}
 									}
 								}
 							}
