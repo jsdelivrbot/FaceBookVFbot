@@ -1452,7 +1452,7 @@ function proceedWithActions(){
 
 	for (var m = 0; m < (answer.length); m++){
 
-		if(answer[m].hasOwnProperty('messageRecords')){
+		if(answer[m].messageRecords.length){
 		var isFacebook = 0;
 		var channel = "web";
 		if(answer[m].hasOwnProperty('transfers')){
