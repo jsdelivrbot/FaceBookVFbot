@@ -1459,6 +1459,8 @@ function proceedWithActions(){
 		var isFacebook = 0;
 		var lastTimeAwakened = 0;
 		var channel = "web";
+		var isToBeAwakened = 0;
+		var isToBeAwakenedTimestamp = 0;
 		if(answer[m].hasOwnProperty('transfers')){
 			if (typeof answer[m].transfers !== 'undefined' && answer[m].transfers.length > 0) {
 				if(answer[m].transfers[0].sourceSkillName === "facebook_bot"){
@@ -1533,8 +1535,8 @@ function proceedWithActions(){
 						}
 						if(answer[m].transfers[(arraylength -2)].hasOwnProperty('contextData')){
 							if(answer[m].transfers[(arraylength -2)].contextData.hasOwnProperty('structuredMetadata')){
-								var isToBeAwakened = answer[m].transfers[(arraylength -2)].contextData.structuredMetadata[0].botResponse.intents[0].id;
-								var isToBeAwakenedTimestamp = parseInt(answer[m].transfers[(arraylength -2)].contextData.structuredMetadata[0].botResponse.intents[0].name);
+								isToBeAwakened = answer[m].transfers[(arraylength -2)].contextData.structuredMetadata[0].botResponse.intents[0].id;
+								isToBeAwakenedTimestamp = parseInt(answer[m].transfers[(arraylength -2)].contextData.structuredMetadata[0].botResponse.intents[0].name);
 							}
 						}
 						
