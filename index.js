@@ -1566,7 +1566,7 @@ function proceedWithActions(){
 						}
 					}
 				
-		 			if (thisConversationHasResponse && whatTime){
+		 			if (thisConversationHasResponse && whatTime && isToBeAwakened !== "awakeLater"){
 						if (whatTime < closure){
 							console.log("***closing");
 							console.log("isFacebook = " + isFacebook);
