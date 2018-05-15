@@ -1566,7 +1566,7 @@ function proceedWithActions(){
 					}
 				}
 				
-				if(answer[m].messageRecords[(howManyMessages - 1)].sentBy === "Consumer") {
+				if(answer[m].messageRecords[(answer[m].messageRecords.length - 1)].sentBy === "Consumer") {
 					if ((answer[m].info.latestSkillId === limboskill) || (answer[m].info.latestSkillId === freezeskill)){
 						console.log("***wakingup");
 						wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel);
@@ -1574,9 +1574,9 @@ function proceedWithActions(){
 						var bringMeBackAtGeneral = (Date.now() - (1000*60*3));  // timestamp "move to the general risveglio" conversation
 						if(whatTime < bringMeBackAtGeneral){
 							console.log("inside skills");
-							console.log("howManyMessages " + howManyMessages);
-							for (var r = (howManyMessages - 1); r > 0; r--){
-								console.log("howManyMessages " + howManyMessages);
+							console.log("howManyMessages " + answer[m].messageRecords.length);
+							for (var r = (answer[m].messageRecords.length - 1); r > 0; r--){
+								console.log("howManyMessages " + answer[m].messageRecords.length);
 								if(answer[m].messageRecords[r].sentBy === "Agent" && answer[m].messageRecords[r].participantId !== botID){
 									console.log("inside *** skills");
 									if(answer[m].hasOwnProperty('transfers')){
