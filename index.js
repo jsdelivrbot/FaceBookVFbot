@@ -1347,6 +1347,8 @@ function wakeUpChat(dialogID, agentName, channel) {
 			}
 			
 		}
+	
+	setTimeout(function(){
 
 		console.log(transferToActualSkill);
 		
@@ -1430,6 +1432,7 @@ function wakeUpChat(dialogID, agentName, channel) {
     			}
     			console.log("Transfering..." , resp)
 		});
+	}, 3000);
 
 
 
