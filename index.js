@@ -1350,7 +1350,7 @@ function wakeUpChat(dialogID, agentName, channel) {
 	
 	setTimeout(function(){
 
-		console.log(transferToActualSkill);
+		console.log("Awake to skill: " + transferToActualSkill + " ****  Channel: " + channel);
 		
 		echoAgent.updateConversationField({
 			'conversationId': dialogID,
