@@ -1574,6 +1574,7 @@ function proceedWithActions(){
 						var bringMeBackAtGeneral = (Date.now() - (1000*60*3));  // timestamp "move to the general risveglio" conversation
 						if(whatTime < bringMeBackAtGeneral){
 							console.log("inside skills");
+							console.log("howManyMessages " + howManyMessages);
 							for (var r = (howManyMessages - 1); r > 0; r--){
 								console.log("howManyMessages " + howManyMessages);
 								if(answer[m].messageRecords[r].sentBy === "Agent" && answer[m].messageRecords[r].participantId !== botID){
