@@ -1571,9 +1571,10 @@ function proceedWithActions(){
 						console.log("***wakingup");
 						wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel);
 					} else if (answer[m].info.latestSkillName.indexOf("***") > -1){
+						console.log("inside *** skill");
 						var bringMeBackAtGeneral = (Date.now() - (1000*60*3));  // timestamp "move to the general risveglio" conversation
 						if(whatTime < bringMeBackAtGeneral){
-							console.log("inside skills");
+							console.log("inside again *** skills");
 							console.log("howManyMessages " + answer[m].messageRecords.length);
 							for (var r = (answer[m].messageRecords.length - 1); r > 0; r--){
 								console.log("howManyMessages " + answer[m].messageRecords.length);
