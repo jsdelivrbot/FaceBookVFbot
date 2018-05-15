@@ -1584,6 +1584,11 @@ function proceedWithActions(){
 										if (typeof answer[m].transfers !== 'undefined' && answer[m].transfers.length > 0) {
 											var myarraylength = answer[m].transfers.length;
 											console.log("inside last step skills");
+											console.log("timestamp transfer: " + answer[m].transfers[(myarraylength -1)].timeL);
+											console.log (">>>>>>>>>>>");
+											console.log("timestamp risposta: " + answer[m].messageRecords[r].timeL);
+											console.log("bot or not???");
+											console.log(answer[m].transfers[(myarraylength -1)].sourceAgentId + " ==???? " + botID);
 											if((answer[m].transfers[(myarraylength -1)].timeL > answer[m].messageRecords[r].timeL) && answer[m].transfers[(myarraylength -1)].sourceAgentId === botID){
 												console.log("test riuscito!!!!!!!!!!");
 												wakeUpChat(answer[m].info.conversationId, "56yghju765rfvbhu7656yg", channel);
