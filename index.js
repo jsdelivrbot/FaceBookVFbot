@@ -1541,7 +1541,7 @@ function proceedWithActions(){
 				}
 
 					
-				var moveToLimbo = (Date.now() - (1000*60*1));            // timestamp "move to Limbo" conversation
+				var moveToLimbo = (Date.now() - (1000*60*15));            // timestamp "move to Limbo" conversation
 				var closure = (Date.now() - (1000*60*60*6));            // timestamp closure conversation
 				// var closure = (Date.now() - (1000*60*3));            // timestamp closure conversation
 				var whatTime = 0;
@@ -1559,7 +1559,6 @@ function proceedWithActions(){
 				
 				if(isToBeAwakened === "awakeLater"){
 					console.log("thisIsToBeAwakened in " + (isToBeAwakenedTimestamp - Date.now()));
-					console.log(answer[m].info.conversationId);
 					if(isToBeAwakenedTimestamp < (Date.now())){
 						console.log("***unfreezing");
 						wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel);
@@ -1571,26 +1570,14 @@ function proceedWithActions(){
 						console.log("***wakingup");
 						wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel);
 					} else if (answer[m].info.latestSkillName.indexOf("***") > -1){
-						console.log("inside *** skill");
-						var bringMeBackAtGeneral = (Date.now() - (1000*60*3));  // timestamp "move to the general risveglio" conversation
+						var bringMeBackAtGeneral = (Date.now() - (1000*60*10));  // timestamp "move to the general risveglio" conversation
 						if(whatTime < bringMeBackAtGeneral){
-							console.log("inside again **** skills");
-							console.log("howManyMessages " + answer[m].messageRecords.length);
 							for (var r = (answer[m].messageRecords.length - 1); r > 0; r--){
-								console.log("howManyMessages " + answer[m].messageRecords.length);
 								if(answer[m].messageRecords[r].sentBy === "Agent" && answer[m].messageRecords[r].participantId !== botID){
-									console.log("inside ***** skills");
 									if(answer[m].hasOwnProperty('transfers')){
 										if (typeof answer[m].transfers !== 'undefined' && answer[m].transfers.length > 0) {
 											var myarraylength = answer[m].transfers.length;
-											console.log("inside last step skills");
-											console.log("timestamp transfer: " + answer[m].transfers[(myarraylength -1)].timeL);
-											console.log (">>>>>>>>>>>");
-											console.log("timestamp risposta: " + answer[m].messageRecords[r].timeL);
-											console.log("bot or not???");
-											console.log(answer[m].transfers[(myarraylength -1)].sourceAgentId + " ==???? " + botID);
 											if(((parseInt(answer[m].transfers[(myarraylength -1)].timeL)) > (parseInt(answer[m].messageRecords[r].timeL))) && ((parseInt(answer[m].transfers[(myarraylength -1)].sourceAgentId)) === parseInt(botID))){
-												console.log("test riuscito!!!!!!!!!!");
 												wakeUpChat(answer[m].info.conversationId, "56yghju765rfvbhu7656yg", channel);
 											}
 										}	
