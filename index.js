@@ -1575,6 +1575,7 @@ function proceedWithActions(){
 						if(whatTime < bringMeBackAtGeneral){
 							console.log("inside skills");
 							for (var r = (howManyMessages - 1); r > 0; r--){
+								console.log("howManyMessages " + howManyMessages);
 								if(answer[m].messageRecords[r].sentBy === "Agent" && answer[m].messageRecords[r].participantId !== botID){
 									console.log("inside *** skills");
 									if(answer[m].hasOwnProperty('transfers')){
