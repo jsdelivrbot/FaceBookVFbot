@@ -1574,16 +1574,16 @@ function proceedWithActions(){
 						console.log("inside *** skill");
 						var bringMeBackAtGeneral = (Date.now() - (1000*60*3));  // timestamp "move to the general risveglio" conversation
 						if(whatTime < bringMeBackAtGeneral){
-							console.log("inside again *** skills");
+							console.log("inside again **** skills");
 							console.log("howManyMessages " + answer[m].messageRecords.length);
 							for (var r = (answer[m].messageRecords.length - 1); r > 0; r--){
 								console.log("howManyMessages " + answer[m].messageRecords.length);
 								if(answer[m].messageRecords[r].sentBy === "Agent" && answer[m].messageRecords[r].participantId !== botID){
-									console.log("inside *** skills");
+									console.log("inside ***** skills");
 									if(answer[m].hasOwnProperty('transfers')){
 										if (typeof answer[m].transfers !== 'undefined' && answer[m].transfers.length > 0) {
 											var myarraylength = answer[m].transfers.length;
-											console.log("inside ********** skills");
+											console.log("inside last step skills");
 											if((answer[m].transfers[(myarraylength -1)].timeL > answer[m].messageRecords[r].timeL) && answer[m].transfers[(myarraylength -1)].sourceAgentId === botID){
 												console.log("test riuscito!!!!!!!!!!");
 												wakeUpChat(answer[m].info.conversationId, "56yghju765rfvbhu7656yg", channel);
