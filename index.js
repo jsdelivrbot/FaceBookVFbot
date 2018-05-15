@@ -1573,11 +1573,13 @@ function proceedWithActions(){
 					} else if (answer[m].info.latestSkillName.indexOf("***") > -1){
 						var bringMeBackAtGeneral = (Date.now() - (1000*60*3));  // timestamp "move to the general risveglio" conversation
 						if(whatTime < bringMeBackAtGeneral){
+							console.log("inside skills");
 							for (var r = (howManyMessages - 1); r > 0; r--){
 								if(answer[m].messageRecords[r].sentBy === "Agent" && answer[m].messageRecords[r].participantId !== botID){
 									if(answer[m].hasOwnProperty('transfers')){
 										if (typeof answer[m].transfers !== 'undefined' && answer[m].transfers.length > 0) {
 											var myarraylength = answer[m].transfers.length;
+											console.log("inside ********** skills");
 											if((answer[m].transfers[(myarraylength -1)].timeL > answer[m].messageRecords[r].timeL) && answer[m].transfers[(myarraylength -1)].sourceAgentId === botID){
 												console.log("test riuscito!!!!!!!!!!");
 												wakeUpChat(answer[m].info.conversationId, "56yghju765rfvbhu7656yg", channel);
