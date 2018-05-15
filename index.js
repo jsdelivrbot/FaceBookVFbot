@@ -1578,7 +1578,7 @@ function proceedWithActions(){
 						var bringMeBackAtGeneral = (Date.now() - (1000*60*10));  // timestamp "move to the general risveglio" conversation
 						if(whatTime < bringMeBackAtGeneral){
 							for (var r = (answer[m].messageRecords.length - 1); r > 0; r--){
-								if(answer[m].messageRecords[r].sentBy === "Agent" && answer[m].messageRecords[r].participantId !== botID){
+								if(answer[m].messageRecords[r].participantId !== botID){
 									if(answer[m].hasOwnProperty('transfers')){
 										if (typeof answer[m].transfers !== 'undefined' && answer[m].transfers.length > 0) {
 											var myarraylength = answer[m].transfers.length;
