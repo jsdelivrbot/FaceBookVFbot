@@ -136,7 +136,7 @@ function checkValues(req, res, next) {
 				var request = require('request');
 				var oauth = "Bearer " + bearer;
 				var body = {"conversationId" : currentconvID};
-				var url = 'https://lo.msghist.liveperson.net/messaging_history/api/account/13099967/conversations/consumer/search?=Order:[desc]';
+				var url = 'https://lo.msghist.liveperson.net/messaging_history/api/account/13099967/conversations/consumer/search';
 				request.post({
 					url: url,
 					json: true,
