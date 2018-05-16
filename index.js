@@ -939,8 +939,7 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 				console.error("error_adding_bot_welcomeFB");
     		}
 	});
-	
-	/********************************** remove me before to go in  production *****************************
+
 	
 	if (offhour === 1){
 		echoAgent.publishEvent({
@@ -1004,7 +1003,6 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 		});
 	}
 	
-	********************************** remove me before to go in  production *****************************/
 	
 	setTimeout(function(){
 		
