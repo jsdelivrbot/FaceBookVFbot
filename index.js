@@ -154,19 +154,18 @@ function checkValues(req, res, next) {
 						}
 					}
 					console.log("b length: " + arraylength);
-						if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
-							if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined' && b.conversationHistoryRecords[i].transfers.length > 0) {
-								var arraylength2 = b.conversationHistoryRecords[i].transfers.length;
+						if(b.conversationHistoryRecords[0].hasOwnProperty('transfers')){
+							if (typeof b.conversationHistoryRecords[0].transfers !== 'undefined' && b.conversationHistoryRecords[0].transfers.length > 0) {
+								var arraylength2 = b.conversationHistoryRecords[0].transfers.length;
 								for (var z = (arraylength2 -1); z > -1; z--){
-									if(b.conversationHistoryRecords[i].transfers[z].hasOwnProperty('contextData')){
-										if(b.conversationHistoryRecords[i].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
-											if(b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
-												var vodafoneTag = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[3].name;
-												var tripletta1 = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[4].name;
-												var tripletta2 = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[5].name;
-												var tripletta3 = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[6].name;
+									if(b.conversationHistoryRecords[0].transfers[z].hasOwnProperty('contextData')){
+										if(b.conversationHistoryRecords[0].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
+											if(b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
+												var vodafoneTag = b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[3].name;
+												var tripletta1 = b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[4].name;
+												var tripletta2 = b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[5].name;
+												var tripletta3 = b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[6].name;
 												z = 0;
-												i = arraylength;
 									
 											}
 										}
