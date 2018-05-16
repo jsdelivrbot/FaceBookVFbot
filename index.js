@@ -105,29 +105,33 @@ function checkValues(req, res, next) {
 		}, function (e, r, b) {
 			
 			if(b.hasOwnProperty('_metadata')){
-			
-			var arraylength = b._metadata.count;
-			for (var i = 0; i < arraylength; i++){
-				if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
-					if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined' && b.conversationHistoryRecords[i].transfers.length > 0) {
-						var arraylength2 = b.conversationHistoryRecords[i].transfers.length;
-						for (var z = (arraylength2 -1); z > -1; z--){
-							if(b.conversationHistoryRecords[i].transfers[z].hasOwnProperty('contextData')){
-								if(b.conversationHistoryRecords[i].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
-									if(b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
-										var numero_telefono = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].name;
-										var numero_ricontatto = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[1].name;
-										var numero_cfiscale = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[2].name;
-										z = 0;
-										i = arraylength;
+				var arraylength = 0;
+				if(b._metadata.hasOwnProperty('count')){
+					arraylength = b._metadata.count;
+				} else{
+					console.log("empty!!!!!");
+				}
+				for (var i = 0; i < arraylength; i++){
+					if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
+						if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined' && b.conversationHistoryRecords[i].transfers.length > 0) {
+							var arraylength2 = b.conversationHistoryRecords[i].transfers.length;
+							for (var z = (arraylength2 -1); z > -1; z--){
+								if(b.conversationHistoryRecords[i].transfers[z].hasOwnProperty('contextData')){
+									if(b.conversationHistoryRecords[i].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
+										if(b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
+											var numero_telefono = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].name;
+											var numero_ricontatto = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[1].name;
+											var numero_cfiscale = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[2].name;
+											z = 0;
+											i = arraylength;
 									
+										}
 									}
 								}
 							}
 						}
 					}
 				}
-			}
 			
 			var request = require('request');
 			var oauth = "Bearer " + bearer;
