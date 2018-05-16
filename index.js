@@ -132,45 +132,52 @@ function checkValues(req, res, next) {
 					}
 				}
 			
-			var request = require('request');
-			var oauth = "Bearer " + bearer;
-			var body = {"consumer":visitorID,"status":["OPEN"]};
-			var url = 'https://lo.msghist.liveperson.net/messaging_history/api/account/13099967/conversations/consumer/search?=Order:[desc]';
-			request.post({
-				url: url,
-				json: true,
-				body: body,
-				headers: {
-					'Content-Type': 'application/json',
-					'Authorization': oauth
-				}
-			}, function (e, r, b) {
-				var arraylength = b._metadata.count;
-				for (var i = 0; i < arraylength; i++){
-					if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
-						if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined' && b.conversationHistoryRecords[i].transfers.length > 0) {
-							var arraylength2 = b.conversationHistoryRecords[i].transfers.length;
-							for (var z = (arraylength2 -1); z > -1; z--){
-								if(b.conversationHistoryRecords[i].transfers[z].hasOwnProperty('contextData')){
-									if(b.conversationHistoryRecords[i].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
-										if(b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
-											var vodafoneTag = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[3].name;
-											var tripletta1 = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[4].name;
-											var tripletta2 = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[5].name;
-											var tripletta3 = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[6].name;
-											z = 0;
-											i = arraylength;
+				var request = require('request');
+				var oauth = "Bearer " + bearer;
+				var body = {"consumer":visitorID,"status":["OPEN"]};
+				var url = 'https://lo.msghist.liveperson.net/messaging_history/api/account/13099967/conversations/consumer/search?=Order:[desc]';
+				request.post({
+					url: url,
+					json: true,
+					body: body,
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': oauth
+					}
+				}, function (e, r, b) {
+					var arraylength = 0;
+					if(b.hasOwnProperty('_metadata')){
+						if(b._metadata.hasOwnProperty('count')){
+							arraylength = b._metadata.count;
+						} else{
+							console.log("empty!!!!!");
+						}
+					}
+					for (var i = 0; i < arraylength; i++){
+						if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
+							if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined' && b.conversationHistoryRecords[i].transfers.length > 0) {
+								var arraylength2 = b.conversationHistoryRecords[i].transfers.length;
+								for (var z = (arraylength2 -1); z > -1; z--){
+									if(b.conversationHistoryRecords[i].transfers[z].hasOwnProperty('contextData')){
+										if(b.conversationHistoryRecords[i].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
+											if(b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
+												var vodafoneTag = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[3].name;
+												var tripletta1 = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[4].name;
+												var tripletta2 = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[5].name;
+												var tripletta3 = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[6].name;
+												z = 0;
+												i = arraylength;
 									
+											}
 										}
 									}
 								}
 							}
 						}
 					}
-				}
 
-				res.send([numero_telefono,numero_ricontatto,numero_cfiscale,vodafoneTag,tripletta1,tripletta2,tripletta3]);
-			});
+					res.send([numero_telefono,numero_ricontatto,numero_cfiscale,vodafoneTag,tripletta1,tripletta2,tripletta3]);
+				});
 			}
 
 		});
