@@ -153,7 +153,7 @@ function checkValues(req, res, next) {
 							console.log("empty!!!!!");
 						}
 					}
-					for (var i = 0; i < arraylength; i++){
+					console.log("b length: " + arraylength);
 						if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
 							if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined' && b.conversationHistoryRecords[i].transfers.length > 0) {
 								var arraylength2 = b.conversationHistoryRecords[i].transfers.length;
@@ -174,7 +174,7 @@ function checkValues(req, res, next) {
 								}
 							}
 						}
-					}
+					
 
 					res.send([numero_telefono,numero_ricontatto,numero_cfiscale,vodafoneTag,tripletta1,tripletta2,tripletta3]);
 				});
