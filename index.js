@@ -131,6 +131,7 @@ function checkValues(req, res, next) {
 						}
 					}
 				}
+				console.log(currentconvID);
 			
 				var request = require('request');
 				var oauth = "Bearer " + bearer;
