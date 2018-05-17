@@ -1497,6 +1497,11 @@ function proceedWithActions(){
 	var closure = (Date.now() - (1000*60*60*24));            // timestamp closure conversation
 
 	for (var m = 0; m < (answer.length); m++){
+		
+		if(answer[m].info.latestSkillName === "Test"){
+			console.log("i have to close this one");
+			// closeChat(answer[m].info.conversationId, 0, "testtesttest");
+		}else{
 
 		var isFacebook = 0;
 		var lastTimeAwakened = 0;
@@ -1530,6 +1535,7 @@ function proceedWithActions(){
 
 		
 		if(answer[m].info.latestSkillName === "facebook_bot"){
+			
 			
 			
 			// closeChat(dialogID, wasNPSsent);
@@ -1684,6 +1690,7 @@ function proceedWithActions(){
 				}
 
 		 	}
+		}
 		}
 		
 
