@@ -655,9 +655,11 @@ function retrieveAgentsLogged(){
 }
 
 
-function checkNPSwasSent(m, isFacebook){
+function checkNPSwasSent(m, isFacebook, channel){
 	var convToClose = answer[m].info.conversationId;
 	var wasNPSsent = 0;
+	var myAgentGroup = "";
+	var channelType = "";
 	var arraylength = answer[m].messageRecords.length;
 	for (var z = 0; z < arraylength; z++){
 		if(answer[m].messageRecords[z].sentBy === "Consumer"){
@@ -665,6 +667,21 @@ function checkNPSwasSent(m, isFacebook){
 			z = arraylength;
 		}
 	}
+	var arraylength2 = answer[m].agentParticipants.length;
+	for (var u = (arraylength - 1); u >= 0; u--){
+		if(answer[m].agentParticipants[u].userTypeName === "Human"){
+			myAgentGroup = answer[m].agentParticipants[u].agentGroupName;
+			u = 0;
+		}
+	}
+	if (channel === "facebook"){
+		channelType = "PM";
+	}
+	if (channel === "outbound"){
+		channelType = "OUT";
+	}
+	var myCustomURL = "Grazie per aver contattato il servizio clienti Vodafone. Ti mando un link dove puoi esprimere il tuo parere su quanto hai gradito il supporto fornito. https://assets.kampyle.com/clients/vodafone/direct/form.html?region=prodEuIrland&websiteId=67241&formId=4313&caseID=" + convToClose + "&channel=facebook&group=" + myAgentGroup + "&type=" +  channelType;
+	console.log(myCustomURL);
 	var timestampNPSsent = 0;
 	var request = require('request');
 	var oauth = "Bearer " + bearer;
@@ -1645,7 +1662,7 @@ function proceedWithActions(){
 						if (whatTime < closure){
 							console.log("***closing");
 							console.log("isFacebook = " + isFacebook);
-							checkNPSwasSent(m, isFacebook);
+							checkNPSwasSent(m, isFacebook, channel);
 							// checkNPSwasSent(m, 0); // remove before production!!!!!
 							
 		 				}
