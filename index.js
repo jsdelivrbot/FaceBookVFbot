@@ -155,6 +155,7 @@ function checkValues(req, res, next) {
 						}
 					}
 					console.log("b length: " + arraylength);
+					if( arraylength > 0 ){
 						if(b.conversationHistoryRecords[0].hasOwnProperty('transfers')){
 							if (typeof b.conversationHistoryRecords[0].transfers !== 'undefined' && b.conversationHistoryRecords[0].transfers.length > 0) {
 								var arraylength2 = b.conversationHistoryRecords[0].transfers.length;
@@ -174,6 +175,7 @@ function checkValues(req, res, next) {
 								}
 							}
 						}
+					}
 					
 
 					res.send([numero_telefono,numero_ricontatto,numero_cfiscale,vodafoneTag,tripletta1,tripletta2,tripletta3]);
@@ -1515,6 +1517,7 @@ function proceedWithActions(){
 					TransferToAnAgentFB(answer[m].info.conversationId);
 				}
 				else if (firstMessageFB < closure){
+					console.log("***closing FB");
 					closeChat(answer[m].info.conversationId, 1);
 				}
 			}
