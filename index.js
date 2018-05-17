@@ -657,23 +657,23 @@ function retrieveAgentsLogged(){
 }
 
 
-function checkNPSwasSent(m, isFacebook, channel){
-	var convToClose = answer[m].info.conversationId;
+function checkNPSwasSent(json, isFacebook, channel){
+	var convToClose = json.info.conversationId;
 	var wasNPSsent = 0;
 	var myAgentGroup = "";
 	var channelType = "";
-	var arraylength = answer[m].messageRecords.length;
+	var arraylength = json.messageRecords.length;
 	for (var z = 0; z < arraylength; z++){
 		if(answer[m].messageRecords[z].sentBy === "Consumer"){
-			var participantId = answer[m].messageRecords[z].participantId;
+			var participantId = json.messageRecords[z].participantId;
 			z = arraylength;
 		}
 	}
-	var arraylength2 = answer[m].agentParticipants.length;
+	var arraylength2 = json.agentParticipants.length;
 	if (arraylength2){
 		for (var u = (arraylength2 - 1); u >= 0; u--){
-			if(answer[m].agentParticipants[u].userTypeName === "Human"){
-				myAgentGroup = answer[m].agentParticipants[u].agentGroupName;
+			if(json.agentParticipants[u].userTypeName === "Human"){
+				myAgentGroup = json.agentParticipants[u].agentGroupName;
 				u = 0;
 			}
 		}
@@ -1666,7 +1666,7 @@ function proceedWithActions(){
 						if (whatTime < closure){
 							console.log("***closing");
 							console.log("isFacebook = " + isFacebook);
-							checkNPSwasSent(m, isFacebook, channel);
+							checkNPSwasSent(answer[m], isFacebook, channel);
 							// checkNPSwasSent(m, 0); // remove before production!!!!!
 							
 		 				}
