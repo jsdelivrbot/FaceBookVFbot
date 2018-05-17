@@ -1478,6 +1478,9 @@ function proceedWithActions(){
 					if(answer[m].transfers[y].targetSkillName === "Outbound"){
 						channel = "outbound";
 					}
+					if(answer[m].transfers[y].targetSkillName === "Facebook_priv"){
+						channel = "facebook";
+					}
 				}
 			}
 		}
