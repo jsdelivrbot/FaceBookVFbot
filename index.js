@@ -1012,8 +1012,13 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 		});
 	}
 	
+
 	
-	setTimeout(function(){
+	
+}
+
+function TransferToAnAgentFB(dialogID){
+
 		
 		echoAgent.updateConversationField({
 			'conversationId': dialogID,
@@ -1053,15 +1058,6 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 		});
 
 		
-	}, 3000);
-
-	
-
-	
-	
-	
-	 
-	
 	
 }
 
@@ -1492,10 +1488,24 @@ function proceedWithActions(){
 
 		
 		if(answer[m].info.latestSkillName === "facebook_bot"){
+			
+			var FBisBotResponded = 0;
+			var FBisConsumerResponded = 0;
 			var howManyMessagesFaceBook = answer[m].messageRecords.length;
 			if(howManyMessagesFaceBook){
-				if(answer[m].messageRecords[(howManyMessagesFaceBook - 1)].sentBy === "Consumer"){
+				for (var p = (howManyMessagesFaceBook - 1); p >= 0; p--){
+					if(answer[m].messageRecords[p].sentBy === "Consumer"){
+						FBisConsumerResponded = 1;
+					} else if (answer[m].messageRecords[p].sentBy === "Agent"){
+						FBisBotResponded = 1;
+						p = -1;
+					}
+				}
+				if((FBisConsumerResponded == 1) && (FBisBotResponded == 0)){
 					FaceBookWelcomeMessage(answer[m].info.conversationId, answer[m].info.startTimeL, answer[m].consumerParticipants[0].firstName);
+				}
+				if((FBisConsumerResponded == 1) && (FBisBotResponded == 1)){
+					TransferToAnAgentFB(answer[m].info.conversationId);
 				}
 			}
 		}
