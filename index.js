@@ -670,7 +670,7 @@ function checkNPSwasSent(m, isFacebook, channel){
 	}
 	var arraylength2 = answer[m].agentParticipants.length;
 	if (arraylength2){
-		for (var u = (arraylength - 1); u >= 0; u--){
+		for (var u = (arraylength2 - 1); u >= 0; u--){
 			if(answer[m].agentParticipants[u].userTypeName === "Human"){
 				myAgentGroup = answer[m].agentParticipants[u].agentGroupName;
 				u = 0;
