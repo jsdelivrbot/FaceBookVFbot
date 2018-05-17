@@ -664,7 +664,7 @@ function checkNPSwasSent(json, isFacebook, channel){
 	var channelType = "";
 	var arraylength = json.messageRecords.length;
 	for (var z = 0; z < arraylength; z++){
-		if(answer[m].messageRecords[z].sentBy === "Consumer"){
+		if(json.messageRecords[z].sentBy === "Consumer"){
 			var participantId = json.messageRecords[z].participantId;
 			z = arraylength;
 		}
