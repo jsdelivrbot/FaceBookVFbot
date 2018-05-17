@@ -680,8 +680,8 @@ function checkNPSwasSent(m, isFacebook, channel){
 	if (channel === "outbound"){
 		channelType = "OUT";
 	}
-	var myCustomURL = "Grazie per aver contattato il servizio clienti Vodafone. Ti mando un link dove puoi esprimere il tuo parere su quanto hai gradito il supporto fornito. https://assets.kampyle.com/clients/vodafone/direct/form.html?region=prodEuIrland&websiteId=67241&formId=4313&caseID=" + convToClose + "&channel=facebook&group=" + myAgentGroup + "&type=" +  channelType;
-	console.log(myCustomURL);
+	var myCustomMSG = "Grazie per aver contattato il servizio clienti Vodafone. Ti mando un link dove puoi esprimere il tuo parere su quanto hai gradito il supporto fornito. https://assets.kampyle.com/clients/vodafone/direct/form.html?region=prodEuIrland&websiteId=67241&formId=4313&caseID=" + convToClose + "&channel=facebook&group=" + myAgentGroup + "&type=" +  channelType;
+	console.log(myCustomMSG);
 	var timestampNPSsent = 0;
 	var request = require('request');
 	var oauth = "Bearer " + bearer;
@@ -734,13 +734,13 @@ function checkNPSwasSent(m, isFacebook, channel){
 				}
 			}
 		}
-		closeChat(convToClose, wasNPSsent);
+		closeChat(convToClose, wasNPSsent, myCustomMSG);
 	});
 }
 
 
 
-function closeChat(dialogID, wasNPSsent){
+function closeChat(dialogID, wasNPSsent, myCustomMSG){
 		console.log ("wasNPSsent = " + wasNPSsent);
 	
 		var request = require('request');
@@ -839,7 +839,7 @@ function closeChat(dialogID, wasNPSsent){
 							echoAgent.publishEvent({
 								'dialogId': dialogID,
 								'event': {
-									message: "Grazie per aver contattato il servizio clienti Vodafone. Ti mando un link dove puoi esprimere il tuo parere su quanto hai gradito il supporto fornito. https://assets.kampyle.com/clients/vodafone/direct/form.html?region=prodEuIrland&websiteId=67241&formId=4313", // escalation message
+									message: myCustomMSG, // escalation message
 									contentType: "text/plain",
 									type: "ContentEvent"
 									}
@@ -1540,7 +1540,7 @@ function proceedWithActions(){
 				}
 				else if (firstMessageFB < closure){
 					console.log("***closing FB");
-					closeChat(answer[m].info.conversationId, 1);
+					closeChat(answer[m].info.conversationId, 1, "");
 				}
 			}
 		}
