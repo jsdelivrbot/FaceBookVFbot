@@ -811,7 +811,7 @@ function closeChat(dialogID, wasNPSsent, myCustomMSG){
 		
 			console.log(pushedTags);
 			console.log(cond1 + " " + cond2 + " " + cond3 + " " + cond4 + " " + wasNPSsent);
-			 
+			console.log(dialogID);
 			
 			if(cond1 || cond2 || cond3 || cond4 || wasNPSsent){
 				echoAgent.updateConversationField({
