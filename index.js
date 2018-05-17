@@ -1628,8 +1628,8 @@ function proceedWithActions(){
 						if (whatTime < closure){
 							console.log("***closing");
 							console.log("isFacebook = " + isFacebook);
-							// checkNPSwasSent(m, isFacebook);
-							checkNPSwasSent(m, 0); // remove before production!!!!!
+							checkNPSwasSent(m, isFacebook);
+							// checkNPSwasSent(m, 0); // remove before production!!!!!
 							
 		 				}
 		 			}
