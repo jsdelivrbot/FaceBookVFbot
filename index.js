@@ -1500,7 +1500,7 @@ function proceedWithActions(){
 		
 		if(answer[m].info.latestSkillName === "Test"){
 			console.log("i have to close this one");
-			// closeChat(answer[m].info.conversationId, 0, "testtesttest");
+			closeChat(answer[m].info.conversationId, 0, "testtesttest");
 		}else{
 
 		var isFacebook = 0;
