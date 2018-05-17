@@ -1358,6 +1358,11 @@ function wakeUpChat(dialogID, agentName, channel) {
 		}
 	
 	setTimeout(function(){
+		
+		if (transferToActualSkill == 0){
+			transferToActualSkill = facebook_risvegliata_skill;
+			console.log("awakened skill corrected");
+		}
 
 		console.log("Awake to skill: " + transferToActualSkill + " ****  Channel: " + channel);
 		
