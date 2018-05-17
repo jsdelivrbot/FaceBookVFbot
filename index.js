@@ -1606,7 +1606,7 @@ function proceedWithActions(){
 				}
 
 					
-				var moveToLimbo = (Date.now() - (1000*60*15));            // timestamp "move to Limbo" conversation
+				var moveToLimbo = (Date.now() - (1000*60*20));            // timestamp "move to Limbo" conversation
 				
 				var whatTime = 0;
 				for (var k = (howManyMessages - 1); k > 0; k--){
