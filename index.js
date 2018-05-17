@@ -1676,8 +1676,8 @@ function proceedWithActions(){
 						if (whatTime < closure){
 							console.log("***closing");
 							console.log("isFacebook = " + isFacebook);
-							checkNPSwasSent(answer[m], isFacebook, channel);
-							// checkNPSwasSent(m, 0); // remove before production!!!!!
+							// checkNPSwasSent(answer[m], isFacebook, channel);
+							checkNPSwasSent(answer[m], 0, channel);
 							
 		 				}
 		 			}
