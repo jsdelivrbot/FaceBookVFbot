@@ -1564,6 +1564,7 @@ function proceedWithActions(){
 				for (var k = (howManyMessages - 1); k > 0; k--){
 					if(answer[m].messageRecords[k].sentBy === "Agent" && answer[m].messageRecords[k].participantId !== "1089636032"){
 						whatTime = answer[m].messageRecords[k].timeL;
+						k = 0;
 					}
 				}
 				var postuma = 0;
