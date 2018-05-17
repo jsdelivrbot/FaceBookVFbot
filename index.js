@@ -1456,6 +1456,7 @@ function wakeUpChat(dialogID, agentName, channel) {
 function proceedWithActions(){
 
 	console.log("ACTIONS");
+	var closure = (Date.now() - (1000*60*60*24));            // timestamp closure conversation
 
 	for (var m = 0; m < (answer.length); m++){
 
@@ -1492,6 +1493,8 @@ function proceedWithActions(){
 		
 		if(answer[m].info.latestSkillName === "facebook_bot"){
 			
+			
+			// closeChat(dialogID, wasNPSsent);
 			var FBisBotResponded = 0;
 			var FBisConsumerResponded = 0;
 			var howManyMessagesFaceBook = answer[m].messageRecords.length;
@@ -1504,11 +1507,15 @@ function proceedWithActions(){
 						p = -1;
 					}
 				}
+				var firstMessageFB = answer[m].messageRecords[0].timeL;
 				if((FBisConsumerResponded == 1) && (FBisBotResponded == 0)){
 					FaceBookWelcomeMessage(answer[m].info.conversationId, answer[m].info.startTimeL, answer[m].consumerParticipants[0].firstName);
 				}
-				if((FBisConsumerResponded == 1) && (FBisBotResponded == 1)){
+				else if((FBisConsumerResponded == 1) && (FBisBotResponded == 1)){
 					TransferToAnAgentFB(answer[m].info.conversationId);
+				}
+				else if (firstMessageFB < closure){
+					closeChat(answer[m].info.conversationId, 1);
 				}
 			}
 		}
@@ -1571,8 +1578,7 @@ function proceedWithActions(){
 
 					
 				var moveToLimbo = (Date.now() - (1000*60*15));            // timestamp "move to Limbo" conversation
-				var closure = (Date.now() - (1000*60*60*24));            // timestamp closure conversation
-				// var closure = (Date.now() - (1000*60*3));            // timestamp closure conversation
+				
 				var whatTime = 0;
 				for (var k = (howManyMessages - 1); k > 0; k--){
 					if(answer[m].messageRecords[k].sentBy === "Agent" && answer[m].messageRecords[k].participantId !== "1089636032"){
