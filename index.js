@@ -842,7 +842,7 @@ function closeChat(dialogID, wasNPSsent, myCustomMSG){
 						field: 'ParticipantsChange',
 						type: 'ADD',
 						userId: customBotID,
-						role: 'ASSIGNED_AGENT'
+						role: 'MANAGER'
 						}]
 					}, (e, resp) => {
    						if (e) { 
@@ -903,7 +903,7 @@ function closeChat(dialogID, wasNPSsent, myCustomMSG){
 											field: 'ParticipantsChange',
 											type: 'REMOVE',
 											userId: customBotID,
-											role: 'ASSIGNED_AGENT'
+											role: 'MANAGER'
 											}]
 
 										}, (e, resp) => {
