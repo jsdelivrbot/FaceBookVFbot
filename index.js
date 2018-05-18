@@ -698,7 +698,14 @@ function checkNPSwasSent(json, isFacebook, channel){
 			'Authorization': oauth
 		}
 	}, function (e, r, b) {
-			var arraylength = b._metadata.count;
+			
+			var arraylength = 0;
+			if(b.hasOwnProperty('_metadata')){
+				if(b._metadata.hasOwnProperty('count')){
+					arraylength = b._metadata.count;
+				}
+			}
+
 			console.log("isFacebook = " + isFacebook);
 			if(isFacebook < 1){
 			wasNPSsent = 1;
