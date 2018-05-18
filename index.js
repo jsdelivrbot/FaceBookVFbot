@@ -780,20 +780,22 @@ function closeChat(dialogID, wasNPSsent, myCustomMSG){
 			if( arraylength > 0 ){	
 				console.log("inside closing");
 				for (var i = 0; i < arraylength; i++){
-					if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
-						if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined' && b.conversationHistoryRecords[i].transfers.length > 0) {
-							var arraylength2 = b.conversationHistoryRecords[i].transfers.length;
-							for (var z = (arraylength2 -1); z > -1; z--){
-								if(b.conversationHistoryRecords[i].transfers[z].hasOwnProperty('contextData')){
-									if(b.conversationHistoryRecords[i].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
-										if(b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
-											pushedTags = JSON.stringify(b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[3].name);
-											triplettauno = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[4].name;
-											triplettadue = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[5].name;
-											triplettatre = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[6].name;
-											z = 0;
-											i = arraylength;
+					if(b.hasOwnProperty('conversationHistoryRecords')){
+						if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
+							if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined' && b.conversationHistoryRecords[i].transfers.length > 0) {
+								var arraylength2 = b.conversationHistoryRecords[i].transfers.length;
+								for (var z = (arraylength2 -1); z > -1; z--){
+									if(b.conversationHistoryRecords[i].transfers[z].hasOwnProperty('contextData')){
+										if(b.conversationHistoryRecords[i].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
+											if(b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
+												pushedTags = JSON.stringify(b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[3].name);
+												triplettauno = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[4].name;
+												triplettadue = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[5].name;
+												triplettatre = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[6].name;
+												z = 0;
+												i = arraylength;
 									
+											}
 										}
 									}
 								}
