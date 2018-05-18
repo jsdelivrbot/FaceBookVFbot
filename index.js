@@ -1031,6 +1031,26 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
     			}
 		});
 		
+		
+		echoAgent.updateConversationField({
+			'conversationId': dialogID,
+			'conversationField': [
+			{
+				field: "Skill",
+				type: "UPDATE",
+				skill: 1089624532
+			}]
+
+			}, function(err) {
+   				if (err) { 
+					console.error(err);
+					console.error("error_changing_skill_welcomeFB");
+    			} else {
+					console.log("transfered completed");
+				}
+		});
+		
+		
 		echoAgent.updateConversationField({
 			'conversationId': dialogID,
 			'conversationField': [
@@ -1080,6 +1100,26 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 					console.error("error_sending_msg_welcomeFB4");
     			}
 		});
+		
+		
+		echoAgent.updateConversationField({
+			'conversationId': dialogID,
+			'conversationField': [
+			{
+				field: "Skill",
+				type: "UPDATE",
+				skill: 1089624532
+			}]
+
+			}, function(err) {
+   				if (err) { 
+					console.error(err);
+					console.error("error_changing_skill_welcomeFB");
+    			} else {
+					console.log("transfered completed");
+				}
+		});
+		
 		
 		echoAgent.updateConversationField({
 			'conversationId': dialogID,
