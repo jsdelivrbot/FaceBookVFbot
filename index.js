@@ -786,6 +786,7 @@ function closeChat(dialogID, wasNPSsent, myCustomMSG){
 				for (var i = 0; i < arraylength; i++){
 					if(b.hasOwnProperty('conversationHistoryRecords')){
 						console.log("******* " + i);
+						console.log(b);
 						if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
 							if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined' && b.conversationHistoryRecords[i].transfers.length > 0) {
 								var arraylength2 = b.conversationHistoryRecords[i].transfers.length;
