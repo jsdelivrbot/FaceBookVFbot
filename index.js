@@ -1258,7 +1258,29 @@ function limboChat(dialogID, agentID) {
    						if (e) { 
 							console.error(e);
 							console.error("error_changing_ETTR_limbo");
-    						}
+    						} else{
+							
+							echoAgent.updateConversationField({
+								'conversationId': dialogID,
+								'conversationField': [
+							
+									{
+									field: 'ParticipantsChange',
+									type: 'REMOVE',
+									userId: customBotID,
+									role: 'ASSIGNED_AGENT'
+									}]
+
+								}, (e, resp) => {
+   									if (e) { 
+										console.error(e);
+										console.error("error_removing_bot_limbo");
+    								}
+    								console.log("Transfering..." , resp)
+							});
+
+							
+						}
 				});
 
 
@@ -1270,25 +1292,7 @@ function limboChat(dialogID, agentID) {
 
 
 		
-		echoAgent.updateConversationField({
-			'conversationId': dialogID,
-			'conversationField': [
-							
-				{
-				field: 'ParticipantsChange',
-				type: 'REMOVE',
-				userId: customBotID,
-				role: 'ASSIGNED_AGENT'
-				}]
-
-			}, (e, resp) => {
-   				if (e) { 
-					console.error(e);
-					console.error("error_removing_bot_limbo");
-    			}
-    			console.log("Transfering..." , resp)
-		});
-
+		
 
 
 
