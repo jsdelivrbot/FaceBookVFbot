@@ -996,20 +996,22 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 					console.error(e);
 					console.error("error_sending_msg_welcomeFB1");
     				} else{
-					echoAgent.publishEvent({
-						'dialogId': dialogID,
-						'event': {
-							message: messageFBout2, // escalation message
-							contentType: "text/plain",
-							type: "ContentEvent"
-							}
+					setTimeout(function(){
+						echoAgent.publishEvent({
+							'dialogId': dialogID,
+							'event': {
+								message: messageFBout2, // escalation message
+								contentType: "text/plain",
+								type: "ContentEvent"
+								}
 
-						}, (e, resp) => {
-   							if (e) { 
-								console.error(e);
-								console.error("error_sending_msg_welcomeFB2");
-    						}
-					});
+							}, (e, resp) => {
+   								if (e) { 
+									console.error(e);
+									console.error("error_sending_msg_welcomeFB2");
+    							}
+						});
+					}, 1000);
 				}
 		});
 	} else{
@@ -1026,20 +1028,22 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 					console.error(e);
 					console.error("error_sending_msg_welcomeFB3");
     				} else{
-					echoAgent.publishEvent({
-						'dialogId': dialogID,
-						'event': {
-							message: messageFB2, // escalation message
-							contentType: "text/plain",
-							type: "ContentEvent"
-							}
+					setTimeout(function(){
+						echoAgent.publishEvent({
+							'dialogId': dialogID,
+							'event': {
+								message: messageFB2, // escalation message
+								contentType: "text/plain",
+								type: "ContentEvent"
+								}
 
-						}, (e, resp) => {
-   							if (e) { 
-								console.error(e);
-								console.error("error_sending_msg_welcomeFB4");
-    						}
-					});
+							}, (e, resp) => {
+   								if (e) { 
+									console.error(e);
+									console.error("error_sending_msg_welcomeFB4");
+    							}
+						});
+					}, 1000);
 				}
 		});
 	}
