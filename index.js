@@ -995,30 +995,14 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
    				if (e) { 
 					console.error(e);
 					console.error("error_sending_msg_welcomeFB1");
-    				} else{
-					setTimeout(function(){
-						echoAgent.publishEvent({
-							'dialogId': dialogID,
-							'event': {
-								message: messageFBout2, // escalation message
-								contentType: "text/plain",
-								type: "ContentEvent"
-								}
-
-							}, (e, resp) => {
-   								if (e) { 
-									console.error(e);
-									console.error("error_sending_msg_welcomeFB2");
-    							}
-						});
-					}, 1000);
-				}
+    				} 
 		});
-	} else{
+		
 		echoAgent.publishEvent({
+							
 			'dialogId': dialogID,
 			'event': {
-				message: messageFB1, // escalation message
+				message: messageFBout2, // escalation message
 				contentType: "text/plain",
 				type: "ContentEvent"
 				}
@@ -1026,29 +1010,11 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 			}, (e, resp) => {
    				if (e) { 
 					console.error(e);
-					console.error("error_sending_msg_welcomeFB3");
-    				} else{
-					setTimeout(function(){
-						echoAgent.publishEvent({
-							'dialogId': dialogID,
-							'event': {
-								message: messageFB2, // escalation message
-								contentType: "text/plain",
-								type: "ContentEvent"
-								}
-
-							}, (e, resp) => {
-   								if (e) { 
-									console.error(e);
-									console.error("error_sending_msg_welcomeFB4");
-    							}
-						});
-					}, 1000);
-				}
+					console.error("error_sending_msg_welcomeFB2");
+    			}
 		});
-	}
-	
-	echoAgent.updateConversationField({
+		
+		echoAgent.updateConversationField({
 			'conversationId': dialogID,
 			'conversationField': [
 							
@@ -1066,6 +1032,60 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
     			}
     			console.log("Transfering..." , resp)
 		});
+		
+	} else{
+		echoAgent.publishEvent({
+			'dialogId': dialogID,
+			'event': {
+				message: messageFB1, // escalation message
+				contentType: "text/plain",
+				type: "ContentEvent"
+				}
+
+			}, (e, resp) => {
+   				if (e) { 
+					console.error(e);
+					console.error("error_sending_msg_welcomeFB3");
+    				} 
+		});
+		
+		echoAgent.publishEvent({
+			'dialogId': dialogID,
+			'event': {
+				message: messageFB2, // escalation message
+				contentType: "text/plain",
+				type: "ContentEvent"
+				}
+
+			}, (e, resp) => {
+   				if (e) { 
+					console.error(e);
+					console.error("error_sending_msg_welcomeFB4");
+    			}
+		});
+		
+		echoAgent.updateConversationField({
+			'conversationId': dialogID,
+			'conversationField': [
+							
+				{
+				field: 'ParticipantsChange',
+				type: 'REMOVE',
+				userId: customBotID,
+				role: 'ASSIGNED_AGENT'
+				}]
+
+			}, (e, resp) => {
+   				if (e) { 
+					console.error(e);
+					console.error("error_removing_bot_welcomeFB");
+    			}
+    			console.log("Transfering..." , resp)
+		});
+		
+	}
+	
+	
 
 	
 
