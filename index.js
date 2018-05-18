@@ -707,7 +707,7 @@ function checkNPSwasSent(json, isFacebook, channel){
 		if (arraylength === 0){
 			console.log("nessuna conv");
 			console.log("sto chiudendo. wasNPSsent = " + wasNPSsent);
-			closeChat(convToClose, wasNPSsent);
+			closeChat(convToClose, wasNPSsent, myCustomMSG);
 		}
 								
 		for (var i = 0; i < arraylength; i++){
