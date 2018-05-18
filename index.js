@@ -722,7 +722,7 @@ function checkNPSwasSent(json, isFacebook, channel){
 								
 			for (var i = 0; i < arraylength; i++){
 				
-					if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined' && b.conversationHistoryRecords[i].transfers.length > 0) {
+					if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined') {
 						var arraylength2 = b.conversationHistoryRecords[i].transfers.length;
 						for (var z = (arraylength2 -1); z > -1; z--){
 							if(b.conversationHistoryRecords[i].transfers[z].hasOwnProperty('contextData')){
@@ -787,7 +787,7 @@ function closeChat(dialogID, wasNPSsent, myCustomMSG){
 						console.log("******* " + i);
 						
 						
-							if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined' && b.conversationHistoryRecords[i].transfers.length > 0) {
+							if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined') {
 								var arraylength2 = b.conversationHistoryRecords[i].transfers.length;
 								for (var z = (arraylength2 -1); z > -1; z--){
 									if(b.conversationHistoryRecords[i].transfers[z].hasOwnProperty('contextData')){
