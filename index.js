@@ -1743,8 +1743,8 @@ function proceedWithActions(){
 						if (whatTime < closure){
 							console.log("***closing");
 							console.log("isFacebook = " + isFacebook);
-							checkNPSwasSent(answer[m], isFacebook, channel); //enable NPS
-							// checkNPSwasSent(answer[m], 0, channel);  //disable NPS
+							// checkNPSwasSent(answer[m], isFacebook, channel); //enable NPS
+							checkNPSwasSent(answer[m], 0, channel);  //disable NPS
 							
 		 				}
 		 			}
