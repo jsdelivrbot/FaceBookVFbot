@@ -1461,6 +1461,7 @@ function wakeUpChat(dialogID, agentName, channel) {
 		}
 
 		console.log("Awake to skill: " + transferToActualSkill + " ****  Channel: " + channel);
+		console.log ("dialogID: " + dialogID);
 		
 		echoAgent.updateConversationField({
 			'conversationId': dialogID,
