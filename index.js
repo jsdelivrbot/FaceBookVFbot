@@ -949,6 +949,9 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 	var dateOfWeek = d.getDay();
 	var hourOfWeek = d.getHours();
 	var offhour = 0;
+	if (fbName === "Facebook user"){
+		fbName = "";
+	}
 	if (dateOfWeek == 0 || ((hourOfWeek < 7) || (hourOfWeek > 19))){
 		offhour = 1;
 		var messageFBout1 = "Ciao " + fbName + "! Grazie per averci scritto. Rispondiamo ai Messaggi Privati tutti i giorni dalle 08.00 alle 22.00.";
