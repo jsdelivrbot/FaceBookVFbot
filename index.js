@@ -950,14 +950,14 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 	var dateOfWeek = d.getDay();
 	var hourOfWeek = d.getHours();
 	var offhour = 0;
-	if (dateOfWeek == 0 || ((hourOfWeek < 7) || (hourOfWeek > 18))){
+	if (dateOfWeek == 0 || ((hourOfWeek < 7) || (hourOfWeek > 19))){
 		offhour = 1;
-		var messageFBout1 = "Ciao " + fbName + " grazie per averci scritto. Rispondiamo ai Messaggi Privati tutti i giorni dalle 08.00 alle 21.00. Prendiamo in carico la tua segnalazione e ti risponderemo negli orari di apertura. Servizio Clienti Vodafone.";
-		var messageFBout2 = "Ti ricordiamo che per poter rispondere alle tue esigenze e' sempre necessario il numero di cellulare e di rete fissa per il quale richiedi assistenza e una descrizione dettagliata della richiesta.";
+		var messageFBout1 = "Ciao " + fbName + "! Grazie per averci scritto. Rispondiamo ai Messaggi Privati tutti i giorni dalle 08.00 alle 22.00.";
+		var messageFBout2 = "Confermaci il numero di cellulare o di rete fissa per il quale richiedi assistenza e una descrizione dettagliata della richiesta ed un nostro consulente gestirà la tua richiesta di assistenza durante gli orari di apertura. Servizio Clienti Vodafone.";
 	}
 	else{
-		var messageFB1 = "Ciao " +  fbName + "! Benvenuto nel Servizio Clienti Vodafone su Facebook, un nostro consulente gestirà a breve la tua richiesta di assistenza.";
-		var messageFB2 = "Ti ricordiamo che per poter rispondere alle tue esigenze e' sempre necessario il numero di cellulare e di rete fissa per il quale richiedi assistenza e una descrizione dettagliata della richiesta.";
+		var messageFB1 = "Ciao " +  fbName + "! Benvenuto nel Servizio Clienti Vodafone su Facebook.";
+		var messageFB2 = "Confermaci il numero di cellulare o di rete fissa per il quale richiedi assistenza e una descrizione dettagliata della richiesta ed un nostro consulente gestirà la tua richiesta di assistenza.";
 	}
 	
 	
