@@ -1451,105 +1451,136 @@ function wakeUpChat(dialogID, agentName, channel) {
 				transferToActualSkill = outbound_risvegliata_skill;
 			}
 			
-		}
-	
-	setTimeout(function(){
+			console.log("Awake to skill: " + transferToActualSkill + " ****  Channel: " + channel);
+			console.log ("dialogID: " + dialogID);
+			console.log("!!!!!!!!!!!!!!");
+			console.log("!!!!!!!!!!!!!!");
 		
-		if (transferToActualSkill == 0){
-			transferToActualSkill = facebook_risvegliata_skill;
-			console.log("awakened skill corrected");
-		}
-
-		console.log("Awake to skill: " + transferToActualSkill + " ****  Channel: " + channel);
-		console.log ("dialogID: " + dialogID);
-		
-		echoAgent.updateConversationField({
-			'conversationId': dialogID,
-			'conversationField': [
-				{
-				field: 'ParticipantsChange',
-				type: 'ADD',
-				userId: customBotID,
-				role: 'ASSIGNED_AGENT'
-				}]
-			}, (e, resp) => {
-   				if (e) { 
-					console.error(e);
-					console.error("error_adding_bot_wakeUp");
-    			}
-		});
-
-
-		if((transferToActualSkill === risvegliataskill) && (!isSent) && (channel !== "web")){
-
-			echoAgent.publishEvent({
-				'dialogId': dialogID,
-				'event': {
-					message: "ciao! la tua conversazione ricevera' presto risposta!", // escalation message
-					contentType: "text/plain",
-					type: "ContentEvent"
-					}
-
+			echoAgent.updateConversationField({
+				'conversationId': dialogID,
+				'conversationField': [
+					{
+					field: 'ParticipantsChange',
+					type: 'ADD',
+					userId: customBotID,
+					role: 'ASSIGNED_AGENT'
+					}]
 				}, (e, resp) => {
    					if (e) { 
 						console.error(e);
-						console.error("error_sending_msg_wakeUp");
+						console.error("error_adding_bot_wakeUp");
     				}
 			});
-			isSent = 1;
+
+
+			if((transferToActualSkill === risvegliataskill) && (!isSent) && (channel !== "web")){
+
+				echoAgent.publishEvent({
+					'dialogId': dialogID,
+					'event': {
+						message: "ciao! la tua conversazione ricevera' presto risposta!", // escalation message
+						contentType: "text/plain",
+						type: "ContentEvent"
+						}
+
+					}, (e, resp) => {
+   						if (e) { 
+							console.error(e);
+							console.error("error_sending_msg_wakeUp");
+    					} else{
+						isSent = 1;
+					}
+				});
+				
+				echoAgent.updateConversationField({
+					'conversationId': dialogID,
+					'conversationField': [
+						{
+						field: "Skill",
+						type: "UPDATE",
+						skill: transferToActualSkill
+						}]
+
+					}, null, metadata, function(err) {
+   						if (err) { 
+							console.error(err);
+							console.error("error_changing_skill_wakeUp");
+    					} else {
+						console.log("transfered completed");
+					}
+				});
 
 
 
-		}
 		
-
-		
-		echoAgent.updateConversationField({
-			'conversationId': dialogID,
-			'conversationField': [
-				{
-				field: "Skill",
-				type: "UPDATE",
-				skill: transferToActualSkill
-				}]
-
-			}, null, metadata, function(err) {
-   				if (err) { 
-					console.error(err);
-					console.error("error_changing_skill_wakeUp");
-    			} else {
-				console.log("transfered completed");
-			}
-		});
-
-
-
-		
-		echoAgent.updateConversationField({
-			'conversationId': dialogID,
-			'conversationField': [
+				echoAgent.updateConversationField({
+					'conversationId': dialogID,
+					'conversationField': [
 							
-				{
-				field: 'ParticipantsChange',
-				type: 'REMOVE',
-				userId: customBotID,
-				role: 'ASSIGNED_AGENT'
-				}]
+						{
+						field: 'ParticipantsChange',
+						type: 'REMOVE',
+						userId: customBotID,
+						role: 'ASSIGNED_AGENT'
+						}]
 
-			}, (e, resp) => {
-   				if (e) { 
-					console.error(e);
-					console.error("error_removing_bot_wakeUp");
-    			}
-    			console.log("Transfering..." , resp)
-		});
-	}, 10000);
-
+					}, (e, resp) => {
+   						if (e) { 
+							console.error(e);
+							console.error("error_removing_bot_wakeUp");
+    					}
+    					console.log("Transfering..." , resp)
+				});
 
 
+			} else{
+				
+				echoAgent.updateConversationField({
+					'conversationId': dialogID,
+					'conversationField': [
+						{
+						field: "Skill",
+						type: "UPDATE",
+						skill: transferToActualSkill
+						}]
+
+					}, null, metadata, function(err) {
+   						if (err) { 
+							console.error(err);
+							console.error("error_changing_skill_wakeUp");
+    					} else {
+						console.log("transfered completed");
+					}
+				});
 
 
 
+		
+				echoAgent.updateConversationField({
+					'conversationId': dialogID,
+					'conversationField': [
+							
+						{
+						field: 'ParticipantsChange',
+						type: 'REMOVE',
+						userId: customBotID,
+						role: 'ASSIGNED_AGENT'
+						}]
+
+					}, (e, resp) => {
+   						if (e) { 
+							console.error(e);
+							console.error("error_removing_bot_wakeUp");
+    					}
+    					console.log("Transfering..." , resp)
+				});
+				
+				
+			}
+
+			
+		}
+	
 }
 
 
