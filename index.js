@@ -708,35 +708,36 @@ function checkNPSwasSent(json, isFacebook, channel){
 			console.log("nessuna conv");
 			console.log("sto chiudendo. wasNPSsent = " + wasNPSsent);
 			closeChat(convToClose, wasNPSsent, myCustomMSG);
-		}
+		} else{
 								
-		for (var i = 0; i < arraylength; i++){
-			if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
-				if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined' && b.conversationHistoryRecords[i].transfers.length > 0) {
-					var arraylength2 = b.conversationHistoryRecords[i].transfers.length;
-					for (var z = (arraylength2 -1); z > -1; z--){
-						if(b.conversationHistoryRecords[i].transfers[z].hasOwnProperty('contextData')){
-							if(b.conversationHistoryRecords[i].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
-								if(b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "NPSsent"){
-									timestampNPSsent = b.conversationHistoryRecords[i].transfers[z].timeL;
-									z = 0;
-									i = arraylength;
-									var NPSmaxTime = (Date.now() - (1000*60*10));
-									if (timestampNPSsent > NPSmaxTime){
-										wasNPSsent = 1;
-										console.log("marked point 2");
-									}
+			for (var i = 0; i < arraylength; i++){
+				if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
+					if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined' && b.conversationHistoryRecords[i].transfers.length > 0) {
+						var arraylength2 = b.conversationHistoryRecords[i].transfers.length;
+						for (var z = (arraylength2 -1); z > -1; z--){
+							if(b.conversationHistoryRecords[i].transfers[z].hasOwnProperty('contextData')){
+								if(b.conversationHistoryRecords[i].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
+									if(b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "NPSsent"){
+										timestampNPSsent = b.conversationHistoryRecords[i].transfers[z].timeL;
+										z = 0;
+										i = arraylength;
+										var NPSmaxTime = (Date.now() - (1000*60*10));
+										if (timestampNPSsent > NPSmaxTime){
+											wasNPSsent = 1;
+											console.log("marked point 2");
+										}
 															
-								}
+									}
 														
 			
+								}
 							}
 						}
 					}
 				}
 			}
+			closeChat(convToClose, wasNPSsent, myCustomMSG);
 		}
-		closeChat(convToClose, wasNPSsent, myCustomMSG);
 	});
 }
 
