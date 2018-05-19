@@ -7,7 +7,6 @@
 
 
 
-
 var https = require('https');
 var express = require('express');
 const Agent = require('node-agent-sdk').Agent;
