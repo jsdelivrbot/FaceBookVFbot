@@ -1016,7 +1016,7 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 					console.error("error_sending_msg_welcomeFB1");
     				} 
 		});
-		
+		setTimeout(function(){
 		echoAgent.publishEvent({
 							
 			'dialogId': dialogID,
@@ -1071,6 +1071,7 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
     			}
     			console.log("Transfering..." , resp)
 		});
+		}, 3000);
 		
 	} else{
 		echoAgent.publishEvent({
@@ -1087,6 +1088,8 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 					console.error("error_sending_msg_welcomeFB3");
     				} 
 		});
+		
+		setTimeout(function(){
 		
 		echoAgent.publishEvent({
 			'dialogId': dialogID,
@@ -1141,6 +1144,8 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
     			}
     			console.log("Transfering..." , resp)
 		});
+		
+		}, 3000);
 		
 	}
 	
