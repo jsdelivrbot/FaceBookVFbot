@@ -369,7 +369,7 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
 					console.error("error_changing_skill_limbo");
     				} else{
 					console.log("transferring complete");
-
+/***************
 				echoAgent.updateConversationField({
 					'conversationId': dialogID,
 					'conversationField': [
@@ -383,7 +383,7 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
 							console.error("error_changing_ETTR_limbo");
     						}
 				});
-
+***************/
 
 			}
 		});
@@ -1305,7 +1305,30 @@ function limboChat(dialogID, agentID) {
 					console.error("error_changing_skill_limbo");
     				} else{
 					console.log("transferring complete");
+					
+					echoAgent.updateConversationField({
+						'conversationId': dialogID,
+						'conversationField': [
+							
+							{
+							field: 'ParticipantsChange',
+							type: 'REMOVE',
+							userId: customBotID,
+							role: 'ASSIGNED_AGENT'
+							}]
 
+						}, (e, resp) => {
+   							if (e) { 
+								console.error(e);
+								console.error("error_removing_bot_limbo");
+    						}
+    						console.log("Transfering..." , resp)
+					});
+					
+					
+					
+					
+/**************
 				echoAgent.updateConversationField({
 					'conversationId': dialogID,
 					'conversationField': [
@@ -1341,7 +1364,7 @@ function limboChat(dialogID, agentID) {
 							
 						}
 				});
-
+**************/
 
 			}
 		});
