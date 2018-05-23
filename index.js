@@ -158,7 +158,7 @@ function checkValues(req, res, next) {
 							console.log("empty!!!!!");
 						}
 					}
-					console.log("b length: " + arraylength);
+					// console.log("b length: " + arraylength);
 					if( arraylength > 0 ){
 						if(b.conversationHistoryRecords[0].hasOwnProperty('transfers')){
 							if (typeof b.conversationHistoryRecords[0].transfers !== 'undefined' && b.conversationHistoryRecords[0].transfers.length > 0) {
@@ -779,7 +779,7 @@ function closeChat(dialogID, wasNPSsent, myCustomMSG){
 					console.log("empty!!!!!");
 				}
 			}
-			console.log("b length: " + arraylength);
+			// console.log("b length: " + arraylength);
 			if( arraylength > 0 ){	
 				console.log("inside closing");
 				console.log("dialogID " + dialogID);
