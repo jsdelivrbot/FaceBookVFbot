@@ -972,11 +972,11 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 	if (dateOfWeek == 0 || ((hourOfWeek < 7) || (hourOfWeek > 19))){
 		offhour = 1;
 		var messageFBout1 = "Ciao " + fbName + "! Grazie per averci scritto. Rispondiamo ai Messaggi Privati tutti i giorni dalle 08.00 alle 22.00.";
-		var messageFBout2 = "Confermaci il numero di cellulare o di rete fissa per il quale richiedi assistenza e una descrizione dettagliata della richiesta ed un nostro consulente gestirà la tua richiesta di assistenza durante gli orari di apertura. Servizio Clienti Vodafone.";
+		var messageFBout2 = "Per poter gestire la tua richiesta abbiamo bisogno del numero di cellulare o di rete fissa per il quale richiedi assistenza e una descrizione dettagliata della richiesta. Se hai gia’ indicato queste informazioni scrivi semplicemente “fatto”, ed un nostro consulente gestirà la tua richiesta di assistenza durante gli orari di apertura. Servizio Clienti Vodafone.";
 	}
 	else{
 		var messageFB1 = "Ciao " +  fbName + "! Benvenuto nel Servizio Clienti Vodafone su Facebook.";
-		var messageFB2 = "Confermaci il numero di cellulare o di rete fissa per il quale richiedi assistenza e una descrizione dettagliata della richiesta ed un nostro consulente gestirà la tua richiesta di assistenza.";
+		var messageFB2 = " Per poter gestire la tua richiesta abbiamo bisogno del numero di cellulare o di rete fissa per il quale richiedi assistenza e una descrizione dettagliata della richiesta ed un nostro consulente gestirà la tua richiesta di assistenza. Se hai gia’ indicato queste informazioni scrivi semplicemente “fatto”.";
 	}
 	
 	
