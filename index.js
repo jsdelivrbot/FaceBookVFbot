@@ -960,28 +960,13 @@ function closeChat(dialogID, wasNPSsent, myCustomMSG){
 }
 
 
-function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
-	var d = new Date(timestamp);
-	var dateOfWeek = d.getDay();
-	var hourOfWeek = d.getHours();
-	var offhour = 0;
-	if (fbName === "Facebook user"){
-		fbName = "";
-	}
-	if (dateOfWeek == 0 || ((hourOfWeek < 7) || (hourOfWeek > 19))){
-		offhour = 1;
-		var messageFBout1 = "Ciao " + fbName + "! Grazie per averci scritto. Rispondiamo ai Messaggi Privati tutti i giorni dalle 08.00 alle 22.00.";
-		var messageFBout2 = "Per poter gestire la tua richiesta abbiamo bisogno del numero di cellulare o di rete fissa per il quale richiedi assistenza e una descrizione dettagliata della richiesta. Se hai gia’ indicato queste informazioni scrivi semplicemente “fatto”, ed un nostro consulente gestirà la tua richiesta di assistenza durante gli orari di apertura. Servizio Clienti Vodafone.";
-	}
-	else{
-		var messageFB1 = "Ciao " +  fbName + "! Benvenuto nel Servizio Clienti Vodafone su Facebook.";
-		var messageFB2 = " Per poter gestire la tua richiesta abbiamo bisogno del numero di cellulare o di rete fissa per il quale richiedi assistenza e una descrizione dettagliata della richiesta ed un nostro consulente gestirà la tua richiesta di assistenza. Se hai gia’ indicato queste informazioni scrivi semplicemente “fatto”.";
-	}
+function FaceBookWelcomeMessage(dialogID, fbName){
+
 	
+	var messageFB1 = "Ciao " +  fbName + "! Benvenuto nel Servizio Clienti Vodafone su Facebook.";
+	var messageFB2 = "Per poter gestire la tua richiesta abbiamo bisogno del numero di cellulare o di rete fissa per il quale richiedi assistenza e una descrizione dettagliata della richiesta ed un nostro consulente gestirà la tua richiesta di assistenza. Se hai gia’ indicato queste informazioni scrivi semplicemente “fatto”.";
 	
-	
-	
-	
+
 	
 	echoAgent.updateConversationField({
 		'conversationId': dialogID,
@@ -1000,95 +985,23 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 	});
 
 	
-	if (offhour === 1){
-		echoAgent.publishEvent({
-			'dialogId': dialogID,
-			'event': {
-				message: messageFBout1, // escalation message
-				contentType: "text/plain",
-				type: "ContentEvent"
-				}
 
-			}, (e, resp) => {
-   				if (e) { 
-					console.error(e);
-					console.error("error_sending_msg_welcomeFB1");
-    				} 
-		});
-		setTimeout(function(){
-		echoAgent.publishEvent({
-							
-			'dialogId': dialogID,
-			'event': {
-				message: messageFBout2, // escalation message
-				contentType: "text/plain",
-				type: "ContentEvent"
-				}
+	echoAgent.publishEvent({
+		'dialogId': dialogID,
+		'event': {
+			message: messageFB1, // escalation message
+			contentType: "text/plain",
+			type: "ContentEvent"
+			}
 
-			}, (e, resp) => {
-   				if (e) { 
-					console.error(e);
-					console.error("error_sending_msg_welcomeFB2");
-    			}
-		});
+		}, (e, resp) => {
+   			if (e) { 
+				console.error(e);
+				console.error("error_sending_msg_welcomeFB1");
+    			} 
+	});
 		
-		
-		echoAgent.updateConversationField({
-			'conversationId': dialogID,
-			'conversationField': [
-			{
-				field: "Skill",
-				type: "UPDATE",
-				skill: 1089624532
-			}]
-
-			}, function(err) {
-   				if (err) { 
-					console.error(err);
-					console.error("error_changing_skill_welcomeFB");
-    			} else {
-					console.log("transfered completed");
-				}
-		});
-		
-		
-		echoAgent.updateConversationField({
-			'conversationId': dialogID,
-			'conversationField': [
-							
-				{
-				field: 'ParticipantsChange',
-				type: 'REMOVE',
-				userId: customBotID,
-				role: 'ASSIGNED_AGENT'
-				}]
-
-			}, (e, resp) => {
-   				if (e) { 
-					console.error(e);
-					console.error("error_removing_bot_welcomeFB");
-    			}
-    			console.log("Transfering..." , resp)
-		});
-		}, 3000);
-		
-	} else{
-		echoAgent.publishEvent({
-			'dialogId': dialogID,
-			'event': {
-				message: messageFB1, // escalation message
-				contentType: "text/plain",
-				type: "ContentEvent"
-				}
-
-			}, (e, resp) => {
-   				if (e) { 
-					console.error(e);
-					console.error("error_sending_msg_welcomeFB3");
-    				} 
-		});
-		
-		setTimeout(function(){
+	setTimeout(function(){
 		
 		echoAgent.publishEvent({
 			'dialogId': dialogID,
@@ -1101,28 +1014,11 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 			}, (e, resp) => {
    				if (e) { 
 					console.error(e);
-					console.error("error_sending_msg_welcomeFB4");
+					console.error("error_sending_msg_welcomeFB2");
     			}
 		});
 		
-		
-		echoAgent.updateConversationField({
-			'conversationId': dialogID,
-			'conversationField': [
-			{
-				field: "Skill",
-				type: "UPDATE",
-				skill: 1089624532
-			}]
 
-			}, function(err) {
-   				if (err) { 
-					console.error(err);
-					console.error("error_changing_skill_welcomeFB");
-    			} else {
-					console.log("transfered completed");
-				}
-		});
 		
 		
 		echoAgent.updateConversationField({
@@ -1144,9 +1040,9 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
     			console.log("Transfering..." , resp)
 		});
 		
-		}, 3000);
+	}, 3000);
 		
-	}
+	
 	
 	
 
@@ -1156,8 +1052,17 @@ function FaceBookWelcomeMessage(dialogID, timestamp, fbName){
 	
 }
 
-function TransferToAnAgentFB(dialogID){
+function TransferToAnAgentFB(dialogID, timestamp){
+	
+	var d = new Date(timestamp);
+	var dateOfWeek = d.getDay();
+	var hourOfWeek = d.getHours();
+	
+	var messageFB = "Rispondiamo ai Messaggi Privati tutti i giorni dalle 08.00 alle 22.00. Un nostro consulente gestirà la tua richiesta di assistenza durante gli orari di apertura. Servizio Clienti Vodafone";
 
+	if (dateOfWeek == 0 || ((hourOfWeek < 7) || (hourOfWeek > 19))){
+		
+		
 		echoAgent.updateConversationField({
 			'conversationId': dialogID,
 			'conversationField': [
@@ -1172,10 +1077,25 @@ function TransferToAnAgentFB(dialogID){
 			}, (e, resp) => {
    				if (e) { 
 					console.error(e);
-					console.error("error_adding_bot_welcomeFB");
+					console.error("error_adding_bot_transferFB");
     			}
     			console.log("Transfering..." , resp)
-		});	
+		});
+		
+		echoAgent.publishEvent({
+			'dialogId': dialogID,
+			'event': {
+				message: messageFB, // escalation message
+				contentType: "text/plain",
+				type: "ContentEvent"
+				}
+
+			}, (e, resp) => {
+   				if (e) { 
+					console.error(e);
+					console.error("error_sending_msg_transferFB");
+    			}
+		});
 	
 		echoAgent.updateConversationField({
 			'conversationId': dialogID,
@@ -1183,13 +1103,13 @@ function TransferToAnAgentFB(dialogID){
 			{
 				field: "Skill",
 				type: "UPDATE",
-				skill: FaceBookSkill
+				skill: "1089726032"
 			}]
 
 			}, function(err) {
    				if (err) { 
 					console.error(err);
-					console.error("error_changing_skill_welcomeFB");
+					console.error("error_changing_skill_transferFB");
     			} else {
 					console.log("transfered completed");
 				}
@@ -1209,10 +1129,76 @@ function TransferToAnAgentFB(dialogID){
 			}, (e, resp) => {
    				if (e) { 
 					console.error(e);
-					console.error("error_removing_bot_welcomeFB");
+					console.error("error_removing_bot_transferFB");
     			}
     			console.log("Transfering..." , resp)
 		});
+		
+		
+	}
+	else{
+		
+		echoAgent.updateConversationField({
+			'conversationId': dialogID,
+			'conversationField': [
+							
+				{
+				field: 'ParticipantsChange',
+				type: 'ADD',
+				userId: customBotID,
+				role: 'ASSIGNED_AGENT'
+				}]
+
+			}, (e, resp) => {
+   				if (e) { 
+					console.error(e);
+					console.error("error_adding_bot_transferFB");
+    			}
+    			console.log("Transfering..." , resp)
+		});	
+	
+		echoAgent.updateConversationField({
+			'conversationId': dialogID,
+			'conversationField': [
+			{
+				field: "Skill",
+				type: "UPDATE",
+				skill: "1089726032"
+			}]
+
+			}, function(err) {
+   				if (err) { 
+					console.error(err);
+					console.error("error_changing_skill_transferFB");
+    			} else {
+					console.log("transfered completed");
+				}
+		});
+
+		echoAgent.updateConversationField({
+			'conversationId': dialogID,
+			'conversationField': [
+							
+				{
+				field: 'ParticipantsChange',
+				type: 'REMOVE',
+				userId: customBotID,
+				role: 'ASSIGNED_AGENT'
+				}]
+
+			}, (e, resp) => {
+   				if (e) { 
+					console.error(e);
+					console.error("error_removing_bot_transferFB");
+    			}
+    			console.log("Transfering..." , resp)
+		});
+		
+	}
+			
+	
+
+		
 
 		
 	
@@ -1732,10 +1718,10 @@ function proceedWithActions(){
 				}
 				var firstMessageFB = answer[m].messageRecords[0].timeL;
 				if((FBisConsumerResponded == 1) && (FBisBotResponded == 0)){
-					FaceBookWelcomeMessage(answer[m].info.conversationId, answer[m].info.startTimeL, answer[m].consumerParticipants[0].firstName);
+					FaceBookWelcomeMessage(answer[m].info.conversationId, answer[m].consumerParticipants[0].firstName);
 				}
 				else if((FBisConsumerResponded == 1) && (FBisBotResponded == 1)){
-					TransferToAnAgentFB(answer[m].info.conversationId);
+					TransferToAnAgentFB(answer[m].info.conversationId, answer[m].info.startTimeL);
 				}
 				else if (firstMessageFB < closure){
 					console.log("***closing FB");
