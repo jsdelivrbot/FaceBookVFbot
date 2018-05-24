@@ -1536,7 +1536,7 @@ function wakeUpChat(dialogID, agentName, channel) {
 				field: 'ParticipantsChange',
 				type: 'ADD',
 				userId: customBotID,
-				role: 'ASSIGNED_AGENT'
+				role: 'MANAGER'
 				}]
 			}, (e, resp) => {
    				if (e) { 
@@ -1594,7 +1594,7 @@ function wakeUpChat(dialogID, agentName, channel) {
 					field: 'ParticipantsChange',
 					type: 'REMOVE',
 					userId: customBotID,
-					role: 'ASSIGNED_AGENT'
+					role: 'MANAGER'
 					}]
 
 				}, (e, resp) => {
@@ -1637,7 +1637,7 @@ function wakeUpChat(dialogID, agentName, channel) {
 					field: 'ParticipantsChange',
 					type: 'REMOVE',
 					userId: customBotID,
-					role: 'ASSIGNED_AGENT'
+					role: 'MANAGER'
 					}]
 
 				}, (e, resp) => {
