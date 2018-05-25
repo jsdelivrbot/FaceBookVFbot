@@ -1070,7 +1070,7 @@ function TransferToAnAgentFB(dialogID, timestamp){
 	
 	var messageFB = "Rispondiamo ai Messaggi Privati tutti i giorni dalle 08.00 alle 22.00. Un nostro consulente gestirà la tua richiesta di assistenza durante gli orari di apertura. Servizio Clienti Vodafone";
 	
-	if((hourOfWeek === 18) && (minutesOfWeek > 39)){
+	if((hourOfWeek === 19) && (minutesOfWeek > 49)){
 		console.log ("hooray_transition");
 		
 		echoAgent.updateConversationField({
