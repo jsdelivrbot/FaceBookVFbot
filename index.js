@@ -1064,8 +1064,8 @@ function TransferToAnAgentFB(dialogID, timestamp){
 	
 	var messageFB = "Rispondiamo ai Messaggi Privati tutti i giorni dalle 08.00 alle 22.00. Un nostro consulente gestirà la tua richiesta di assistenza durante gli orari di apertura. Servizio Clienti Vodafone";
 
-	if (dateOfWeek == 0 || ((hourOfWeek < 7) || (hourOfWeek > 19))){
-		
+	// if (dateOfWeek == 0 || ((hourOfWeek < 7) || (hourOfWeek > 19))){
+	if ((hourOfWeek < 7) || (hourOfWeek > 19)){	
 		
 		echoAgent.updateConversationField({
 			'conversationId': dialogID,
@@ -1850,7 +1850,8 @@ function proceedWithActions(){
 					}
 				
 		 			if (thisConversationHasResponse && whatTime && (isToBeAwakened !== "awakeLater")){
-						if (whatTime < closure){
+						
+						if ((whatTime < closure) && (lastTimeAwakened < whatTime)){
 							console.log("***closing");
 							console.log("isFacebook = " + isFacebook);
 							checkNPSwasSent(answer[m], isFacebook, channel); //enable NPS
