@@ -1708,23 +1708,19 @@ function proceedWithActions(){
 			
 			
 			// closeChat(dialogID, wasNPSsent);
-			var FBisBotResponded = 0;
-			var FBisConsumerResponded = 0;
+			var countAnswers = 0;
 			var howManyMessagesFaceBook = answer[m].messageRecords.length;
 			if(howManyMessagesFaceBook){
 				for (var p = (howManyMessagesFaceBook - 1); p >= 0; p--){
-					if(answer[m].messageRecords[p].sentBy === "Consumer"){
-						FBisConsumerResponded = 1;
-					} else if (answer[m].messageRecords[p].sentBy === "Agent"){
-						FBisBotResponded = 1;
-						p = -1;
+					if (answer[m].messageRecords[p].sentBy === "Agent"){
+						countAnswers = countAnswers + 1;
 					}
 				}
 				var firstMessageFB = answer[m].messageRecords[0].timeL;
-				if((FBisConsumerResponded == 1) && (FBisBotResponded == 0)){
+				if(countAnswers == 0){
 					FaceBookWelcomeMessage(answer[m].info.conversationId, answer[m].consumerParticipants[0].firstName);
 				}
-				else if((FBisConsumerResponded == 1) && (FBisBotResponded == 1)){
+				else if(countAnswers == 2){
 					TransferToAnAgentFB(answer[m].info.conversationId, answer[m].info.startTimeL);
 				}
 				else if (firstMessageFB < closure){
