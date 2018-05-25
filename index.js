@@ -1712,7 +1712,7 @@ function proceedWithActions(){
 			var isConsumerResponded = 0;
 			var howManyMessagesFaceBook = answer[m].messageRecords.length;
 			if(howManyMessagesFaceBook){
-				for (var p = (howManyMessagesFaceBook - 1); p >= 0; p--){
+				for (var p = 0; p < howManyMessagesFaceBook; p++){
 					if (answer[m].messageRecords[p].sentBy === "Agent"){
 						countAnswers = countAnswers + 1;
 					}
@@ -1724,7 +1724,7 @@ function proceedWithActions(){
 				if(countAnswers == 0){
 					FaceBookWelcomeMessage(answer[m].info.conversationId, answer[m].consumerParticipants[0].firstName);
 				}
-				else if((countAnswers == 2) && (isConsumerResponded == 0)){
+				else if((countAnswers == 2) && (isConsumerResponded == 1)){
 					TransferToAnAgentFB(answer[m].info.conversationId, answer[m].info.startTimeL);
 				}
 				else if (firstMessageFB < closure){
