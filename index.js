@@ -1717,17 +1717,17 @@ function proceedWithActions(){
 					if (answer[m].messageRecords[p].sentBy === "Agent"){
 						countAnswers = countAnswers + 1;
 					}
-					if ((answer[m].messageRecords[p].sentBy === "Consumer") && (countAnswers == 2)){
+					if ((answer[m].messageRecords[p].sentBy === "Consumer") && (countAnswers === 2)){
 						myTimeStampFBSendMessageOrNot = answer[m].messageRecords[p].timeL;
 						isConsumerResponded = 1;
 						p = howManyMessagesFaceBook;
 					}
 				}
 				var firstMessageFB = answer[m].messageRecords[0].timeL;
-				if(countAnswers == 0){
+				if(countAnswers === 0){
 					FaceBookWelcomeMessage(answer[m].info.conversationId, answer[m].consumerParticipants[0].firstName);
 				}
-				else if((countAnswers == 2) && (isConsumerResponded == 1)){
+				else if((countAnswers === 2) && (isConsumerResponded === 1)){
 					TransferToAnAgentFB(answer[m].info.conversationId, myTimeStampFBSendMessageOrNot);
 				}
 				else if (firstMessageFB < closure){
