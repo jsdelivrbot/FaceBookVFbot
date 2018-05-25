@@ -684,6 +684,9 @@ function checkNPSwasSent(json, isFacebook, channel){
 	if (channel === "facebook"){
 		channelType = "PM";
 	}
+	if (channel === "facebook_night"){
+		channelType = "PM";
+	}
 	if (channel === "outbound"){
 		channelType = "OUT";
 	}
