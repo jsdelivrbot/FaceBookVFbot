@@ -29,6 +29,8 @@ var limboskill = 1051213232;
 var freezeskill = 1096182732;
 var risvegliataskill = 1051213332;
 var human_risvegliata_skill = 1096374432;
+var facebook_night_risvegliata_skill = 1102673332;
+var facebook_night_skill = 1102673132;
 var facebook_risvegliata_skill = 1096374632;
 var outbound_risvegliata_skill = 1096374732;
 var outboundFBskill = 1093097632;
@@ -1523,6 +1525,9 @@ function wakeUpChat(dialogID, agentName, channel) {
 			if (channel === "facebook"){
 				transferToActualSkill = facebook_risvegliata_skill;
 			}
+			if (channel === "facebook_night"){
+				transferToActualSkill = facebook_night_risvegliata_skill;
+			}
 			if (channel === "outbound"){
 				transferToActualSkill = outbound_risvegliata_skill;
 			}
@@ -1693,6 +1698,9 @@ function proceedWithActions(){
 					}
 					if(answer[m].transfers[y].targetSkillName === "Facebook_priv"){
 						channel = "facebook";
+					}
+					if(answer[m].transfers[y].targetSkillName === "Facebook_priv_night"){
+						channel = "facebook_night";
 					}
 				}
 			}
