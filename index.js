@@ -1070,12 +1070,69 @@ function TransferToAnAgentFB(dialogID, timestamp){
 	
 	var messageFB = "Rispondiamo ai Messaggi Privati tutti i giorni dalle 08.00 alle 22.00. Un nostro consulente gestirà la tua richiesta di assistenza durante gli orari di apertura. Servizio Clienti Vodafone";
 	
-	if((hourOfWeek === 18) && (minutesOfWeek > 19)){
-		console.log ("hooray");
-	}
+	if((hourOfWeek === 18) && (minutesOfWeek > 39)){
+		console.log ("hooray_transition");
+		
+		echoAgent.updateConversationField({
+			'conversationId': dialogID,
+			'conversationField': [
+							
+				{
+				field: 'ParticipantsChange',
+				type: 'ADD',
+				userId: customBotID,
+				role: 'ASSIGNED_AGENT'
+				}]
 
-	// if (dateOfWeek == 0 || ((hourOfWeek < 7) || (hourOfWeek > 19))){
-	if ((hourOfWeek < 7) || (hourOfWeek > 19)){	
+			}, (e, resp) => {
+   				if (e) { 
+					console.error(e);
+					console.error("error_adding_bot_transferFB");
+    			}
+    			console.log("Transfering..." , resp)
+		});	
+	
+		echoAgent.updateConversationField({
+			'conversationId': dialogID,
+			'conversationField': [
+			{
+				field: "Skill",
+				type: "UPDATE",
+				skill: "1089726032"
+			}]
+
+			}, function(err) {
+   				if (err) { 
+					console.error(err);
+					console.error("error_changing_skill_transferFB");
+    			} else {
+					console.log("transfered completed");
+				}
+		});
+
+		echoAgent.updateConversationField({
+			'conversationId': dialogID,
+			'conversationField': [
+							
+				{
+				field: 'ParticipantsChange',
+				type: 'REMOVE',
+				userId: customBotID,
+				role: 'ASSIGNED_AGENT'
+				}]
+
+			}, (e, resp) => {
+   				if (e) { 
+					console.error(e);
+					console.error("error_removing_bot_transferFB");
+    			}
+    			console.log("Transfering..." , resp)
+		});
+		
+	} 
+	else if ((hourOfWeek < 7) || (hourOfWeek > 19)){
+		
+		console.log ("hooray_night");
 		
 		echoAgent.updateConversationField({
 			'conversationId': dialogID,
