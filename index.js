@@ -1044,7 +1044,7 @@ function FaceBookWelcomeMessage(dialogID, fbName){
     			console.log("Transfering..." , resp)
 		});
 		
-	}, 3000);
+	}, 1000);
 		
 	
 	
@@ -1939,7 +1939,7 @@ setTimeout(function(){
 			});
 						
 		}, 2000);
-	}, 30000);
+	}, 40000);
 }, 10000);
 
 
