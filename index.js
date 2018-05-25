@@ -1711,12 +1711,14 @@ function proceedWithActions(){
 			var countAnswers = 0;
 			var isConsumerResponded = 0;
 			var howManyMessagesFaceBook = answer[m].messageRecords.length;
+			var myTimeStampFBSendMessageOrNot = 0;
 			if(howManyMessagesFaceBook){
 				for (var p = 0; p < howManyMessagesFaceBook; p++){
 					if (answer[m].messageRecords[p].sentBy === "Agent"){
 						countAnswers = countAnswers + 1;
 					}
 					if ((answer[m].messageRecords[p].sentBy === "Consumer") && (countAnswers == 2)){
+						myTimeStampFBSendMessageOrNot = answer[m].messageRecords[p].timeL;
 						isConsumerResponded = 1;
 					}
 				}
@@ -1725,7 +1727,7 @@ function proceedWithActions(){
 					FaceBookWelcomeMessage(answer[m].info.conversationId, answer[m].consumerParticipants[0].firstName);
 				}
 				else if((countAnswers == 2) && (isConsumerResponded == 1)){
-					TransferToAnAgentFB(answer[m].info.conversationId, answer[m].info.startTimeL);
+					TransferToAnAgentFB(answer[m].info.conversationId, myTimeStampFBSendMessageOrNot);
 				}
 				else if (firstMessageFB < closure){
 					console.log("***closing FB");
