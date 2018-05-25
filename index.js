@@ -1720,6 +1720,7 @@ function proceedWithActions(){
 					if ((answer[m].messageRecords[p].sentBy === "Consumer") && (countAnswers == 2)){
 						myTimeStampFBSendMessageOrNot = answer[m].messageRecords[p].timeL;
 						isConsumerResponded = 1;
+						p = howManyMessagesFaceBook;
 					}
 				}
 				var firstMessageFB = answer[m].messageRecords[0].timeL;
