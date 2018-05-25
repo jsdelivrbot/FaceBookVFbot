@@ -1709,18 +1709,22 @@ function proceedWithActions(){
 			
 			// closeChat(dialogID, wasNPSsent);
 			var countAnswers = 0;
+			var isConsumerResponded = 0;
 			var howManyMessagesFaceBook = answer[m].messageRecords.length;
 			if(howManyMessagesFaceBook){
 				for (var p = (howManyMessagesFaceBook - 1); p >= 0; p--){
 					if (answer[m].messageRecords[p].sentBy === "Agent"){
 						countAnswers = countAnswers + 1;
 					}
+					if ((answer[m].messageRecords[p].sentBy === "Consumer") && (countAnswers == 2)){
+						isConsumerResponded = 1;
+					}
 				}
 				var firstMessageFB = answer[m].messageRecords[0].timeL;
 				if(countAnswers == 0){
 					FaceBookWelcomeMessage(answer[m].info.conversationId, answer[m].consumerParticipants[0].firstName);
 				}
-				else if(countAnswers == 2){
+				else if((countAnswers == 2) && (isConsumerResponded == 0)){
 					TransferToAnAgentFB(answer[m].info.conversationId, answer[m].info.startTimeL);
 				}
 				else if (firstMessageFB < closure){
