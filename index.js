@@ -961,6 +961,10 @@ function closeChat(dialogID, wasNPSsent, myCustomMSG){
 
 
 function FaceBookWelcomeMessage(dialogID, fbName){
+	
+	if(fbName === "Facebook user"){
+		fbName = "";
+	}
 
 	
 	var messageFB1 = "Ciao " +  fbName + "! Benvenuto nel Servizio Clienti Vodafone su Facebook.";
