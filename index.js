@@ -1071,7 +1071,6 @@ function TransferToAnAgentFB(dialogID, timestamp){
 	var messageFB = "Rispondiamo ai Messaggi Privati tutti i giorni dalle 08.00 alle 22.00. Un nostro consulente gestirà la tua richiesta di assistenza durante gli orari di apertura. Servizio Clienti Vodafone";
 	
 	if((hourOfWeek === 19) && (minutesOfWeek > 49)){
-		console.log ("hooray_transition");
 		
 		echoAgent.updateConversationField({
 			'conversationId': dialogID,
@@ -1087,7 +1086,7 @@ function TransferToAnAgentFB(dialogID, timestamp){
 			}, (e, resp) => {
    				if (e) { 
 					console.error(e);
-					console.error("error_adding_bot_transferFB");
+					console.error("error_adding_bot_transferFB_night");
     			}
     			console.log("Transfering..." , resp)
 		});	
@@ -1098,13 +1097,13 @@ function TransferToAnAgentFB(dialogID, timestamp){
 			{
 				field: "Skill",
 				type: "UPDATE",
-				skill: "1089726032"
+				skill: facebook_night_skill
 			}]
 
 			}, function(err) {
    				if (err) { 
 					console.error(err);
-					console.error("error_changing_skill_transferFB");
+					console.error("error_changing_skill_transferFB_night");
     			} else {
 					console.log("transfered completed");
 				}
@@ -1124,15 +1123,13 @@ function TransferToAnAgentFB(dialogID, timestamp){
 			}, (e, resp) => {
    				if (e) { 
 					console.error(e);
-					console.error("error_removing_bot_transferFB");
+					console.error("error_removing_bot_transferFB_night");
     			}
     			console.log("Transfering..." , resp)
 		});
 		
 	} 
 	else if ((hourOfWeek < 7) || (hourOfWeek > 19)){
-		
-		console.log ("hooray_night");
 		
 		echoAgent.updateConversationField({
 			'conversationId': dialogID,
@@ -1148,7 +1145,7 @@ function TransferToAnAgentFB(dialogID, timestamp){
 			}, (e, resp) => {
    				if (e) { 
 					console.error(e);
-					console.error("error_adding_bot_transferFB");
+					console.error("error_adding_bot_transferFB_night");
     			}
     			console.log("Transfering..." , resp)
 		});
@@ -1164,7 +1161,7 @@ function TransferToAnAgentFB(dialogID, timestamp){
 			}, (e, resp) => {
    				if (e) { 
 					console.error(e);
-					console.error("error_sending_msg_transferFB");
+					console.error("error_sending_msg_transferFB_night");
     			}
 		});
 	
@@ -1174,13 +1171,13 @@ function TransferToAnAgentFB(dialogID, timestamp){
 			{
 				field: "Skill",
 				type: "UPDATE",
-				skill: "1089726032"
+				skill: facebook_night_skill
 			}]
 
 			}, function(err) {
    				if (err) { 
 					console.error(err);
-					console.error("error_changing_skill_transferFB");
+					console.error("error_changing_skill_transferFB_night");
     			} else {
 					console.log("transfered completed");
 				}
@@ -1200,7 +1197,7 @@ function TransferToAnAgentFB(dialogID, timestamp){
 			}, (e, resp) => {
    				if (e) { 
 					console.error(e);
-					console.error("error_removing_bot_transferFB");
+					console.error("error_removing_bot_transferFB_night");
     			}
     			console.log("Transfering..." , resp)
 		});
@@ -1223,7 +1220,7 @@ function TransferToAnAgentFB(dialogID, timestamp){
 			}, (e, resp) => {
    				if (e) { 
 					console.error(e);
-					console.error("error_adding_bot_transferFB");
+					console.error("error_adding_bot_transferFB_day");
     			}
     			console.log("Transfering..." , resp)
 		});	
@@ -1240,7 +1237,7 @@ function TransferToAnAgentFB(dialogID, timestamp){
 			}, function(err) {
    				if (err) { 
 					console.error(err);
-					console.error("error_changing_skill_transferFB");
+					console.error("error_changing_skill_transferFB_day");
     			} else {
 					console.log("transfered completed");
 				}
@@ -1260,7 +1257,7 @@ function TransferToAnAgentFB(dialogID, timestamp){
 			}, (e, resp) => {
    				if (e) { 
 					console.error(e);
-					console.error("error_removing_bot_transferFB");
+					console.error("error_removing_bot_transferFB_day");
     			}
     			console.log("Transfering..." , resp)
 		});
