@@ -1757,6 +1757,7 @@ function proceedWithActions(){
 				for (var y = 0; y < (answer[m].transfers.length); y++){
 					if(answer[m].transfers[y].targetSkillName === "Outbound"){
 						channel = "outbound";
+						isFacebook = 0;
 					}
 					if(answer[m].transfers[y].targetSkillName === "Facebook_priv"){
 						channel = "facebook";
