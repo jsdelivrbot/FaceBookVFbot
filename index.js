@@ -1938,7 +1938,7 @@ function proceedWithActions(){
 					}
 					else if ((answer[m].info.latestSkillId === limboskill) && whatTime){
 						
-						if ((whatTime < closure) && (lastTimeAwakened < whatTime)){
+						if (whatTime < closure){
 							console.log("***closing");
 							console.log("isFacebook = " + isFacebook);
 							checkNPSwasSent(answer[m], isFacebook, channel); //enable NPS
