@@ -1933,8 +1933,7 @@ function proceedWithActions(){
 							limboChat(answer[m].info.conversationId, answer[m].info.latestAgentId);
 						}
 					}
-				
-		 			if (thisConversationHasResponse && whatTime && (isToBeAwakened !== "awakeLater")){
+					else if ((answer[m].info.latestSkillId === limboskill) && whatTime && (isToBeAwakened !== "awakeLater")){
 						
 						if ((whatTime < closure) && (lastTimeAwakened < whatTime)){
 							console.log("***closing");
