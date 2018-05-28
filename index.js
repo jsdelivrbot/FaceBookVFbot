@@ -1875,6 +1875,13 @@ function proceedWithActions(){
 						k = 0;
 					}
 				}
+				var whatTimeCustomer = 0;
+				for (var k = (howManyMessages - 1); k > 0; k--){
+					if(answer[m].messageRecords[k].sentBy === "Consumer"){
+						whatTimeCustomer = answer[m].messageRecords[k].timeL;
+						k = 0;
+					}
+				}
 				var postuma = 0;
 				if(lastTimeAwakened !== 0){
 					if (whatTimeAlert < lastTimeAwakened){
@@ -1891,7 +1898,12 @@ function proceedWithActions(){
 				}
 				
 				if(answer[m].messageRecords[(answer[m].messageRecords.length - 1)].sentBy === "Consumer") {
-					if ((answer[m].info.latestSkillId === limboskill) || (answer[m].info.latestSkillId === freezeskill)){
+					if ((answer[m].info.latestSkillId === limboskill) && (whatTimeCustomer < closure)){
+						console.log("***closing");
+						console.log("isFacebook = " + isFacebook);
+						checkNPSwasSent(answer[m], isFacebook, channel); //enable NPS
+					}
+					else if ((answer[m].info.latestSkillId === limboskill) || (answer[m].info.latestSkillId === freezeskill)){
 						console.log("***wakingup");
 						wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel);
 					} else if (answer[m].info.latestSkillName.indexOf("***") > -1){
