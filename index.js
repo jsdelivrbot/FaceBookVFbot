@@ -1875,6 +1875,13 @@ function proceedWithActions(){
 						k = 0;
 					}
 				}
+				var whatTimeAgent = 0;
+				for (var k = (howManyMessages - 1); k > 0; k--){
+					if(answer[m].messageRecords[k].sentBy === "Agent"){
+						whatTimeAgent = answer[m].messageRecords[k].timeL;
+						k = 0;
+					}
+				}
 				var whatTimeCustomer = 0;
 				for (var k = (howManyMessages - 1); k > 0; k--){
 					if(answer[m].messageRecords[k].sentBy === "Consumer"){
@@ -1936,9 +1943,9 @@ function proceedWithActions(){
 							limboChat(answer[m].info.conversationId, answer[m].info.latestAgentId);
 						}
 					}
-					else if ((answer[m].info.latestSkillId === limboskill) && whatTime){
+					else if ((answer[m].info.latestSkillId === limboskill) && whatTimeAgent){
 						
-						if (whatTime < closure){
+						if (whatTimeAgent < closure){
 							console.log("***closing");
 							console.log("isFacebook = " + isFacebook);
 							checkNPSwasSent(answer[m], isFacebook, channel); //enable NPS
