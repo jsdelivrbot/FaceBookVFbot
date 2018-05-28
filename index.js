@@ -1898,10 +1898,13 @@ function proceedWithActions(){
 				}
 				
 				if(answer[m].messageRecords[(answer[m].messageRecords.length - 1)].sentBy === "Consumer") {
-					if ((answer[m].info.latestSkillId === limboskill) && (whatTimeCustomer < closure)){
-						console.log("***closing");
-						console.log("isFacebook = " + isFacebook);
-						checkNPSwasSent(answer[m], isFacebook, channel); //enable NPS
+					if ((answer[m].info.latestSkillId === limboskill) && whatTimeCustomer){
+						if(whatTimeCustomer < closure){
+							console.log("***closing");
+							console.log("isFacebook = " + isFacebook);
+							checkNPSwasSent(answer[m], isFacebook, channel); //enable NPS
+						}	
+						
 					}
 					else if ((answer[m].info.latestSkillId === limboskill) || (answer[m].info.latestSkillId === freezeskill)){
 						console.log("***wakingup");
@@ -1933,7 +1936,7 @@ function proceedWithActions(){
 							limboChat(answer[m].info.conversationId, answer[m].info.latestAgentId);
 						}
 					}
-					else if ((answer[m].info.latestSkillId === limboskill) && whatTime && (isToBeAwakened !== "awakeLater")){
+					else if ((answer[m].info.latestSkillId === limboskill) && whatTime){
 						
 						if ((whatTime < closure) && (lastTimeAwakened < whatTime)){
 							console.log("***closing");
