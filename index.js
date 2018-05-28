@@ -1129,7 +1129,7 @@ function TransferToAnAgentFB(dialogID, timestamp){
 		});
 		
 	} 
-	else if ((hourOfWeek < 7) || (hourOfWeek > 19)){
+	else if ((hourOfWeek < 6) || (hourOfWeek > 19)){
 		
 		echoAgent.updateConversationField({
 			'conversationId': dialogID,
