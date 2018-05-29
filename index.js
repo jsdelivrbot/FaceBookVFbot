@@ -1911,10 +1911,12 @@ function proceedWithActions(){
 							console.log("***closing");
 							console.log("isFacebook = " + isFacebook);
 							checkNPSwasSent(answer[m], isFacebook, channel); //enable NPS
-						}	
+						} else{
+							wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel);
+						}
 						
 					}
-					else if ((answer[m].info.latestSkillId === limboskill) || (answer[m].info.latestSkillId === freezeskill)){
+					else if (answer[m].info.latestSkillId === freezeskill){
 						console.log("***wakingup");
 						wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel);
 					} else if (answer[m].info.latestSkillName.indexOf("***") > -1){
