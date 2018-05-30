@@ -50,6 +50,7 @@ var vfTag;
 var triplettauno;
 var triplettadue;
 var triplettatre;
+var noteTecniche;
 var visitorID;
 
 
@@ -178,12 +179,40 @@ function checkValues(req, res, next) {
 										}
 									}
 								}
+								var noteTecniche = "";
+								for (var f = 0; f < arraylength2; f++){
+									if(b.conversationHistoryRecords[0].transfers[f].hasOwnProperty('contextData')){
+										if(b.conversationHistoryRecords[0].transfers[f].contextData.hasOwnProperty('structuredMetadata')){
+											var timestampMyLog = new Date(b.conversationHistoryRecords[0].transfers[f].timeL);
+											if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
+												noteTecniche = noteTecniche + timestampMyLog + " --> tag\n";
+											}
+											if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].id === "NPSsent"){
+												noteTecniche = noteTecniche + timestampMyLog + " --> NPS\n";
+											}
+											
+											if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].id === "awakeLater"){
+												var timestampFreeze = new Date(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].name);
+												noteTecniche = noteTecniche + timestampMyLog + " --> freeze (" + timestampFreeze + ")\n";
+											}
+											
+											if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].id === "yesno"){
+												if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[2].name === "limbo"){
+													noteTecniche = noteTecniche + timestampMyLog + " --> limbo\n";
+												}
+												if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[2].name === "risvegliata"){
+													noteTecniche = noteTecniche + timestampMyLog + " --> risvegliata\n";
+												}
+											}
+										}
+									}
+								}
 							}
 						}
 					}
 					
 
-					res.send([numero_telefono,numero_ricontatto,numero_cfiscale,vodafoneTag,tripletta1,tripletta2,tripletta3]);
+					res.send([numero_telefono,numero_ricontatto,numero_cfiscale,vodafoneTag,tripletta1,tripletta2,tripletta3,noteTecniche]);
 				});
 			}
 
