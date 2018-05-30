@@ -661,6 +661,9 @@ function retrieveAgentsLogged(){
 
 
 function checkNPSwasSent(json, isFacebook, channel){
+	
+	isFacebook = 1; // this check enables also web channel to receive NPS
+	
 	var convToClose = json.info.conversationId;
 	var wasNPSsent = 0;
 	var myAgentGroup = "";
@@ -1922,6 +1925,10 @@ function proceedWithActions(){
 					} else if (answer[m].info.latestSkillName.indexOf("***") > -1){
 						var bringMeBackAtGeneral = (Date.now() - (1000*60*10));  // timestamp "move to the general risveglio" conversation
 						if(whatTime < bringMeBackAtGeneral){
+							if (answer[m].info.latestQueueState === "IN_QUEUE"){
+								wakeUpChat(answer[m].info.conversationId, "56yghju765rfvbhu7656yg", channel);
+							}
+							/*********************
 							for (var r = (answer[m].messageRecords.length - 1); r > 0; r--){
 								if(answer[m].messageRecords[r].participantId !== botID){
 									if(answer[m].hasOwnProperty('transfers')){
@@ -1935,12 +1942,13 @@ function proceedWithActions(){
 									r = 0;			
 								}
 							}
+							*****************/
 						}
 					}
 
 				}
 				else{
-					if (!postuma && thisConversationHasResponse && answer[m].info.latestSkillId !== limboskill && answer[m].info.latestSkillId !== outboundFBskill && answer[m].info.latestSkillId !== freezeskill && answer[m].messageRecords[(answer[m].messageRecords.length - 1)].participantId !== botID){
+					if (!postuma && thisConversationHasResponse && (answer[m].info.latestSkillId !== limboskill) && (channel !== "outbound")  && (answer[m].info.latestSkillId !== freezeskill) && (answer[m].messageRecords[(answer[m].messageRecords.length - 1)].participantId !== botID)){
 						if((whatTime < moveToLimbo) && (answer[m].info.latestSkillId !== limboskill)){
 							console.log("***Limbo");
 							limboChat(answer[m].info.conversationId, answer[m].info.latestAgentId);
