@@ -183,7 +183,7 @@ function checkValues(req, res, next) {
 								for (var f = 0; f < arraylength2; f++){
 									if(b.conversationHistoryRecords[0].transfers[f].hasOwnProperty('contextData')){
 										if(b.conversationHistoryRecords[0].transfers[f].contextData.hasOwnProperty('structuredMetadata')){
-											var timestampMyLog = new Date(b.conversationHistoryRecords[0].transfers[f].timeL);
+											var timestampMyLog = new Date(b.conversationHistoryRecords[0].transfers[f].timeL).toLocaleString();
 											if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
 												noteTecniche = noteTecniche + timestampMyLog + " --> tag\n";
 											}
@@ -192,7 +192,7 @@ function checkValues(req, res, next) {
 											}
 											
 											if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].id === "awakeLater"){
-												var timestampFreeze = new Date(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].name);
+												var timestampFreeze = new Date(parseInt(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].name)).toLocaleString();
 												noteTecniche = noteTecniche + timestampMyLog + " --> freeze (" + timestampFreeze + ")\n";
 											}
 											
