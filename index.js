@@ -180,7 +180,7 @@ function checkValues(req, res, next) {
 									}
 								}
 								var noteTecniche = "";
-								var options = { weekday: 'short', year: 'numeric', month: 'numeric', day: 'numeric', hour:'numeric', minute:'numeric', second:'numeric' };
+								var options = { year: 'numeric', month: 'numeric', day: 'numeric', hour:'numeric', minute:'numeric', second:'numeric' };
 								for (var f = 0; f < arraylength2; f++){
 									if(b.conversationHistoryRecords[0].transfers[f].hasOwnProperty('contextData')){
 										if(b.conversationHistoryRecords[0].transfers[f].contextData.hasOwnProperty('structuredMetadata')){
