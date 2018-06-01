@@ -27,7 +27,10 @@ var answer = [];
 var limboskill = 1051213232;
 var freezeskill = 1096182732;
 var risvegliataskill = 1051213332;
+var human_skill = 987637232;
 var human_risvegliata_skill = 1096374432;
+var human_night_skill = 1105369932;
+var human_night_risvegliata_skill = 1105551632;
 var facebook_night_risvegliata_skill = 1102673332;
 var facebook_night_skill = 1102673132;
 var facebook_risvegliata_skill = 1096374632;
@@ -1603,18 +1606,23 @@ function wakeUpChat(dialogID, agentName, channel) {
 
 		var transferToActualSkill = 0;
 		var skillPreviousAgent = "***" + agentName;
-		if(checkIfConnected(agentName)){
-			for (var m = 0; m < (activeSkills.length); m++){
-				if(activeSkills[m].name === skillPreviousAgent){
-					transferToActualSkill = activeSkills[m].id;
-					m = activeSkills.length;
-				}
-
+		var thisSkillExists = 0;
+		for (var mz = 0; mz < (activeSkills.length); mz++){
+			if(activeSkills[mz].name === skillPreviousAgent){
+				thisSkillExists = 1;
+				transferToActualSkill = activeSkills[mz].id;
+				mz = activeSkills.length;
 			}
+		}
+		if(checkIfConnected(agentName) && (thisSkillExists === 1)){
+			// do nothing
 		}
 		else{
 			if (channel === "web"){
 				transferToActualSkill = human_risvegliata_skill;
+			}
+			if (channel === "web_night"){
+				transferToActualSkill = human_night_risvegliata_skill;
 			}
 			if (channel === "facebook"){
 				transferToActualSkill = facebook_risvegliata_skill;
@@ -1787,6 +1795,14 @@ function proceedWithActions(){
 		if(answer[m].hasOwnProperty('transfers')){
 			if (typeof answer[m].transfers !== 'undefined' && answer[m].transfers.length > 0) {
 				for (var y = 0; y < (answer[m].transfers.length); y++){
+					if(answer[m].transfers[y].targetSkillName === "human"){
+						channel = "web";
+						isFacebook = 0;
+					}
+					if(answer[m].transfers[y].targetSkillName === "human_night"){
+						channel = "web_night";
+						isFacebook = 0;
+					}
 					if(answer[m].transfers[y].targetSkillName === "Outbound"){
 						channel = "outbound";
 						isFacebook = 0;
