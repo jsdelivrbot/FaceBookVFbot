@@ -1781,6 +1781,7 @@ function proceedWithActions(){
 
 		var isFacebook = 0;
 		var lastTimeAwakened = 0;
+		var lastTimeInLimbo = 0;
 		var channel = "web";
 		var isToBeAwakened = 0;
 		var isToBeAwakenedTimestamp = 0;
@@ -1898,6 +1899,18 @@ function proceedWithActions(){
 								}
 							}
 						}
+						for (var w = (arraylength - 1); w > 0; w--){
+							if(answer[m].transfers[w].hasOwnProperty('contextData')){
+								if(answer[m].transfers[w].contextData.hasOwnProperty('structuredMetadata')){
+									if(answer[m].transfers[w].contextData.structuredMetadata[0].botResponse.intents.length > 2){
+										if(answer[m].transfers[w].contextData.structuredMetadata[0].botResponse.intents[2].name === "limbo"){
+											lastTimeInLimbo = answer[m].transfers[w].timeL;
+											w = 0;
+										}
+									}
+								}
+							}
+						}
 						if(arraylength > 2){
 							if(answer[m].transfers[(arraylength -2)].hasOwnProperty('contextData')){
 								if(answer[m].transfers[(arraylength -2)].contextData.hasOwnProperty('structuredMetadata')){
@@ -1905,7 +1918,6 @@ function proceedWithActions(){
 										isToBeAwakened = answer[m].transfers[(arraylength -2)].contextData.structuredMetadata[0].botResponse.intents[0].id;
 										isToBeAwakenedTimestamp = parseInt(answer[m].transfers[(arraylength -2)].contextData.structuredMetadata[0].botResponse.intents[0].name);
 									}
-								
 								}
 							}
 						}
@@ -1959,7 +1971,7 @@ function proceedWithActions(){
 							console.log("***closing");
 							console.log("isFacebook = " + isFacebook);
 							checkNPSwasSent(answer[m], isFacebook, channel); //enable NPS
-						} else{
+						} else if (whatTimeCustomer > lastTimeInLimbo){
 							wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel);
 						}
 						
