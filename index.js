@@ -36,6 +36,8 @@ var facebook_night_skill = 1102673132;
 var facebook_risvegliata_skill = 1096374632;
 var outbound_risvegliata_skill = 1096374732;
 var outboundFBskill = 1093097632;
+var outbound_fixed_skill = 1105849832;
+var outbound_fixed_risvegliata_skill = 1105849932;
 var accountNumber = 13099967;
 var botID = 1089636032;
 var customBotID = accountNumber + "." + botID;
@@ -694,7 +696,6 @@ function retrieveAgentsLogged(){
 
 function checkNPSwasSent(json, isFacebook, channel){
 	
-	isFacebook = 1; // this check enables also web channel to receive NPS
 	
 	var convToClose = json.info.conversationId;
 	var wasNPSsent = 0;
@@ -1633,6 +1634,9 @@ function wakeUpChat(dialogID, agentName, channel) {
 			if (channel === "outbound"){
 				transferToActualSkill = outbound_risvegliata_skill;
 			}
+			if (channel === "outbound_fixed"){
+				transferToActualSkill = outbound_fixed_risvegliata_skill;
+			}
 		}
 			
 		console.log("Awake to skill: " + transferToActualSkill + " ****  Channel: " + channel);
@@ -1806,6 +1810,10 @@ function proceedWithActions(){
 					}
 					if(answer[m].transfers[y].targetSkillName === "Outbound"){
 						channel = "outbound";
+						isFacebook = 0;
+					}
+					if(answer[m].transfers[y].targetSkillName === "Outbound_fixed"){
+						channel = "outbound_fixed";
 						isFacebook = 0;
 					}
 					if(answer[m].transfers[y].targetSkillName === "Facebook_priv"){
