@@ -1786,6 +1786,7 @@ function proceedWithActions(){
 		var isFacebook = 0;
 		var lastTimeAwakened = 0;
 		var lastTimeInLimbo = 0;
+		var lastTimeInFreeze = 0;
 		var channel = "web";
 		var isToBeAwakened = 0;
 		var isToBeAwakenedTimestamp = 0;
@@ -1925,6 +1926,7 @@ function proceedWithActions(){
 									if(answer[m].transfers[(arraylength -2)].contextData.structuredMetadata[0].botResponse.intents.length == 1){
 										isToBeAwakened = answer[m].transfers[(arraylength -2)].contextData.structuredMetadata[0].botResponse.intents[0].id;
 										isToBeAwakenedTimestamp = parseInt(answer[m].transfers[(arraylength -2)].contextData.structuredMetadata[0].botResponse.intents[0].name);
+										lastTimeInFreeze = answer[m].transfers[(arraylength -2)].timeL;
 									}
 								}
 							}
@@ -1984,7 +1986,7 @@ function proceedWithActions(){
 						}
 						
 					}
-					else if (answer[m].info.latestSkillId === freezeskill){
+					else if ((answer[m].info.latestSkillId === freezeskill) && (whatTimeCustomer > lastTimeInFreeze)){
 						console.log("***wakingup");
 						wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel);
 					} else if (answer[m].info.latestSkillName.indexOf("***") > -1){
