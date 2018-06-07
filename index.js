@@ -1784,6 +1784,7 @@ function proceedWithActions(){
 		
 
 		var isFacebook = 0;
+		var isOutbound = 0;
 		var lastTimeAwakened = 0;
 		var lastTimeInLimbo = 0;
 		var lastTimeInFreeze = 0;
@@ -1804,24 +1805,33 @@ function proceedWithActions(){
 					if(answer[m].transfers[y].targetSkillName === "human"){
 						channel = "web";
 						isFacebook = 0;
+						isOutbound = 0;
 					}
 					if(answer[m].transfers[y].targetSkillName === "human_night"){
 						channel = "web_night";
 						isFacebook = 0;
+						isOutbound = 0;
 					}
 					if(answer[m].transfers[y].targetSkillName === "Outbound"){
 						channel = "outbound";
 						isFacebook = 0;
+						isOutbound = 1;
 					}
 					if(answer[m].transfers[y].targetSkillName === "Outbound_fixed"){
 						channel = "outbound_fixed";
 						isFacebook = 0;
+						isOutbound = 1;
 					}
 					if(answer[m].transfers[y].targetSkillName === "Facebook_priv"){
 						channel = "facebook";
+						isOutbound = 0;
 					}
 					if(answer[m].transfers[y].targetSkillName === "Facebook_priv_night"){
 						channel = "facebook_night";
+						isOutbound = 0;
+					}
+					if(answer[m].transfers[y].targetSkillName.indexOf("utbound") > -1){
+						isOutbound = 1;
 					}
 				}
 			}
@@ -2015,7 +2025,7 @@ function proceedWithActions(){
 
 				}
 				else{
-					if (!postuma && thisConversationHasResponse && (answer[m].info.latestSkillId !== limboskill) && (channel !== "outbound")  && (answer[m].info.latestSkillId !== freezeskill) && (answer[m].messageRecords[(answer[m].messageRecords.length - 1)].participantId !== botID)){
+					if (!postuma && thisConversationHasResponse && (answer[m].info.latestSkillId !== limboskill) && (isOutbound === 0) && (answer[m].info.latestSkillId !== freezeskill) && (answer[m].messageRecords[(answer[m].messageRecords.length - 1)].participantId !== botID)){
 						if((whatTime < moveToLimbo) && (answer[m].info.latestSkillId !== limboskill)){
 							console.log("***Limbo");
 							limboChat(answer[m].info.conversationId, answer[m].info.latestAgentId);
