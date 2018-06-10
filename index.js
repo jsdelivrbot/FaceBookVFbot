@@ -838,6 +838,7 @@ function closeChat(dialogID, wasNPSsent, myCustomMSG){
 			if( arraylength > 0 ){	
 				console.log("inside closing");
 				console.log("dialogID " + dialogID);
+				arraylength = b.conversationHistoryRecords.length;
 				for (var i = 0; i < arraylength; i++){
 					if(b.hasOwnProperty('conversationHistoryRecords')){
 						if(b.conversationHistoryRecords.length > 0){
