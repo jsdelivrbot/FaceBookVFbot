@@ -766,6 +766,7 @@ function checkNPSwasSent(json, isFacebook, channel){
 		} else{
 								
 			for (var i = 0; i < arraylength; i++){
+				console.log(b.conversationHistoryRecords[i].info.conversationId);
 				if(b.hasOwnProperty('conversationHistoryRecords')){
 					if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
 				
