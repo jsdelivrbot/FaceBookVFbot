@@ -747,10 +747,10 @@ function checkNPSwasSent(json, isFacebook, channel){
 		}
 	}, function (e, r, b) {
 			
-			var arraylength = 0;
+			var arraylength3 = 0;
 			if(b.hasOwnProperty('_metadata')){
 				if(b._metadata.hasOwnProperty('count')){
-					arraylength = b._metadata.count;
+					arraylength3 = b._metadata.count;
 				}
 			}
 
@@ -759,14 +759,14 @@ function checkNPSwasSent(json, isFacebook, channel){
 			wasNPSsent = 1;
 			console.log("marked point 1");
 		}
-		if (arraylength === 0){
+		if (arraylength3 === 0){
 			console.log("nessuna conv");
 			console.log("sto chiudendo. wasNPSsent = " + wasNPSsent);
 			closeChat(convToClose, wasNPSsent, myCustomMSG);
 		} else{
 								
-			for (var i = 0; i < arraylength; i++){
-				console.log(arraylength);
+			for (var i = 0; i < arraylength3; i++){
+				console.log(arraylength3);
 				if(b.hasOwnProperty('conversationHistoryRecords')){
 					if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
 				
@@ -778,7 +778,7 @@ function checkNPSwasSent(json, isFacebook, channel){
 										if(b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "NPSsent"){
 											timestampNPSsent = b.conversationHistoryRecords[i].transfers[z].timeL;
 											z = 0;
-											i = arraylength;
+											i = arraylength3;
 											var NPSmaxTime = (Date.now() - (1000*60*10));
 											if (timestampNPSsent > NPSmaxTime){
 												wasNPSsent = 1;
