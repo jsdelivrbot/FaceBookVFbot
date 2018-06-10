@@ -767,7 +767,7 @@ function checkNPSwasSent(json, isFacebook, channel){
 			console.log("sto chiudendo. wasNPSsent = " + wasNPSsent);
 			closeChat(convToClose, wasNPSsent, myCustomMSG);
 		} else{
-								
+			arraylength3 = b.conversationHistoryRecords.length;				
 			for (var i = 0; i < arraylength3; i++){
 				console.log(arraylength3);
 				console.log(b);
