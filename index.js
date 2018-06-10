@@ -763,6 +763,7 @@ function checkNPSwasSent(json, isFacebook, channel){
 		} else{
 								
 			for (var i = 0; i < arraylength; i++){
+				if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
 				
 					if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined') {
 						var arraylength2 = b.conversationHistoryRecords[i].transfers.length;
@@ -786,6 +787,7 @@ function checkNPSwasSent(json, isFacebook, channel){
 							}
 						}
 					}
+				}
 				
 			}
 			closeChat(convToClose, wasNPSsent, myCustomMSG);
@@ -827,7 +829,7 @@ function closeChat(dialogID, wasNPSsent, myCustomMSG){
 				for (var i = 0; i < arraylength; i++){
 					if(b.hasOwnProperty('conversationHistoryRecords')){
 						console.log("******* " + i);
-						
+						if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
 						
 							if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined') {
 								var arraylength2 = b.conversationHistoryRecords[i].transfers.length;
@@ -847,6 +849,7 @@ function closeChat(dialogID, wasNPSsent, myCustomMSG){
 									}
 								}
 							}
+						}
 						
 					}
 				}
