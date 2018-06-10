@@ -121,19 +121,21 @@ function checkValues(req, res, next) {
 					console.log("empty!!!!!");
 				}
 				for (var i = 0; i < arraylength; i++){
-					if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
-						if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined' && b.conversationHistoryRecords[i].transfers.length > 0) {
-							var arraylength2 = b.conversationHistoryRecords[i].transfers.length;
-							for (var z = (arraylength2 -1); z > -1; z--){
-								if(b.conversationHistoryRecords[i].transfers[z].hasOwnProperty('contextData')){
-									if(b.conversationHistoryRecords[i].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
-										if(b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
-											var numero_telefono = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].name;
-											var numero_ricontatto = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[1].name;
-											var numero_cfiscale = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[2].name;
-											z = 0;
-											i = arraylength;
+					if(b.hasOwnProperty('conversationHistoryRecords')){
+						if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
+							if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined' && b.conversationHistoryRecords[i].transfers.length > 0) {
+								var arraylength2 = b.conversationHistoryRecords[i].transfers.length;
+								for (var z = (arraylength2 -1); z > -1; z--){
+									if(b.conversationHistoryRecords[i].transfers[z].hasOwnProperty('contextData')){
+										if(b.conversationHistoryRecords[i].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
+											if(b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
+												var numero_telefono = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].name;
+												var numero_ricontatto = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[1].name;
+												var numero_cfiscale = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[2].name;
+												z = 0;
+												i = arraylength;
 									
+											}
 										}
 									}
 								}
