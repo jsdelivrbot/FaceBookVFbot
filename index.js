@@ -932,7 +932,7 @@ function closeChat(dialogID, wasNPSsent, myCustomMSG){
 								}, (e, resp) => {
    								if (e) { 
 									console.error(e);
-									console.error("error_sending_msg_NPS");
+									console.error("error_sending_msg_NPS: " + dialogID);
     								} else {
 									console.log("message sent");
 									var myTimestamp = Date.now();
