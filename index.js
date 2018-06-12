@@ -918,7 +918,7 @@ function closeChat(dialogID, wasNPSsent, myCustomMSG){
 					}, (e, resp) => {
    						if (e) { 
 							console.error(e);
-							console.error("error_adding_bot_NPS");
+							console.error("error_adding_bot_NPS: " + dialogID);
     						} else {
 							console.log("agent in");
 							echoAgent.publishEvent({
