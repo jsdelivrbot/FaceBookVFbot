@@ -921,87 +921,88 @@ function closeChat(dialogID, wasNPSsent, myCustomMSG){
 							console.error("error_adding_bot_NPS: " + dialogID);
     						} else {
 							console.log("agent in");
-							echoAgent.publishEvent({
-								'dialogId': dialogID,
-								'event': {
-									message: myCustomMSG, // escalation message
-									contentType: "text/plain",
-									type: "ContentEvent"
-									}
-
-								}, (e, resp) => {
-   								if (e) { 
-									console.error(e);
-									console.error("error_sending_msg_NPS: " + dialogID);
-    								} else {
-									console.log("message sent");
-									var myTimestamp = Date.now();
-									const metadata = [{
-										type: 'BotResponse', // Bot context information about the last consumer message
-										externalConversationId: dialogID,
-										businessCases: [
-											'RightNow_Categorization' // identified capability
-											],
-										intents: [ // Last consumer message identified intents
-											{
-												id: 'NPSsent',
-												name: "NPSsent",
-												confidenceScore: 1
-											}]
-									}];
-									echoAgent.updateConversationField({
-										'conversationId': dialogID,
-										'conversationField': [
-											{
-												field: "Skill",
-												type: "UPDATE",
-												skill: limboskill
-											}]
-										}, null, metadata, function(err) {
-										if (err) {
-											console.error(err);
-											console.error("error_changing_skill_NPS");
-										} else {
-											console.log("transfered completed");
-										}
-									});
-		
-			
-									echoAgent.updateConversationField({
-										'conversationId': dialogID,
-										'conversationField': [
-											{
-											field: 'ParticipantsChange',
-											type: 'REMOVE',
-											userId: customBotID,
-											role: 'MANAGER'
-											}]
-
-										}, (e, resp) => {
-   											if (e) { 
-												console.error(e);
-												console.error("error_removing_bot_NPS");
-    											}
-											else {
-												console.log("transfered completed");
-												setTimeout(function(){
-													echoAgent.updateConversationField({
-														conversationId: dialogID,
-														conversationField: [{
-															field: "ConversationStateField",
-															conversationState: "CLOSE"
-														}]
-													});
-												}, 3000);
-											}
-    									
-									});
-							
-
-								}
-							});
 						}
 				});
+				
+				echoAgent.publishEvent({
+						'dialogId': dialogID,
+						'event': {
+							message: myCustomMSG, // escalation message
+							contentType: "text/plain",
+							type: "ContentEvent"
+							}
+
+						}, (e, resp) => {
+   						if (e) { 
+							console.error(e);
+							console.error("error_sending_msg_NPS: " + dialogID);
+    						} else {
+							console.log("message sent");
+							var myTimestamp = Date.now();
+							const metadata = [{
+								type: 'BotResponse', // Bot context information about the last consumer message
+								externalConversationId: dialogID,
+								businessCases: [
+									'RightNow_Categorization' // identified capability
+									],
+								intents: [ // Last consumer message identified intents
+									{
+										id: 'NPSsent',
+										name: "NPSsent",
+										confidenceScore: 1
+									}]
+							}];
+							echoAgent.updateConversationField({
+								'conversationId': dialogID,
+								'conversationField': [
+									{
+										field: "Skill",
+										type: "UPDATE",
+										skill: limboskill
+									}]
+								}, null, metadata, function(err) {
+								if (err) {
+									console.error(err);
+									console.error("error_changing_skill_NPS");
+								} else {
+									console.log("transfered completed");
+								}
+							});
+		
+			
+							echoAgent.updateConversationField({
+								'conversationId': dialogID,
+								'conversationField': [
+									{
+									field: 'ParticipantsChange',
+									type: 'REMOVE',
+									userId: customBotID,
+									role: 'MANAGER'
+									}]
+
+								}, (e, resp) => {
+   									if (e) { 
+										console.error(e);
+										console.error("error_removing_bot_NPS");
+    									}
+									else {
+										console.log("transfered completed");
+										setTimeout(function(){
+											echoAgent.updateConversationField({
+												conversationId: dialogID,
+												conversationField: [{
+													field: "ConversationStateField",
+													conversationState: "CLOSE"
+												}]
+											});
+										}, 3000);
+									}
+    									
+							});
+							
+
+						}
+					});
 
 
 		
