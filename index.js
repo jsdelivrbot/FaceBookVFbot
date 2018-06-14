@@ -1593,7 +1593,7 @@ function sendAlertMessageFB(dialogID, fbName) {
 
 
 
-function wakeUpChat(dialogID, agentName, channel) {
+function wakeUpChat(dialogID, agentName, channel, comeFromLimbo) {
 
 		var isSent = 0;
 	
@@ -1649,10 +1649,18 @@ function wakeUpChat(dialogID, agentName, channel) {
 				transferToActualSkill = facebook_night_risvegliata_skill;
 			}
 			if (channel === "outbound"){
-				transferToActualSkill = outbound_risvegliata_skill;
+				if (comeFromLimbo){
+					transferToActualSkill = outboundFBskill;
+				} else{
+					transferToActualSkill = outbound_risvegliata_skill;
+				}	
 			}
 			if (channel === "outbound_fixed"){
-				transferToActualSkill = outbound_fixed_risvegliata_skill;
+				if (comeFromLimbo){
+					transferToActualSkill = outbound_fixed_skill;
+				} else{
+					transferToActualSkill = outbound_fixed_risvegliata_skill;
+				}
 			}
 		}
 			
@@ -1998,7 +2006,7 @@ function proceedWithActions(){
 					// console.log("thisIsToBeAwakened in " + (isToBeAwakenedTimestamp - Date.now()));
 					if(isToBeAwakenedTimestamp < (Date.now())){
 						console.log("***unfreezing");
-						wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel);
+						wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel, false);
 					}
 				}
 				
@@ -2009,34 +2017,20 @@ function proceedWithActions(){
 							console.log("isFacebook = " + isFacebook);
 							checkNPSwasSent(answer[m], isFacebook, channel); //enable NPS
 						} else if (whatTimeCustomer > lastTimeInLimbo){
-							wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel);
+							wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel, true);
 						}
 						
 					}
 					else if ((answer[m].info.latestSkillId === freezeskill) && (whatTimeCustomer > lastTimeInFreeze)){
 						console.log("***wakingup");
-						wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel);
+						wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel, true);
 					} else if (answer[m].info.latestSkillName.indexOf("***") > -1){
 						var bringMeBackAtGeneral = (Date.now() - (1000*60*10));  // timestamp "move to the general risveglio" conversation
 						if(whatTime < bringMeBackAtGeneral){
 							if (answer[m].info.latestQueueState === "IN_QUEUE"){
-								wakeUpChat(answer[m].info.conversationId, "56yghju765rfvbhu7656yg", channel);
+								wakeUpChat(answer[m].info.conversationId, "56yghju765rfvbhu7656yg", channel, true);
 							}
-							/*********************
-							for (var r = (answer[m].messageRecords.length - 1); r > 0; r--){
-								if(answer[m].messageRecords[r].participantId !== botID){
-									if(answer[m].hasOwnProperty('transfers')){
-										if (typeof answer[m].transfers !== 'undefined' && answer[m].transfers.length > 0) {
-											var myarraylength = answer[m].transfers.length;
-											if(((parseInt(answer[m].transfers[(myarraylength -1)].timeL)) > (parseInt(answer[m].messageRecords[r].timeL))) && ((parseInt(answer[m].transfers[(myarraylength -1)].sourceAgentId)) === parseInt(botID))){
-												wakeUpChat(answer[m].info.conversationId, "56yghju765rfvbhu7656yg", channel);
-											}
-										}	
-									}
-									r = 0;			
-								}
-							}
-							*****************/
+
 						}
 					}
 
