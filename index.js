@@ -1852,6 +1852,10 @@ function proceedWithActions(){
 						channel = "facebook_night";
 						isOutbound = 0;
 					}
+					if(answer[m].transfers[y].targetSkillName === "Test"){
+						channel = "facebook";
+						isOutbound = 0;
+					}
 					if(answer[m].transfers[y].targetSkillName.indexOf("utbound") > -1){
 						isOutbound = 1;
 					}
