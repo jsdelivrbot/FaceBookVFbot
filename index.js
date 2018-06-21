@@ -874,6 +874,9 @@ function closeChat(dialogID, wasNPSsent, myCustomMSG){
 			if(triplettauno === "Prospect / Dummie"){
 				cond1 = 1;
 			}
+			if((pushedTags.includes("Dispatch")) || (pushedTags.includes("Escalation"))){
+				cond1 = 1;
+			}
 			if(!(pushedTags === "" || pushedTags === undefined)){
 				if(pushedTags.includes("KO DEFINITIVO")){
 					cond2 = 1;
