@@ -729,7 +729,7 @@ function checkNPSwasSent(json, isFacebook, channel){
 	if (channel === "outbound"){
 		channelType = "OUT";
 	}
-	var myCustomMSG = "Grazie per aver contattato il servizio clienti Vodafone. Ti mando un link dove puoi esprimere il tuo parere su quanto hai gradito il supporto fornito. https://assets.kampyle.com/clients/vodafone/direct/form.html?region=prodEuIrland&websiteId=67241&formId=4313&caseID=" + convToClose + "&channel=facebook&group=" + myAgentGroup + "&type=" +  channelType;
+	var myCustomMSG = "Ti ringrazio di avere utilizzato il nostro servizio Facebook e ti ricordo che cliccando sul link seguente puoi esprimere il tuo parere su quanto hai gradito il supporto che ti ho fornito. Per me è molto importante ricevere la tua risposta e che la tua soddisfazione sia massima! Ci conto :-) https://assets.kampyle.com/clients/vodafone/direct/form.html?region=prodEuIrland&websiteId=67241&formId=4313&caseID=" + convToClose + "&channel=facebook&group=" + myAgentGroup + "&type=" +  channelType;
 	console.log(myCustomMSG);
 	var timestampNPSsent = 0;
 	var request = require('request');
