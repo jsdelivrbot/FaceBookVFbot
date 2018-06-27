@@ -554,6 +554,7 @@ function markConv(currentconvID){
 function markConvFB(currentconvID){
 	
 	console.log("***taggingFB");
+	var myCheck = 0;
 
 	const metadata = [{
 		type: 'BotResponse', // Bot context information about the last consumer message
@@ -654,12 +655,13 @@ function markConvFB(currentconvID){
 				console.log(err);
 				console.error("error_removing_bot_markconvFB");
 			} else {
-				return true;
+				myCheck = 1;
 				// console.log("leave completed");
 			}
 	});
 
 
+	return myCheck;
 
 
 }
