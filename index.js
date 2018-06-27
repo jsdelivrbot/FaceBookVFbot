@@ -242,8 +242,9 @@ function checkValues(req, res, next) {
 	}
 	else if(retrieve === "0"){
 		skill = convertSkill();
-		markConvFB(currentconvID);
-		res.send([skill]);
+		 res.send(markConvFB(currentconvID));
+		// markConvFB(currentconvID);
+		// res.send([skill]);
 	}
 	else if(retrieve === "web"){
 		skill = convertSkill();
@@ -652,6 +653,7 @@ function markConvFB(currentconvID){
 				console.log(err);
 				console.error("error_removing_bot_markconvFB");
 			} else {
+				return true;
 				// console.log("leave completed");
 			}
 	});
