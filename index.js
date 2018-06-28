@@ -244,10 +244,12 @@ function checkValues(req, res, next) {
 	}
 	else if(retrieve === "0"){
 		skill = convertSkill();
+		markConvFB(currentconvID);
 		var myAnswer = emitter.on('ok', function (data) {
-			return data;
+			res.send(data);
 		});
-		res.send(myAnswer);
+		console.log(myAnswer);
+		// res.send(myAnswer);
 		// markConvFB(currentconvID);
 		// res.send([skill]);
 	}
