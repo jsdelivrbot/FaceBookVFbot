@@ -244,7 +244,10 @@ function checkValues(req, res, next) {
 	}
 	else if(retrieve === "0"){
 		skill = convertSkill();
-		 res.send(markConvFB(currentconvID));
+		var myAnswer = emitter.on('ok', function (data) {
+			return data;
+		});
+		res.send(myAnswer);
 		// markConvFB(currentconvID);
 		// res.send([skill]);
 	}
@@ -663,13 +666,7 @@ function markConvFB(currentconvID){
 			}
 	});
 	
-	emitter.on('ok', function (data) {
-		return data;
-	});
-    
 
-
-	
 
 
 
