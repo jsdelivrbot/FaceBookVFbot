@@ -661,7 +661,7 @@ function returnmyvalue(currentconvID){
 				return true
 				// console.log("leave completed");
 			}
-	});
+	} return function(err); );
 	
 }
 
