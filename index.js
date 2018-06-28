@@ -2,7 +2,8 @@
 
 
 
-
+var events = require('events');
+var emitter = new events.EventEmitter();
 
 
 var https = require('https');
@@ -657,10 +658,17 @@ function markConvFB(currentconvID){
 				console.error("error_removing_bot_markconvFB");
 
 			} else {
-
+				emitter.emit('ok', 'ok');
 				// console.log("leave completed");
 			}
 	});
+	
+	emitter.on('ok', function (data) {
+		return data;
+	});
+    
+
+
 	
 
 
