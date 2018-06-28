@@ -554,7 +554,7 @@ function markConv(currentconvID){
 function markConvFB(currentconvID){
 	
 	console.log("***taggingFB");
-	var myCheck = "ko";
+	
 
 	const metadata = [{
 		type: 'BotResponse', // Bot context information about the last consumer message
@@ -602,6 +602,8 @@ function markConvFB(currentconvID){
 	}];
 
 function returnmyvalue(currentconvID){
+	
+	
 
 
 	echoAgent.updateConversationField({
@@ -654,8 +656,9 @@ function returnmyvalue(currentconvID){
 			if(err) {
 				console.log(err);
 				console.error("error_removing_bot_markconvFB");
+				return false
 			} else {
-				myCheck = "ok";
+				return true
 				// console.log("leave completed");
 			}
 	});
@@ -663,7 +666,7 @@ function returnmyvalue(currentconvID){
 }
 
 
-	returnmyvalue(currentconvID);
+	return returnmyvalue(currentconvID);
 
 
 }
