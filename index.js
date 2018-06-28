@@ -554,6 +554,7 @@ function markConv(currentconvID){
 function markConvFB(currentconvID){
 	
 	console.log("***taggingFB");
+
 	
 
 	const metadata = [{
@@ -600,8 +601,6 @@ function markConvFB(currentconvID){
 		}	
 		]
 	}];
-
-function returnmyvalue(currentconvID){
 	
 	
 
@@ -656,17 +655,14 @@ function returnmyvalue(currentconvID){
 			if(err) {
 				console.log(err);
 				console.error("error_removing_bot_markconvFB");
-				return false
+
 			} else {
-				return true
+
 				// console.log("leave completed");
 			}
 	});
 	
-}
 
-
-	return returnmyvalue(currentconvID);
 
 
 }
