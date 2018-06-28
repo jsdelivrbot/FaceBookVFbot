@@ -601,7 +601,7 @@ function markConvFB(currentconvID){
 		]
 	}];
 
-
+function returnmyvalue(currentconvID){
 
 
 	echoAgent.updateConversationField({
@@ -659,9 +659,11 @@ function markConvFB(currentconvID){
 				// console.log("leave completed");
 			}
 	});
+	
+}
 
 
-	return myCheck;
+	returnmyvalue(currentconvID);
 
 
 }
