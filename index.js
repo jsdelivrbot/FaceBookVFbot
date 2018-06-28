@@ -247,8 +247,8 @@ function checkValues(req, res, next) {
 		markConvFB(currentconvID);
 		var myAnswer = emitter.on('ok', function (data) {
 			res.send(data);
+			console.log(data);
 		});
-		console.log(myAnswer);
 		// res.send(myAnswer);
 		// markConvFB(currentconvID);
 		// res.send([skill]);
@@ -663,7 +663,7 @@ function markConvFB(currentconvID){
 				console.error("error_removing_bot_markconvFB");
 
 			} else {
-				emitter.emit('ok', 'ok');
+				emitter.emit('ok', 'inviato');
 				// console.log("leave completed");
 			}
 	});
