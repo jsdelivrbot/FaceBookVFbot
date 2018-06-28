@@ -162,6 +162,9 @@ function checkValues(req, res, next) {
 					}
 				}, function (e, r, b) {
 					var arraylength = 0;
+					if(e){
+						res.send("errore");
+					}
 					if(b.hasOwnProperty('_metadata')){
 						if(b._metadata.hasOwnProperty('count')){
 							arraylength = b._metadata.count;
@@ -236,16 +239,23 @@ function checkValues(req, res, next) {
 	}
 	else if(retrieve === "2"){
 		awakeLater(numeroMinAwake, agentID, currentconvID);
-		res.send("done");
+		var myAnswer = emitter.on('freeze', function (data) {
+			res.send(data);
+			console.log(data);
+		});
 	}
 	else if(retrieve === "3"){
 		limboChat(currentconvID, agentID);
-		res.send("done");
+		var myAnswer = emitter.on('limbo', function (data) {
+			res.send(data);
+			console.log(data);
+		});
+		// res.send("done");
 	}
 	else if(retrieve === "0"){
 		skill = convertSkill();
 		markConvFB(currentconvID);
-		var myAnswer = emitter.on('ok', function (data) {
+		var myAnswer = emitter.on('taggingFB', function (data) {
 			res.send(data);
 			console.log(data);
 		});
@@ -256,7 +266,11 @@ function checkValues(req, res, next) {
 	else if(retrieve === "web"){
 		skill = convertSkill();
 		markConv(currentconvID);
-		res.send([skill]);
+		var myAnswer = emitter.on('taggingWeb', function (data) {
+			res.send(data);
+			console.log(data);
+		});
+		// res.send([skill]);
 	}
 		
 	
@@ -375,6 +389,7 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
    				if (e) { 
 					console.error(e);
 					console.error("error_removing_agent_limbo");
+					emitter.emit('freeze', 'errore');
     			}
 		});
 
@@ -395,6 +410,7 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
    				if (e) { 
 					console.error(e);
 					console.error("error_adding_bot_limbo");
+					emitter.emit('freeze', 'errore');
     			}
 		});
 
@@ -413,23 +429,11 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
    				if (err) { 
 					console.error(err);
 					console.error("error_changing_skill_limbo");
+					emitter.emit('freeze', 'errore');
     				} else{
 					console.log("transferring complete");
-/***************
-				echoAgent.updateConversationField({
-					'conversationId': dialogID,
-					'conversationField': [
-						{
-						field: "ManualETTR",
-						time: Date.now()
-						}]
-					}, (e, resp) => {
-   						if (e) { 
-							console.error(e);
-							console.error("error_changing_ETTR_limbo");
-    						}
-				});
-***************/
+					emitter.emit('freeze', 'inviato');
+
 
 			}
 		});
@@ -505,6 +509,7 @@ function markConv(currentconvID){
 			if(err) {
 				console.log(err);
 				console.error("error_adding_bot_markconv");
+				emitter.emit('taggingWeb', 'errore');
 			} else {
 				// console.log("joining completed");
 			}
@@ -525,8 +530,10 @@ function markConv(currentconvID){
 			if(err) {
 				console.log(err);
 				console.error("error_changing_skill_markconv");
+				emitter.emit('taggingWeb', 'errore');
 			} else {
 				console.log("transfered completed");
+				emitter.emit('taggingWeb', 'inviato');
 			}
 	});
 
@@ -622,6 +629,7 @@ function markConvFB(currentconvID){
 			if(err) {
 				console.log(err);
 				console.error("error_adding_bot_markconvFB");
+				emitter.emit('taggingFB', 'errore');
 			} else {
 				// console.log("joining completed");
 			}
@@ -642,8 +650,10 @@ function markConvFB(currentconvID){
 			if(err) {
 				console.log(err);
 				console.error("error_changing_skill_markconvFB");
+				emitter.emit('taggingFB', 'errore');
 			} else {
 				console.log("transfered completed");
+				emitter.emit('taggingFB', 'inviato');
 			}
 	});
 
@@ -663,7 +673,7 @@ function markConvFB(currentconvID){
 				console.error("error_removing_bot_markconvFB");
 
 			} else {
-				emitter.emit('ok', 'inviato');
+				
 				// console.log("leave completed");
 			}
 	});
@@ -1391,6 +1401,7 @@ function limboChat(dialogID, agentID) {
    				if (e) { 
 					console.error(e);
 					console.error("error_removing_agent_limbo");
+					emitter.emit('limbo', 'errore');
     			}
 		});
 
@@ -1411,6 +1422,7 @@ function limboChat(dialogID, agentID) {
    				if (e) { 
 					console.error(e);
 					console.error("error_adding_bot_limbo");
+					emitter.emit('limbo', 'errore');
     			}
 		});
 
@@ -1429,8 +1441,10 @@ function limboChat(dialogID, agentID) {
    				if (err) { 
 					console.error(err);
 					console.error("error_changing_skill_limbo");
+					emitter.emit('limbo', 'errore');
     				} else{
 					console.log("transferring complete");
+					emitter.emit('limbo', 'inviato');
 					
 					echoAgent.updateConversationField({
 						'conversationId': dialogID,
@@ -1451,46 +1465,6 @@ function limboChat(dialogID, agentID) {
     						console.log("Transfering..." , resp)
 					});
 					
-					
-					
-					
-/**************
-				echoAgent.updateConversationField({
-					'conversationId': dialogID,
-					'conversationField': [
-						{
-						field: "ManualETTR",
-						time: Date.now()
-						}]
-					}, (e, resp) => {
-   						if (e) { 
-							console.error(e);
-							console.error("error_changing_ETTR_limbo");
-    						} else{
-							
-							echoAgent.updateConversationField({
-								'conversationId': dialogID,
-								'conversationField': [
-							
-									{
-									field: 'ParticipantsChange',
-									type: 'REMOVE',
-									userId: customBotID,
-									role: 'ASSIGNED_AGENT'
-									}]
-
-								}, (e, resp) => {
-   									if (e) { 
-										console.error(e);
-										console.error("error_removing_bot_limbo");
-    								}
-    								console.log("Transfering..." , resp)
-							});
-
-							
-						}
-				});
-**************/
 
 			}
 		});
