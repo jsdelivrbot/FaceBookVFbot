@@ -239,10 +239,11 @@ function checkValues(req, res, next) {
 	}
 	else if(retrieve === "2"){
 		awakeLater(numeroMinAwake, agentID, currentconvID);
-		var myAnswer = emitter.on('freeze', function (data) {
-			res.send(data);
-			console.log(data);
-		});
+		res.send("done");
+		// var myAnswer = emitter.on('freeze', function (data) {
+			// res.send(data);
+			// console.log(data);
+		// });
 	}
 	else if(retrieve === "3"){
 		limboChat(currentconvID, agentID);
@@ -389,7 +390,7 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
    				if (e) { 
 					console.error(e);
 					console.error("error_removing_agent_limbo");
-					emitter.emit('freeze', 'errore');
+					// emitter.emit('freeze', 'errore');
     			}
 		});
 
@@ -410,7 +411,7 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
    				if (e) { 
 					console.error(e);
 					console.error("error_adding_bot_limbo");
-					emitter.emit('freeze', 'errore');
+					// emitter.emit('freeze', 'errore');
     			}
 		});
 
@@ -429,10 +430,10 @@ function awakeLater(numeroMinAwake, agentID, dialogID){
    				if (err) { 
 					console.error(err);
 					console.error("error_changing_skill_limbo");
-					emitter.emit('freeze', 'errore');
+					// emitter.emit('freeze', 'errore');
     				} else{
 					console.log("transferring complete");
-					emitter.emit('freeze', 'inviato');
+					// emitter.emit('freeze', 'inviato');
 
 
 			}
