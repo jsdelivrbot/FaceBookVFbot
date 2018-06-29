@@ -162,9 +162,6 @@ function checkValues(req, res, next) {
 					}
 				}, function (e, r, b) {
 					var arraylength = 0;
-					if(e){
-						res.send("errore");
-					}
 					if(b.hasOwnProperty('_metadata')){
 						if(b._metadata.hasOwnProperty('count')){
 							arraylength = b._metadata.count;
