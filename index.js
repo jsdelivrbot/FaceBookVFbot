@@ -253,10 +253,10 @@ function checkValues(req, res, next) {
 	else if(retrieve === "0"){
 		skill = convertSkill();
 		markConvFB(currentconvID);
-		// var myAnswer = emitter.on('taggingFB', function (data) {
+		var myAnswer = emitter.on('taggingFB', function (data) {
 			// res.send(data);
-			// console.log(data);
-		// });
+			console.log(data);
+		});
 		// res.send(myAnswer);
 		// markConvFB(currentconvID);
 		res.send([skill]);
@@ -521,10 +521,8 @@ function markConv(currentconvID){
 			if(err) {
 				console.log(err);
 				console.error("error_changing_skill_markconv");
-				emitter.emit('taggingWeb', 'errore');
 			} else {
 				console.log("transfered completed");
-				emitter.emit('taggingWeb', 'inviato');
 			}
 	});
 
@@ -640,10 +638,10 @@ function markConvFB(currentconvID){
 			if(err) {
 				console.log(err);
 				console.error("error_changing_skill_markconvFB");
-				emitter.emit('taggingFB', 'errore');
+				emitter.emit('taggingFB', [currentconvID, 'errore']);
 			} else {
 				console.log("transfered completed");
-				emitter.emit('taggingFB', 'inviato');
+				emitter.emit('taggingFB', [currentconvID, 'inviato']);
 			}
 	});
 
