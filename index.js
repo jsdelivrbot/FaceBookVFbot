@@ -638,10 +638,10 @@ function markConvFB(currentconvID){
 			if(err) {
 				console.log(err);
 				console.error("error_changing_skill_markconvFB");
-				emitter.emit('taggingFB', [currentconvID, 'errore']);
+				// emitter.emit('taggingFB', [currentconvID, 'errore']);
 			} else {
 				console.log("transfered completed");
-				emitter.emit('taggingFB', [currentconvID, 'inviato']);
+				// emitter.emit('taggingFB', [currentconvID, 'inviato']);
 			}
 	});
 
