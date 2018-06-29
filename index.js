@@ -253,13 +253,13 @@ function checkValues(req, res, next) {
 	else if(retrieve === "0"){
 		skill = convertSkill();
 		markConvFB(currentconvID);
-		var myAnswer = emitter.on('taggingFB', function (data) {
-			res.send(data);
-			console.log(data);
-		});
+		// var myAnswer = emitter.on('taggingFB', function (data) {
+			// res.send(data);
+			// console.log(data);
+		// });
 		// res.send(myAnswer);
 		// markConvFB(currentconvID);
-		// res.send([skill]);
+		res.send([skill]);
 	}
 	else if(retrieve === "web"){
 		skill = convertSkill();
