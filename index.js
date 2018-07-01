@@ -39,6 +39,7 @@ var outbound_risvegliata_skill = 1096374732;
 var outboundFBskill = 1093097632;
 var outbound_fixed_skill = 1105849832;
 var outbound_fixed_risvegliata_skill = 1105849932;
+var fixed_risvegliata_skill = 1117781332;
 var accountNumber = 13099967;
 var botID = 1089636032;
 var customBotID = accountNumber + "." + botID;
@@ -1622,6 +1623,9 @@ function wakeUpChat(dialogID, agentName, channel, comeFromLimbo) {
 			if (channel === "facebook_night"){
 				transferToActualSkill = facebook_night_risvegliata_skill;
 			}
+			if (channel === "fixed"){
+				transferToActualSkill = fixed_risvegliata_skill;
+			}
 			if (channel === "outbound"){
 				if (comeFromLimbo){
 					transferToActualSkill = outboundFBskill;
@@ -1826,7 +1830,7 @@ function proceedWithActions(){
 						isOutbound = 0;
 					}
 					if(answer[m].transfers[y].targetSkillName === "Fixed"){
-						channel = "facebook";
+						channel = "fixed";
 						isOutbound = 0;
 					}
 					if(answer[m].transfers[y].targetSkillName === "Facebook_priv_night"){
