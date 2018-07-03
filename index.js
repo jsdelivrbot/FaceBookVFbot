@@ -1785,7 +1785,11 @@ function wakeUpChat(dialogID, agentName, channel, comeFromLimbo) {
 function proceedWithActions(){
 
 	console.log("ACTIONS");
-	var closure = (Date.now() - (1000*60*60*24));            // timestamp closure conversation
+	var nowIsTimeToAction = Date.now();
+	var closure = (nowIsTimeToAction - (1000*60*60*24));            // timestamp closure conversation
+	var moveToLimbo = (nowIsTimeToAction - (1000*60*20));            // timestamp "move to Limbo" conversation
+	var bringMeBackAtGeneral = (nowIsTimeToAction - (1000*60*10));  // timestamp "move to the general risveglio" conversation
+	var sendAlert = (nowIsTimeToAction - (1000*60*60*23));            // timestamp "send Alert" conversation
 
 	for (var m = 0; m < (answer.length); m++){
 		
@@ -1900,7 +1904,6 @@ function proceedWithActions(){
 			if(howManyMessages){
 				var thisConversationHasResponse = 0;
 				var thisConversationHasAlert = 0;
-				var sendAlert = (Date.now() - (1000*60*60*23));            // timestamp "send Alert" conversation
 				var whatTimeAlert = answer[m].messageRecords[(howManyMessages - 1)].timeL;
 				for (var q = (howManyMessages - 1); q > 0; q--){
 					if(answer[m].messageRecords[q].sentBy === "Agent" && answer[m].messageRecords[q].participantId !== "1089636032"){
@@ -1963,7 +1966,7 @@ function proceedWithActions(){
 				}
 
 					
-				var moveToLimbo = (Date.now() - (1000*60*20));            // timestamp "move to Limbo" conversation
+				
 				
 				var whatTime = 0;
 				for (var k = (howManyMessages - 1); k > 0; k--){
@@ -1995,7 +1998,7 @@ function proceedWithActions(){
 				
 				if(isToBeAwakened === "awakeLater"){
 					// console.log("thisIsToBeAwakened in " + (isToBeAwakenedTimestamp - Date.now()));
-					if(isToBeAwakenedTimestamp < (Date.now())){
+					if(isToBeAwakenedTimestamp < nowIsTimeToAction){
 						console.log("***unfreezing");
 						wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel, false);
 					}
@@ -2016,7 +2019,6 @@ function proceedWithActions(){
 						console.log("***wakingup");
 						wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel, true);
 					} else if (answer[m].info.latestSkillName.indexOf("***") > -1){
-						var bringMeBackAtGeneral = (Date.now() - (1000*60*10));  // timestamp "move to the general risveglio" conversation
 						if(whatTime < bringMeBackAtGeneral){
 							if (answer[m].info.latestQueueState === "IN_QUEUE"){
 								wakeUpChat(answer[m].info.conversationId, "56yghju765rfvbhu7656yg", channel, true);
