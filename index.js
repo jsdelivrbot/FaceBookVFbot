@@ -1978,8 +1978,17 @@ function proceedWithActions(){
 				var whatTimeAgent = 0;
 				for (var k = (howManyMessages - 1); k > 0; k--){
 					if(answer[m].messageRecords[k].sentBy === "Agent"){
-						whatTimeAgent = answer[m].messageRecords[k].timeL;
-						k = 0;
+						var thisAgentMessageID = answer[m].messageRecords[k].messageId;
+						if(answer[m].hasOwnProperty('messageStatuses')){
+							var messageStatusesLength = answer[m].messageStatuses.length;
+							for (var sxd = 0; sxd < messageStatusesLength; sxd++){
+								if((answer[m].messageStatuses[sxd].messageId === thisAgentMessageID) && (answer[m].messageStatuses[sxd].messageDeliveryStatus === "ACCEPT")){
+									whatTimeAgent = answer[m].messageRecords[k].timeL;
+									k = 0;
+									sxd = messageStatusesLength;
+								}
+							}
+						}	
 					}
 				}
 				var whatTimeCustomer = 0;
@@ -2053,6 +2062,8 @@ function proceedWithActions(){
 		
 
 	}
+	
+	console.log("END_ACTIONS");
 
 
 }
