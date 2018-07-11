@@ -2083,7 +2083,7 @@ function proceedWithActions(){
 				}
 				
 				if (answer[m].info.latestQueueState !== "IN_QUEUE"){
-					if (!totalAgentsLogged.includes(answer[m].info.latestAgentLoginName)){
+					if (totalAgentsLogged.indexOf(answer[m].info.latestAgentLoginName) === -1){
 						console.log("nowIsTimeToAction: " + nowIsTimeToAction);
 						console.log("whatTimeCustomer: " + whatTimeCustomer);
 						console.log("whatTimeAgent: " + whatTimeAgent);
