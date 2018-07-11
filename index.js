@@ -23,6 +23,7 @@ var echoAgent = new Agent({
 
 var bearer = "";
 var agentsLogged = [];
+var totalAgentsLogged = [];
 var activeSkills = [];
 var FaceBookSkill = 1089726032;
 var answer = [];
@@ -708,6 +709,30 @@ function retrieveAgentsLogged(){
 			console.log(agentsLogged);
 			agentJSON = b;
 			
+		}
+
+	});
+	
+	var request = require('request');
+	var oauth = "Bearer " + bearer;
+	var body = {"status":["ONLINE"]};
+	var url = 'https://lo.msghist.liveperson.net/messaging_history/api/account/13099967/agent-view/status';
+	request.post({
+    		url: url,
+    		body: body,
+    		json: true,
+    		headers: {
+        		'Content-Type': 'application/json',
+			'Authorization': oauth
+    		}
+	}, function (e, r, b) {
+
+		if(typeof b.agentStatusRecords !== 'undefined'){
+			for (var m = 0; m < (b.agentStatusRecords.length); m++){
+				totalAgentsLogged = totalAgentsLogged.concat(b.agentStatusRecords[m].agentLoginName);
+			}
+			console.log(totalAgentsLogged);
+
 		}
 
 	});
@@ -2058,11 +2083,12 @@ function proceedWithActions(){
 				}
 				
 				if (answer[m].info.latestQueueState !== "IN_QUEUE"){
-					if (!agentsLogged.includes(answer[m].info.latestAgentLoginName)){
-						console.log("hooray agent!");
+					if (!totalAgentsLogged.includes(answer[m].info.latestAgentLoginName)){
 						if (((nowIsTimeToAction - whatTimeCustomer) < 3000) || ((nowIsTimeToAction - whatTimeAgent) < 3000)){
+							console.log("hooray agent! case wakeup");
 							wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel, true);
 						} else{
+							console.log("hooray agent! case limbo");
 							limboChat(answer[m].info.conversationId, answer[m].info.latestAgentId);
 						}
 					}
@@ -2136,6 +2162,7 @@ setTimeout(function(){
 	retrieveSkills();
 	setInterval(function(){
 		agentsLogged = [];
+		totalAgentsLogged = [];
 		retrieveAgentsLogged();
 		setTimeout(function(){
 			answer = [];
