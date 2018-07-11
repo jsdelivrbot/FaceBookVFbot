@@ -705,7 +705,8 @@ function retrieveAgentsLogged(){
 			for (var m = 0; m < (b.agentStatusRecords.length); m++){
 				agentsLogged = agentsLogged.concat(b.agentStatusRecords[m].agentLoginName);
 			}
-		agentJSON = b;
+			console.log(agentsLogged);
+			agentJSON = b;
 			
 		}
 
@@ -2054,6 +2055,17 @@ function proceedWithActions(){
 							
 		 				}
 		 			}
+				}
+				
+				if (answer[m].info.latestQueueState !== "IN_QUEUE"){
+					if (!agentsLogged.includes(answer[m].info.latestAgentLoginName)){
+						console.log("hooray agent!");
+						if (((nowIsTimeToAction - whatTimeCustomer) < 3000) || ((nowIsTimeToAction - whatTimeAgent) < 3000)){
+							wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel, true);
+						} else{
+							limboChat(answer[m].info.conversationId, answer[m].info.latestAgentId);
+						}
+					}
 				}
 
 		 	}
