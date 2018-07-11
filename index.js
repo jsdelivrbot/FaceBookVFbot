@@ -715,7 +715,7 @@ function retrieveAgentsLogged(){
 	
 	var request = require('request');
 	var oauth = "Bearer " + bearer;
-	var body = {"status":["ONLINE"]};
+	var body = {"status":["ONLINE","AWAY","BACK_SOON"]};
 	var url = 'https://lo.msghist.liveperson.net/messaging_history/api/account/13099967/agent-view/status';
 	request.post({
     		url: url,
