@@ -2087,7 +2087,7 @@ function proceedWithActions(){
 						console.log("nowIsTimeToAction: " + nowIsTimeToAction);
 						console.log("whatTimeCustomer: " + whatTimeCustomer);
 						console.log("whatTimeAgent: " + whatTimeAgent);
-						if (((nowIsTimeToAction - whatTimeCustomer) < 3000) || ((nowIsTimeToAction - whatTimeAgent) < 3000)){
+						if (((nowIsTimeToAction - whatTimeCustomer) < 3*60*1000) || ((nowIsTimeToAction - whatTimeAgent) < 3*60*1000)){
 							console.log("hooray agent! case wakeup");
 							wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel, true);
 						} else{
