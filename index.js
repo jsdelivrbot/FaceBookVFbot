@@ -2081,7 +2081,7 @@ function proceedWithActions(){
 		 			}
 				}
 				
-				/**************************
+				
 				var isRealQueue = false;
 				if(answer[m].hasOwnProperty('transfers')){
 					var wer = answer[m].transfers.length;
@@ -2105,9 +2105,9 @@ function proceedWithActions(){
 				if (goAhead && (answer[m].info.latestSkillId !== limboskill) && (answer[m].info.latestSkillId !== freezeskill)){
 				
 				
-				**************/
 				
-				if (answer[m].info.latestQueueState !== "IN_QUEUE"){
+				
+				// if (answer[m].info.latestQueueState !== "IN_QUEUE"){
 					
 					var lastTimeThatIJoined = 0;
 					if (answer[m].hasOwnProperty('agentParticipants')){
@@ -2120,19 +2120,20 @@ function proceedWithActions(){
 						}
 					}
 					if ((nowIsTimeToAction - lastTimeThatIJoined) > 70000){
-						if (totalAgentsLogged.indexOf(answer[m].info.latestAgentLoginName) === -1){
+						if (totalAgentsLogged.indexOf(answer[m].info.latestAgentLoginName) <= -1){
+							console.log("nome agente: " + answer[m].info.latestAgentLoginName);
 							console.log("nowIsTimeToAction: " + nowIsTimeToAction);
 							console.log("whatTimeCustomer: " + whatTimeCustomer);
 							console.log("whatTimeAgent: " + whatTimeAgent);
 							if (((nowIsTimeToAction - whatTimeCustomer) < 3*60*1000) || ((nowIsTimeToAction - whatTimeAgent) < 3*60*1000)){
-								console.log("hooray agent! case wakeup");
+								console.log("hooray agent! case wakeup1");
 								wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel, false);
 							} else{
 								if (whatTimeAgent > whatTimeCustomer){
 									console.log("hooray agent! case limbo");
 									limboChat(answer[m].info.conversationId, answer[m].info.latestAgentId);
 								} else{
-									console.log("hooray agent! case wakeup");
+									console.log("hooray agent! case wakeup2");
 									wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel, false);
 								}
 							}
