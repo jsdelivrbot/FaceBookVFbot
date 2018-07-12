@@ -2084,9 +2084,9 @@ function proceedWithActions(){
 				/**************************/
 				var isRealQueue = false;
 				if(answer[m].hasOwnProperty('transfers')){
-					var wer = answer[z].transfers.length;
+					var wer = answer[m].transfers.length;
 					if (wer > 0){
-						if(answer[z].transfers[(wer-1)].reason === "Back2Q"){
+						if(answer[m].transfers[(wer-1)].reason === "Back2Q"){
 							isRealQueue = true;
 						}
 					}
