@@ -705,7 +705,7 @@ function retrieveAgentsLogged(){
 			for (var m = 0; m < (b.agentStatusRecords.length); m++){
 				agentsLogged = agentsLogged.concat(b.agentStatusRecords[m].agentLoginName);
 			}
-			console.log(agentsLogged);
+			// console.log(agentsLogged);
 			agentJSON = b;
 			
 		}
@@ -730,7 +730,7 @@ function retrieveAgentsLogged(){
 			for (var m = 0; m < (b.agentStatusRecords.length); m++){
 				totalAgentsLogged = totalAgentsLogged.concat(b.agentStatusRecords[m].agentLoginName);
 			}
-			console.log(totalAgentsLogged);
+			// console.log(totalAgentsLogged);
 
 		}
 
@@ -2082,8 +2082,24 @@ function proceedWithActions(){
 				}
 				
 				/**************************/
-				
+				var isRealQueue = false;
+				if(answer[m].hasOwnProperty('transfers')){
+					var wer = answer[z].transfers.length;
+					if (wer > 0){
+						if(answer[z].transfers[(wer-1)].reason === "Back2Q"){
+							isRealQueue = true;
+						}
+					}
+				}
+				var goAhead = false;
 				if (answer[m].info.latestQueueState !== "IN_QUEUE"){
+					goAhead = true;
+				}
+				if (answer[m].info.latestQueueState === "IN_QUEUE" && !isRealQueue){
+					goAhead = true;
+				}
+				
+				if (goAhead && (answer[m].info.latestSkillId !== limboskill) && (answer[m].info.latestSkillId !== freezeskill)){
 					var lastTimeThatIJoined = 0;
 					if (answer[m].hasOwnProperty('agentParticipants')){
 						var agentParticipantsLength = answer[m].agentParticipants.length;
@@ -2120,7 +2136,6 @@ function proceedWithActions(){
 
 	}
 	
-	console.log("END_ACTIONS");
 
 
 }
