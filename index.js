@@ -2082,7 +2082,7 @@ function proceedWithActions(){
 		 			}
 				}
 				
-				/**************************
+				/**************************/
 				
 				if (answer[m].info.latestQueueState !== "IN_QUEUE"){
 					var lastTimeThatIJoined = 0;
@@ -2095,14 +2095,14 @@ function proceedWithActions(){
 							}
 						}
 					}
-					if ((nowIsTimeToAction - lastTimeThatIJoined) > 60000){
+					if ((nowIsTimeToAction - lastTimeThatIJoined) > 70000){
 						if (totalAgentsLogged.indexOf(answer[m].info.latestAgentLoginName) === -1){
 							console.log("nowIsTimeToAction: " + nowIsTimeToAction);
 							console.log("whatTimeCustomer: " + whatTimeCustomer);
 							console.log("whatTimeAgent: " + whatTimeAgent);
 							if (((nowIsTimeToAction - whatTimeCustomer) < 3*60*1000) || ((nowIsTimeToAction - whatTimeAgent) < 3*60*1000)){
 								console.log("hooray agent! case wakeup");
-								wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel, true);
+								wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel, false);
 							} else{
 								console.log("hooray agent! case limbo");
 								limboChat(answer[m].info.conversationId, answer[m].info.latestAgentId);
@@ -2112,7 +2112,7 @@ function proceedWithActions(){
 				}
 				
 				
-				***************************/
+				/***************************/
 
 		 	}
 		
