@@ -705,7 +705,7 @@ function retrieveAgentsLogged(){
 			for (var m = 0; m < (b.agentStatusRecords.length); m++){
 				agentsLogged = agentsLogged.concat(b.agentStatusRecords[m].agentLoginName);
 			}
-			// console.log(agentsLogged);
+			console.log(agentsLogged);
 			agentJSON = b;
 			
 		}
@@ -730,7 +730,7 @@ function retrieveAgentsLogged(){
 			for (var m = 0; m < (b.agentStatusRecords.length); m++){
 				totalAgentsLogged = totalAgentsLogged.concat(b.agentStatusRecords[m].agentLoginName);
 			}
-			// console.log(totalAgentsLogged);
+			console.log(totalAgentsLogged);
 
 		}
 
