@@ -2082,6 +2082,8 @@ function proceedWithActions(){
 		 			}
 				}
 				
+				/**************************
+				
 				if (answer[m].info.latestQueueState !== "IN_QUEUE"){
 					var lastTimeThatIJoined = 0;
 					if (answer[m].hasOwnProperty('agentParticipants')){
@@ -2108,6 +2110,9 @@ function proceedWithActions(){
 						}
 					}
 				}
+				
+				
+				***************************/
 
 		 	}
 		
