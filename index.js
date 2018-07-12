@@ -2081,7 +2081,7 @@ function proceedWithActions(){
 		 			}
 				}
 				
-				/**************************/
+				/**************************
 				var isRealQueue = false;
 				if(answer[m].hasOwnProperty('transfers')){
 					var wer = answer[m].transfers.length;
@@ -2099,7 +2099,16 @@ function proceedWithActions(){
 					goAhead = true;
 				}
 				
+				
+				
+				
 				if (goAhead && (answer[m].info.latestSkillId !== limboskill) && (answer[m].info.latestSkillId !== freezeskill)){
+				
+				
+				**************/
+				
+				if (answer[m].info.latestQueueState !== "IN_QUEUE"){
+					
 					var lastTimeThatIJoined = 0;
 					if (answer[m].hasOwnProperty('agentParticipants')){
 						var agentParticipantsLength = answer[m].agentParticipants.length;
