@@ -2119,8 +2119,13 @@ function proceedWithActions(){
 								console.log("hooray agent! case wakeup");
 								wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel, false);
 							} else{
-								console.log("hooray agent! case limbo");
-								limboChat(answer[m].info.conversationId, answer[m].info.latestAgentId);
+								if (whatTimeAgent > whatTimeCustomer){
+									console.log("hooray agent! case limbo");
+									limboChat(answer[m].info.conversationId, answer[m].info.latestAgentId);
+								} else{
+									console.log("hooray agent! case wakeup");
+									wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel, false);
+								}
 							}
 						}
 					}
