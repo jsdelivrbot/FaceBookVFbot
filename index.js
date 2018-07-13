@@ -1811,8 +1811,8 @@ function proceedWithActions(){
 
 	console.log("ACTIONS");
 	var nowIsTimeToAction = Date.now();
-	var closure = (nowIsTimeToAction - (1000*60*60*16));            // timestamp closure conversation
-	var moveToLimbo = (nowIsTimeToAction - (1000*60*60*8));            // timestamp "move to Limbo" conversation
+	var closure = (nowIsTimeToAction - (1000*60*60*24));            // timestamp closure conversation
+	var moveToLimbo = (nowIsTimeToAction - (1000*60*20));            // timestamp "move to Limbo" conversation
 	var bringMeBackAtGeneral = (nowIsTimeToAction - (1000*60*10));  // timestamp "move to the general risveglio" conversation
 	var sendAlert = (nowIsTimeToAction - (1000*60*60*23));            // timestamp "send Alert" conversation
 
@@ -2104,7 +2104,7 @@ function proceedWithActions(){
 				
 				if (goAhead && (answer[m].info.latestSkillId !== limboskill) && (answer[m].info.latestSkillId !== freezeskill)){
 				
-				**********/
+				
 				
 				
 				if (answer[m].info.latestQueueState !== "IN_QUEUE"){
@@ -2142,7 +2142,7 @@ function proceedWithActions(){
 				}
 				
 				
-				/***************************/
+				***************************/
 
 		 	}
 		
