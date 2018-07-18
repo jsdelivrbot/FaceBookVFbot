@@ -1821,7 +1821,11 @@ function proceedWithActions(){
 
 	for (var m = 0; m < (answer.length); m++){
 		
-		
+		if (m === (answer.length - 1)){
+			console.log("END_ACTIONS");
+		}
+		    
+		    
 
 		var isFacebook = 0;
 		var isOutbound = 0;
