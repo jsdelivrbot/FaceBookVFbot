@@ -2041,17 +2041,6 @@ function proceedWithActions(){
 					}
 				}
 				
-				if(answer[m].info.conversationId === "3f7e7a6f-7cff-4ad6-a22b-874bd010edc3"){
-						console.log("checking the right conv");
-						console.log("postuma: " + postuma);
-						console.log("thisConversationHasResponse: " + thisConversationHasResponse);
-						console.log("lastSkill: " + answer[m].info.latestSkillId);
-						console.log("isOutbound: " + isOutbound);
-						console.log("lastParticipantID: " + answer[m].messageRecords[(answer[m].messageRecords.length - 1)].participantId);
-						console.log("lastMessage: " + answer[m].messageRecords[(answer[m].messageRecords.length - 1)].messageId);
-				}
-
-				
 				if(answer[m].messageRecords[(answer[m].messageRecords.length - 1)].sentBy === "Consumer") {
 					if ((answer[m].info.latestSkillId === limboskill) && whatTimeCustomer){
 						if(whatTimeCustomer < closure){
