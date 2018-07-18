@@ -2064,6 +2064,15 @@ function proceedWithActions(){
 
 				}
 				else{
+					if(answer[m].info.conversationId === "3f7e7a6f-7cff-4ad6-a22b-874bd010edc3"){
+						console.log("checking the right conv");
+						console.log("postuma: " + postuma);
+						console.log("thisConversationHasResponse: " + thisConversationHasResponse);
+						console.log("lastSkill: " + answer[m].info.latestSkillId);
+						console.log("isOutbound: " + isOutbound);
+						console.log("lastParticipantID: " + answer[m].messageRecords[(answer[m].messageRecords.length - 1)].participantId);
+					}
+
 					if (!postuma && thisConversationHasResponse && (answer[m].info.latestSkillId !== limboskill) && (isOutbound === 0) && (answer[m].info.latestSkillId !== freezeskill) && (answer[m].messageRecords[(answer[m].messageRecords.length - 1)].participantId !== botID)){
 						if((whatTime < moveToLimbo) && (answer[m].info.latestSkillId !== limboskill)){
 							console.log("***Limbo");
