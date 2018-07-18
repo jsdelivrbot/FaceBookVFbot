@@ -60,6 +60,8 @@ var triplettadue;
 var triplettatre;
 var noteTecniche;
 var visitorID;
+var conversationsToDownload = 0;
+var conversationsPartial = 0
 
 
 
@@ -2189,6 +2191,28 @@ function tryUntilSuccess(integer, callback) {
 				'Authorization': oauth
     			}
 		}, function (e, r, b) {
+			
+			if(integer == 0){
+				conversationsToDownload = b._metadata.count;
+			}
+			if (conversationsToDownload > 0){
+				conversationsPartial = conversationsPartial + b.conversationHistoryRecords.length;
+				if(conversationsPartial < conversationsToDownload){
+					integer = conversationsPartial;
+					answer = answer.concat(b.conversationHistoryRecords);
+					tryUntilSuccess(integer, callback);
+				}
+				else{
+					integer = 0;
+					answer = answer.concat(b.conversationHistoryRecords);
+					proceedWithActions();		      
+				}
+			}
+			
+			
+			
+			
+			/**********
 			if(b.hasOwnProperty('conversationHistoryRecords')){
     				if((b.conversationHistoryRecords.length) == 100){
 	 				answer = answer.concat(b.conversationHistoryRecords);
@@ -2204,6 +2228,7 @@ function tryUntilSuccess(integer, callback) {
 			}else{
 				tryUntilSuccess(integer, callback);
 			}
+			************/
 
 		});
 
