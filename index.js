@@ -2187,6 +2187,7 @@ function tryUntilSuccess(integer, callback) {
 			
 			if(integer == 0){
 				conversationsToDownload = b._metadata.count;
+				conversationsPartial = 0;
 			}
 			if (conversationsToDownload > 0){
 				conversationsPartial = conversationsPartial + b.conversationHistoryRecords.length;
