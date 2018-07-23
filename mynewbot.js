@@ -1,3 +1,5 @@
+
+
 var events = require('events');
 var emitter = new events.EventEmitter();
 
@@ -5,7 +7,7 @@ var emitter = new events.EventEmitter();
 var https = require('https');
 var express = require('express');
 const Agent = require('node-agent-sdk').Agent;
-// var echoAgent = new Agent({
+var echoAgent = new Agent({
 	accountId: '13099967',
 	username: 'facebookbot',
 	appKey: 'e1fdfd1a05c5415890b4279235b4dac6',
@@ -1824,102 +1826,76 @@ function proceedWithActions(){
 		var channel = "web";
 		var isToBeAwakened = 0;
 		var isToBeAwakenedTimestamp = 0;
-		if(answer[m].hasOwnProperty('transfers')){
-			if (typeof answer[m].transfers !== 'undefined' && answer[m].transfers.length > 0) {
-				if(answer[m].transfers[0].sourceSkillName === "facebook_bot"){
-					isFacebook = 1;
-					channel = "facebook";
-				}
-			}
-		}
-		if(answer[m].hasOwnProperty('transfers')){
+		
+		
+		if(answer[m].info.latestSkillName === "Facebook_priv"){
+			channel = "facebook";
+			isFacebook = 1;
+			isOutbound = 0;
+		} else if(answer[m].info.latestSkillName === "Facebook_priv_night"){
+			channel = "facebook_night";
+			isFacebook = 1;
+			isOutbound = 0;	
+		} else if(answer[m].info.latestSkillName === "Fixed"){
+			channel = "fixed";
+			isFacebook = 1;
+			isOutbound = 0;	
+		} else if(answer[m].info.latestSkillName === "human"){
+			channel = "web";
+			isFacebook = 0;
+			isOutbound = 0;	
+		} else if(answer[m].info.latestSkillName === "human_night"){
+			channel = "web_night";
+			isFacebook = 0;
+			isOutbound = 0;	
+		} else if(answer[m].info.latestSkillName === "Outbound"){
+			channel = "outbound";
+			isFacebook = 0;
+			isOutbound = 1;	
+		} else if(answer[m].info.latestSkillName === "Outbound_fixed"){
+			channel = "outbound_fixed";
+			isFacebook = 0;
+			isOutbound = 1;	
+		} else if(answer[m].hasOwnProperty('transfers')){
 			if (typeof answer[m].transfers !== 'undefined' && answer[m].transfers.length > 0) {
 				for (var y = 0; y < (answer[m].transfers.length); y++){
-					if(answer[m].transfers[y].targetSkillName === "human"){
+					if(answer[m].transfers[0].sourceSkillName === "Facebook_priv"){
+						channel = "facebook";
+						isOutbound = 0;	
+					}
+					if(answer[m].transfers[0].sourceSkillName === "Facebook_priv_night"){
+						channel = "facebook_night";
+						isOutbound = 0;	
+					}
+					if(answer[m].transfers[0].sourceSkillName === "Fixed"){
+						channel = "fixed";
+						isOutbound = 0;	
+					}
+					if(answer[m].transfers[0].sourceSkillName === "human"){
 						channel = "web";
 						isFacebook = 0;
-						isOutbound = 0;
+						isOutbound = 0;	
 					}
-					if(answer[m].transfers[y].targetSkillName === "human_night"){
+					if(answer[m].transfers[0].sourceSkillName === "human_night"){
 						channel = "web_night";
 						isFacebook = 0;
-						isOutbound = 0;
+						isOutbound = 0;	
 					}
-					if(answer[m].transfers[y].targetSkillName === "Outbound"){
+					if(answer[m].transfers[0].sourceSkillName === "Outbound"){
 						channel = "outbound";
 						isFacebook = 0;
-						isOutbound = 1;
+						isOutbound = 1;	
 					}
-					if(answer[m].transfers[y].targetSkillName === "Outbound_fixed"){
+					if(answer[m].transfers[0].sourceSkillName === "Outbound_fixed"){
 						channel = "outbound_fixed";
 						isFacebook = 0;
-						isOutbound = 1;
-					}
-					if(answer[m].transfers[y].targetSkillName === "Facebook_priv"){
-						channel = "facebook";
-						isOutbound = 0;
-					}
-					if(answer[m].transfers[y].targetSkillName === "Fixed"){
-						channel = "fixed";
-						isOutbound = 0;
-					}
-					if(answer[m].transfers[y].targetSkillName === "Facebook_priv_night"){
-						channel = "facebook_night";
-						isOutbound = 0;
-					}
-					if(answer[m].transfers[y].targetSkillName === "Test"){
-						channel = "facebook";
-						isOutbound = 0;
-					}
-					if(answer[m].transfers[y].targetSkillName.indexOf("utbound") > -1){
-						isOutbound = 1;
+						isOutbound = 1;	
 					}
 				}
 			}
 		}
-						
-						
-					
-					
-
 		
-		if(answer[m].info.latestSkillName === "facebook_bot"){
-			
-			
-			
-			// closeChat(dialogID, wasNPSsent);
-			var agentAnswers = 0;
-			var consumerAnswers = 0;
-			var howManyMessagesFaceBook = answer[m].messageRecords.length;
-			var myTimeStampFBSendMessageOrNot = 0;
-			if(howManyMessagesFaceBook){
-				for (var p = 0; p < howManyMessagesFaceBook; p++){
-					if (answer[m].messageRecords[p].sentBy === "Agent"){
-						agentAnswers = 1;
-						p = howManyMessagesFaceBook;
-					}
-				}
-				if (answer[m].messageRecords[howManyMessagesFaceBook - 1].sentBy === "Consumer"){
-					consumerAnswers = 1;
-					myTimeStampFBSendMessageOrNot = answer[m].messageRecords[howManyMessagesFaceBook - 1].timeL;
-				}
-
-				
-				var firstMessageFB = answer[m].messageRecords[0].timeL;
-				if(agentAnswers === 0){
-					FaceBookWelcomeMessage(answer[m].info.conversationId, answer[m].consumerParticipants[0].firstName);
-				}
-				else if((agentAnswers === 1) && (consumerAnswers === 1)){
-					TransferToAnAgentFB(answer[m].info.conversationId, myTimeStampFBSendMessageOrNot);
-				}
-				else if (firstMessageFB < closure){
-					console.log("***closing FB");
-					closeChat(answer[m].info.conversationId, 1, "");
-				}
-			}
-		}
-		else{
-
+						
 
 		var howManyMessages = answer[m].messageRecords.length;
 			if(howManyMessages){
@@ -1999,17 +1975,8 @@ function proceedWithActions(){
 				var whatTimeAgent = 0;
 				for (var k = (howManyMessages - 1); k > 0; k--){
 					if(answer[m].messageRecords[k].sentBy === "Agent"){
-						// var thisAgentMessageID = answer[m].messageRecords[k].messageId;
-						// if(answer[m].hasOwnProperty('messageStatuses')){
-							// var messageStatusesLength = answer[m].messageStatuses.length;
-							// for (var sxd = 0; sxd < messageStatusesLength; sxd++){
-								// if((answer[m].messageStatuses[sxd].messageId === thisAgentMessageID) && (answer[m].messageStatuses[sxd].messageDeliveryStatus === "ACCEPT")){
-									whatTimeAgent = answer[m].messageRecords[k].timeL;
-									k = 0;
-									// sxd = messageStatusesLength;
-								// }
-							// }
-						// }	
+						whatTimeAgent = answer[m].messageRecords[k].timeL;
+						k = 0;
 					}
 				}
 				var whatTimeCustomer = 0;
@@ -2078,75 +2045,13 @@ function proceedWithActions(){
 		 			}
 				}
 				
-				/**********
-				var isRealQueue = false;
-				if(answer[m].hasOwnProperty('transfers')){
-					var wer = answer[m].transfers.length;
-					if (wer > 0){
-						if(answer[m].transfers[(wer-1)].reason === "Back2Q"){
-							isRealQueue = true;
-						}
-					}
-				}
-				var goAhead = false;
-				if (answer[m].info.latestQueueState !== "IN_QUEUE"){
-					goAhead = true;
-				}
-				if (answer[m].info.latestQueueState === "IN_QUEUE" && !isRealQueue){
-					goAhead = true;
-				}
-				
-				
-				
-				
-				if (goAhead && (answer[m].info.latestSkillId !== limboskill) && (answer[m].info.latestSkillId !== freezeskill)){
-				
-				
-				
-				
-				if (answer[m].info.latestQueueState !== "IN_QUEUE"){
-					
-					var lastTimeThatIJoined = 0;
-					if (answer[m].hasOwnProperty('agentParticipants')){
-						var agentParticipantsLength = answer[m].agentParticipants.length;
-						for (var sdf = (agentParticipantsLength - 1); sdf >=0; sdf --){
-							if (answer[m].agentParticipants[sdf].permission === "ASSIGNED_AGENT"){
-								lastTimeThatIJoined = answer[m].agentParticipants[sdf].timeL;
-								sdf = 0;
-							}
-						}
-					}
-					if ((nowIsTimeToAction - lastTimeThatIJoined) > 70000){
-						if (totalAgentsLogged.indexOf(answer[m].info.latestAgentLoginName) <= -1){
-							console.log("nome agente: " + answer[m].info.latestAgentLoginName);
-							console.log("nowIsTimeToAction: " + nowIsTimeToAction);
-							console.log("whatTimeCustomer: " + whatTimeCustomer);
-							console.log("whatTimeAgent: " + whatTimeAgent);
-							if (((nowIsTimeToAction - whatTimeCustomer) < 3*60*1000) || ((nowIsTimeToAction - whatTimeAgent) < 3*60*1000)){
-								console.log("hooray agent! case wakeup1");
-								wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel, false);
-							} else{
-								if (whatTimeAgent > whatTimeCustomer){
-									console.log("hooray agent! case limbo");
-									limboChat(answer[m].info.conversationId, answer[m].info.latestAgentId);
-								} else{
-									console.log("hooray agent! case wakeup2");
-									wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel, false);
-								}
-							}
-						}
-					}
-				}
-				
-				
-				***************************/
 
 		 	}
 		
 		}
 		
 
-	}
+	
 	
 
 
@@ -2193,24 +2098,6 @@ function tryUntilSuccess(integer, callback) {
 			}
 			
 			
-			
-			
-			/**********
-			if(b.hasOwnProperty('conversationHistoryRecords')){
-    				if((b.conversationHistoryRecords.length) == 100){
-	 				answer = answer.concat(b.conversationHistoryRecords);
-         				integer = integer + 100;
-         				tryUntilSuccess(integer, callback);
-    				}
-    				else{
-					integer = 0;
-					answer = answer.concat(b.conversationHistoryRecords);
-					proceedWithActions();
-    				}
-			}else{
-				tryUntilSuccess(integer, callback);
-			}
-			************/
 
 		});
 
@@ -2243,3 +2130,6 @@ setTimeout(function(){
 		}, 2000);
 	}, 60000);
 }, 10000);
+
+
+
