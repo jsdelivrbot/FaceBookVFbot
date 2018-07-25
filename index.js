@@ -1741,6 +1741,20 @@ function proceedWithActions(){
 			
 				if (m === (answer.length - 1)){
 					console.log("END_ACTIONS");
+					setTimeout(function(){
+						agentsLogged = [];
+						totalAgentsLogged = [];
+						retrieveAgentsLogged();
+						setTimeout(function(){
+							answer = [];
+							console.log("fetching convs");
+							tryUntilSuccess(integer, function(err, resp) {
+								// Your code here...
+							});
+
+						}, 2000);
+						
+					}, 2000);
 				}
 			
 			}, 0, m);
@@ -1811,7 +1825,8 @@ setTimeout(function(){
 	console.log("********* let's go! **********");
 	bearer = echoAgent.transport.configuration.token;
 	retrieveSkills();
-	setInterval(function(){
+	setTimeout(function(){
+		console.log("first fetch");
 		agentsLogged = [];
 		totalAgentsLogged = [];
 		retrieveAgentsLogged();
@@ -1823,5 +1838,5 @@ setTimeout(function(){
 			});
 						
 		}, 2000);
-	}, 120000);
+	}, 2000);
 }, 10000);
