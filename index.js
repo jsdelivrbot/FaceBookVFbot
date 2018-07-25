@@ -1068,6 +1068,11 @@ function closeChat(dialogID, wasNPSsent, myCustomMSG){
 
 function FaceBookWelcomeMessage(dialogID, fbName){
 	
+	
+	/************************** importante!!!! ****************************/
+	/*********ricordati di eliminare TransferToAnAgentFB nella main********/
+	/************************** importante!!!! ****************************/
+	
 	if(fbName === "Facebook user"){
 		fbName = "";
 	}
@@ -1127,6 +1132,31 @@ function FaceBookWelcomeMessage(dialogID, fbName){
 					console.error("error_sending_msg_welcomeFB2");
     			}
 		});
+		
+		
+		/******* attiva prima del pre-lancio!!!
+		
+		
+		echoAgent.updateConversationField({
+			'conversationId': dialogID,
+			'conversationField': [
+			{
+				field: "Skill",
+				type: "UPDATE",
+				skill: facebook_night_skill
+			}]
+
+			}, function(err) {
+   				if (err) { 
+					console.error(err);
+					console.error("error_changing_skill_transferFB_night");
+    			} else {
+					console.log("transfered completed");
+				}
+		});
+		
+		
+		*****/
 		
 
 		
@@ -2089,72 +2119,84 @@ function proceedWithActions(){
 		 			}
 				}
 				
-				/**********
-				var isRealQueue = false;
-				if(answer[m].hasOwnProperty('transfers')){
-					var wer = answer[m].transfers.length;
-					if (wer > 0){
-						if(answer[m].transfers[(wer-1)].reason === "Back2Q"){
-							isRealQueue = true;
-						}
-					}
-				}
-				var goAhead = false;
-				if (answer[m].info.latestQueueState !== "IN_QUEUE"){
-					goAhead = true;
-				}
-				if (answer[m].info.latestQueueState === "IN_QUEUE" && !isRealQueue){
-					goAhead = true;
-				}
 				
-				
-				
-				
-				if (goAhead && (answer[m].info.latestSkillId !== limboskill) && (answer[m].info.latestSkillId !== freezeskill)){
-				
-				
-				
-				
-				if (answer[m].info.latestQueueState !== "IN_QUEUE"){
-					
-					var lastTimeThatIJoined = 0;
-					if (answer[m].hasOwnProperty('agentParticipants')){
-						var agentParticipantsLength = answer[m].agentParticipants.length;
-						for (var sdf = (agentParticipantsLength - 1); sdf >=0; sdf --){
-							if (answer[m].agentParticipants[sdf].permission === "ASSIGNED_AGENT"){
-								lastTimeThatIJoined = answer[m].agentParticipants[sdf].timeL;
-								sdf = 0;
-							}
-						}
-					}
-					if ((nowIsTimeToAction - lastTimeThatIJoined) > 70000){
-						if (totalAgentsLogged.indexOf(answer[m].info.latestAgentLoginName) <= -1){
-							console.log("nome agente: " + answer[m].info.latestAgentLoginName);
-							console.log("nowIsTimeToAction: " + nowIsTimeToAction);
-							console.log("whatTimeCustomer: " + whatTimeCustomer);
-							console.log("whatTimeAgent: " + whatTimeAgent);
-							if (((nowIsTimeToAction - whatTimeCustomer) < 3*60*1000) || ((nowIsTimeToAction - whatTimeAgent) < 3*60*1000)){
-								console.log("hooray agent! case wakeup1");
-								wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel, false);
-							} else{
-								if (whatTimeAgent > whatTimeCustomer){
-									console.log("hooray agent! case limbo");
-									limboChat(answer[m].info.conversationId, answer[m].info.latestAgentId);
-								} else{
-									console.log("hooray agent! case wakeup2");
-									wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel, false);
-								}
-							}
-						}
-					}
-				}
-				
-				
-				***************************/
-
 		 	}
 		
 		}
+		
+		/******* rimuovi solo prima del lancio vero e proprio!!!!!!!!!!
+		if(channel === "facebook"){
+			var myDialogID = answer[m].info.conversationId;
+			var myAgentToRemove = answer[m].info.latestAgentId;
+			if(answer[m].info.latestSkillName === "Facebook_priv_night"){
+				echoAgent.updateConversationField({
+					conversationId: myDialogID,
+					conversationField: [{
+						field: "ConversationStateField",
+						conversationState: "CLOSE"
+					}]
+				});
+			} else{
+				if(myAgentToRemove !== -1){
+					echoAgent.updateConversationField({
+						'conversationId': myDialogID,
+						'conversationField': [
+							{
+							field: 'ParticipantsChange',
+							type: 'REMOVE',
+							userId: myAgentToRemove,
+							role: 'ASSIGNED_AGENT'
+							}]
+						}, (e, resp) => {
+							if (e) { 
+								console.error(e);
+								console.error("error_removing_agent_limbo");
+						}
+					});
+				}
+				echoAgent.updateConversationField({
+					'conversationId': myDialogID,
+					'conversationField': [
+						{
+						field: 'ParticipantsChange',
+						type: 'ADD',
+						userId: customBotID,
+						role: 'ASSIGNED_AGENT'
+						}]
+					}, (e, resp) => {
+						if (e) { 
+							console.error(e);
+							console.error("error_adding_bot_limbo");
+					}
+				});
+				echoAgent.publishEvent({
+					'dialogId': myDialogID,
+					'event': {
+						message: "Ciao, i nostri sistemi sono attualmente in manutenzione. Torna domani e, oltre ai nostri consulenti, troverai TOBi, l'assistente digitale di Vodafone, per rispondere ad ogni tua esigenza.", // escalation message
+						contentType: "text/plain",
+						type: "ContentEvent"
+						}
+
+					}, (e, resp) => {
+						if (e) { 
+							console.error(e);
+							console.error("error_sending_msg_wakeUp");
+					} else{
+
+					}
+				});
+				echoAgent.updateConversationField({
+					conversationId: myDialogID,
+					conversationField: [{
+						field: "ConversationStateField",
+						conversationState: "CLOSE"
+					}]
+				});
+				
+			
+			}
+		}
+		*********/
 		
 
 	}
@@ -2204,25 +2246,7 @@ function tryUntilSuccess(integer, callback) {
 			}
 			
 			
-			
-			
-			/**********
-			if(b.hasOwnProperty('conversationHistoryRecords')){
-    				if((b.conversationHistoryRecords.length) == 100){
-	 				answer = answer.concat(b.conversationHistoryRecords);
-         				integer = integer + 100;
-         				tryUntilSuccess(integer, callback);
 
-    				}
-    				else{
-					integer = 0;
-					answer = answer.concat(b.conversationHistoryRecords);
-					proceedWithActions();
-    				}
-			}else{
-				tryUntilSuccess(integer, callback);
-			}
-			************/
 
 		});
 
