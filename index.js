@@ -10,7 +10,7 @@ var emitter = new events.EventEmitter();
 var https = require('https');
 var express = require('express');
 const Agent = require('node-agent-sdk').Agent;
-// var echoAgent = new Agent({
+var echoAgent = new Agent({
 	accountId: '13099967',
 	username: 'facebookbot',
 	appKey: 'e1fdfd1a05c5415890b4279235b4dac6',
@@ -2128,63 +2128,20 @@ function proceedWithActions(){
 		if(channel === "facebook"){
 			console.log("closing for migration");
 			var myDialogID = answer[m].info.conversationId;
-			var myAgentToRemove = answer[m].info.latestAgentId;
 			
-				if(myAgentToRemove !== -1){
+				if(answer[m].info.latestSkillName === "Facebook_priv_night"){
+					
+				
+				
 					echoAgent.updateConversationField({
-						'conversationId': myDialogID,
-						'conversationField': [
-							{
-							field: 'ParticipantsChange',
-							type: 'REMOVE',
-							userId: myAgentToRemove,
-							role: 'ASSIGNED_AGENT'
-							}]
-						}, (e, resp) => {
-							if (e) { 
-								console.error(e);
-								console.error("error_removing_agent_limbo");
-						}
-					});
-				}
-				echoAgent.updateConversationField({
-					'conversationId': myDialogID,
-					'conversationField': [
-						{
-						field: 'ParticipantsChange',
-						type: 'ADD',
-						userId: customBotID,
-						role: 'ASSIGNED_AGENT'
+						conversationId: myDialogID,
+						conversationField: [{
+							field: "ConversationStateField",
+							conversationState: "CLOSE"
 						}]
-					}, (e, resp) => {
-						if (e) { 
-							console.error(e);
-							console.error("error_adding_bot_limbo");
-					}
-				});
-				echoAgent.publishEvent({
-					'dialogId': myDialogID,
-					'event': {
-						message: "Grazie per aver chattato con noi. Entro domani troverai TOBi, l’assistente digitale Vodafone che insieme ai nostri consulenti, risponderà a tutte le tue esigenze. Ti aspettiamo su Messenger!!", // escalation message
-						contentType: "text/plain",
-						type: "ContentEvent"
-						}
-
-					}, (e, resp) => {
-						if (e) { 
-							console.error(e);
-							console.error("error_sending_msg_wakeUp");
-					} else{
-
-					}
-				});
-				echoAgent.updateConversationField({
-					conversationId: myDialogID,
-					conversationField: [{
-						field: "ConversationStateField",
-						conversationState: "CLOSE"
-					}]
-				});
+					});
+					
+				}
 				
 			
 			
