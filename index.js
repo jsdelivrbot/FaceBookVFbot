@@ -2125,11 +2125,15 @@ function proceedWithActions(){
 		}
 		
 		/******* rimuovi solo prima del lancio vero e proprio!!!!!!!!!! ****/
-		if(channel === "facebook"){
-			console.log("closing for migration");
-			var myDialogID = answer[m].info.conversationId;
+		
+			
+			
 			
 				if(answer[m].info.latestSkillName === "Facebook_priv_night"){
+					
+					
+					console.log("closing for migration");
+					var myDialogID = answer[m].info.conversationId;
 					
 				
 				
@@ -2145,7 +2149,7 @@ function proceedWithActions(){
 				
 			
 			
-		}
+		
 		/*********  fine del rimuovi solo prima del lancio vero e proprio!!!!!!!!!!  *********/
 		
 
