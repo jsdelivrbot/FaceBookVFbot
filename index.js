@@ -2124,19 +2124,12 @@ function proceedWithActions(){
 		
 		}
 		
-		/******* rimuovi solo prima del lancio vero e proprio!!!!!!!!!!
+		/******* rimuovi solo prima del lancio vero e proprio!!!!!!!!!! ****/
 		if(channel === "facebook"){
+			console.log("closing for migration");
 			var myDialogID = answer[m].info.conversationId;
 			var myAgentToRemove = answer[m].info.latestAgentId;
-			if(answer[m].info.latestSkillName === "Facebook_priv_night"){
-				echoAgent.updateConversationField({
-					conversationId: myDialogID,
-					conversationField: [{
-						field: "ConversationStateField",
-						conversationState: "CLOSE"
-					}]
-				});
-			} else{
+			
 				if(myAgentToRemove !== -1){
 					echoAgent.updateConversationField({
 						'conversationId': myDialogID,
@@ -2172,7 +2165,7 @@ function proceedWithActions(){
 				echoAgent.publishEvent({
 					'dialogId': myDialogID,
 					'event': {
-						message: "Ciao, i nostri sistemi sono attualmente in manutenzione. Torna domani e, oltre ai nostri consulenti, troverai TOBi, l'assistente digitale di Vodafone, per rispondere ad ogni tua esigenza.", // escalation message
+						message: "Grazie per aver chattato con noi. Entro domani troverai TOBi, l’assistente digitale Vodafone che insieme ai nostri consulenti, risponderà a tutte le tue esigenze. Ti aspettiamo su Messenger!!", // escalation message
 						contentType: "text/plain",
 						type: "ContentEvent"
 						}
@@ -2194,9 +2187,9 @@ function proceedWithActions(){
 				});
 				
 			
-			}
+			
 		}
-		*********/
+		/*********  fine del rimuovi solo prima del lancio vero e proprio!!!!!!!!!!  *********/
 		
 
 	}
