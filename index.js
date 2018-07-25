@@ -1078,8 +1078,8 @@ function FaceBookWelcomeMessage(dialogID, fbName){
 	}
 
 	
-	var messageFB1 = "Ciao " +  fbName + "! Benvenuto nel Servizio Clienti Vodafone su Facebook.";
-	var messageFB2 = "Per poter gestire la tua richiesta abbiamo bisogno del numero di cellulare o di rete fissa per il quale richiedi assistenza e una descrizione dettagliata della richiesta ed un nostro consulente gestirà la tua richiesta di assistenza. Se hai gia’ indicato queste informazioni scrivi semplicemente “fatto”.";
+	var messageFB1 = "Ciao, i nostri sistemi sono attualmente in manutenzione.";
+	var messageFB2 = "Torna domani e, oltre ai nostri consulenti, troverai TOBi, l'assistente digitale di Vodafone, per rispondere ad ogni tua esigenza.";
 	
 
 	
@@ -1134,7 +1134,7 @@ function FaceBookWelcomeMessage(dialogID, fbName){
 		});
 		
 		
-		/******* attiva prima del pre-lancio!!!
+		/******* attiva prima del pre-lancio!!! ********/
 		
 		
 		echoAgent.updateConversationField({
@@ -1156,7 +1156,7 @@ function FaceBookWelcomeMessage(dialogID, fbName){
 		});
 		
 		
-		*****/
+		/***************************/
 		
 
 		
@@ -1951,7 +1951,7 @@ function proceedWithActions(){
 					FaceBookWelcomeMessage(answer[m].info.conversationId, answer[m].consumerParticipants[0].firstName);
 				}
 				else if((agentAnswers === 1) && (consumerAnswers === 1)){
-					TransferToAnAgentFB(answer[m].info.conversationId, myTimeStampFBSendMessageOrNot);
+					// TransferToAnAgentFB(answer[m].info.conversationId, myTimeStampFBSendMessageOrNot);
 				}
 				else if (firstMessageFB < closure){
 					console.log("***closing FB");
