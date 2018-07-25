@@ -10,7 +10,7 @@ var emitter = new events.EventEmitter();
 var https = require('https');
 var express = require('express');
 const Agent = require('node-agent-sdk').Agent;
-var echoAgent = new Agent({
+// var echoAgent = new Agent({
 	accountId: '13099967',
 	username: 'facebookbot',
 	appKey: 'e1fdfd1a05c5415890b4279235b4dac6',
