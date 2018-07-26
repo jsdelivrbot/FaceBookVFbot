@@ -59,6 +59,7 @@ var noteTecniche;
 var visitorID;
 var conversationsToDownload = 0;
 var conversationsPartial = 0
+var myCheckConversationsPartial = 0;
 
 
 
@@ -1790,20 +1791,28 @@ function tryUntilSuccess(integer, callback) {
 			if(integer == 0){
 				conversationsToDownload = b._metadata.count;
 				conversationsPartial = 0;
+				myCheckConversationsPartial = 0;
 			}
 			if (conversationsToDownload > 0){
 				conversationsPartial = conversationsPartial + b.conversationHistoryRecords.length;
-				if(conversationsPartial < conversationsToDownload){
-					integer = conversationsPartial;
-					console.log(conversationsPartial + "<--->" + conversationsToDownload);
-					answer = answer.concat(b.conversationHistoryRecords);
-					tryUntilSuccess(integer, callback);
-				}
-				else{
+				if (myCheckConversationsPartial < conversationsPartial){
+					if(conversationsPartial < conversationsToDownload){
+						integer = conversationsPartial;
+						myCheckConversationsPartial = conversationsPartial;
+						console.log(conversationsPartial + "<--->" + conversationsToDownload);
+						answer = answer.concat(b.conversationHistoryRecords);
+						tryUntilSuccess(integer, callback);
+					} else{
+						integer = 0;
+						console.log(conversationsPartial + "<--->" + conversationsToDownload);
+						answer = answer.concat(b.conversationHistoryRecords);
+						proceedWithActions();		      
+					}
+				} else{
 					integer = 0;
 					console.log(conversationsPartial + "<--->" + conversationsToDownload);
 					answer = answer.concat(b.conversationHistoryRecords);
-					proceedWithActions();		      
+					proceedWithActions();	
 				}
 			}
 			
