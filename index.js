@@ -1801,6 +1801,7 @@ function tryUntilSuccess(integer, callback) {
 				}
 				else{
 					integer = 0;
+					console.log(conversationsPartial + "<--->" + conversationsToDownload);
 					answer = answer.concat(b.conversationHistoryRecords);
 					proceedWithActions();		      
 				}
