@@ -1739,6 +1739,13 @@ function proceedWithActions(){
 
 
 				}
+				
+				if(answer[m].info.conversationId == "73ff4268-171c-4398-9c11-f5c0c1c7770f"){
+					console.log("WhatTime: " + whatTime);
+					console.log("whatTimeCustomer: " + whatTimeCustomer);
+					console.log("whatTimeAgent: " + whatTimeAgent);
+					console.log("closure: " + closure);
+				}
 			
 				if (m === (answer.length - 1)){
 					console.log("END_ACTIONS");
