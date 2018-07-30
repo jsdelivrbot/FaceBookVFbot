@@ -23,7 +23,6 @@ var agentsLogged = [];
 var totalAgentsLogged = [];
 var activeSkills = [];
 var FaceBookSkill = 1089726032;
-var answer = [];
 var limboskill = 1051213232;
 var freezeskill = 1096182732;
 var risvegliataskill = 1051213332;
@@ -1214,75 +1213,7 @@ function checkIfConnected(agentName){
 }
 
 
-function sendAlertMessageFB(dialogID, fbName) {
-	
-	/********************************** remove me before to go in  production *****************************
-	
-	
-		const metadata = [{
-			type: 'BotResponse', // Bot context information about the last consumer message
-			externalConversationId: dialogID,
-			businessCases: [
-				'RightNow_Categorization' // identified capability
-			],
-			intents: [ // Last consumer message identified intents
-			{
-				id: 'alert',
-				name: "alertFB",
-				confidenceScore: 1
-			}]
-		}];
-		
-		echoAgent.updateConversationField({
-			'conversationId': dialogID,
-			'conversationField': [
-				{
-				field: 'ParticipantsChange',
-				type: 'ADD',
-				userId: customBotID,
-				role: 'MANAGER'
-				}]
-			}, (e, resp) => {
-   				if (e) { 
-					console.error(e);
-					console.error("error_adding_bot_alertFB");
-    			}
-		});
-		echoAgent.publishEvent({
-			'dialogId': dialogID,
-			'event': {
-				message: "Ciao " + fbName + " attendiamo la tua risposta se hai ancora bisogno del nostro supporto :)", // escalation message
-				contentType: "text/plain",
-				type: "ContentEvent"
-				}
-			}, (e, resp) => {
-   				if (e) { 
-					console.error(e);
-					console.error("error_sending_msg_alertFB");
-    			}
-		});
-		
-		echoAgent.updateConversationField({
-			'conversationId': dialogID,
-			'conversationField': [
-							
-				{
-				field: 'ParticipantsChange',
-				type: 'REMOVE',
-				userId: customBotID,
-				role: 'MANAGER'
-				}]
-			}, (e, resp) => {
-   				if (e) { 
-					console.error(e);
-					console.error("error_removing_bot_alertFB");
-    			}
-    			console.log("Transfering..." , resp)
-		});
-		
-	********************************** remove me before to go in  production *****************************/
-	
-}
+
 
 
 
@@ -1496,7 +1427,7 @@ function wakeUpChat(dialogID, agentName, channel, comeFromLimbo) {
 
 
 
-function proceedWithActions(){
+function proceedWithActions(answer){
 
 	console.log("ACTIONS");
 	var nowIsTimeToAction = Date.now();
@@ -1599,9 +1530,6 @@ function proceedWithActions(){
 					var whatTimeAlert = answer[m].messageRecords[(howManyMessages - 1)].timeL;
 					for (var q = (howManyMessages - 1); q > 0; q--){
 						if(answer[m].messageRecords[q].sentBy === "Agent" && answer[m].messageRecords[q].participantId !== "1089636032"){
-							if((whatTimeAlert < sendAlert) && !thisConversationHasAlert && (isFacebook === 1)){
-								sendAlertMessageFB(answer[m].info.conversationId, answer[m].consumerParticipants[0].firstName);
-							}
 							thisConversationHasResponse = 1;
 							q = 0;
 						}
@@ -1807,19 +1735,17 @@ function tryUntilSuccess(integer, callback) {
 						integer = conversationsPartial;
 						myCheckConversationsPartial = conversationsPartial;
 						console.log(conversationsPartial + "<--->" + conversationsToDownload);
-						answer = answer.concat(b.conversationHistoryRecords);
+						proceedWithActions(b.conversationHistoryRecords);
 						tryUntilSuccess(integer, callback);
 					} else{
 						integer = 0;
 						console.log(conversationsPartial + "<--->" + conversationsToDownload);
-						answer = answer.concat(b.conversationHistoryRecords);
-						proceedWithActions();		      
+						proceedWithActions(b.conversationHistoryRecords);		      
 					}
 				} else{
 					integer = 0;
 					console.log(conversationsPartial + "<--->" + conversationsToDownload);
-					answer = answer.concat(b.conversationHistoryRecords);
-					proceedWithActions();	
+					proceedWithActions(b.conversationHistoryRecords);	
 				}
 			}
 			
@@ -1848,7 +1774,6 @@ setTimeout(function(){
 		totalAgentsLogged = [];
 		retrieveAgentsLogged();
 		setTimeout(function(){
-			answer = [];
 			console.log("fetching convs");
 			tryUntilSuccess(integer, function(err, resp) {
     				// Your code here...
