@@ -1780,7 +1780,7 @@ function tryUntilSuccess(integer, callback) {
 
 
 	var now = Date.now();
-	var before = (Date.now() - (1000*60*60*24*30));    // only the conversation of the last 30 days will be fetched
+	var before = (Date.now() - (1000*60*60*24*60));    // only the conversation of the last 60 days will be fetched
 	var request = require('request');
 	var oauth = "Bearer " + bearer;
 	var body = {"start":{"from":before,"to":now}, "status": ["open"]};
