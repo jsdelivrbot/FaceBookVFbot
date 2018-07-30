@@ -1718,6 +1718,9 @@ function proceedWithActions(){
 
 					}
 					else{
+						if(answer[m].info.conversationId == "73ff4268-171c-4398-9c11-f5c0c1c7770f"){
+							console.log("we are inside");
+						}
 
 						if (!postuma && thisConversationHasResponse && (answer[m].info.latestSkillId !== limboskill) && (isOutbound === 0) && (answer[m].info.latestSkillId !== freezeskill) && (answer[m].messageRecords[(answer[m].messageRecords.length - 1)].participantId !== botID)){
 							if((whatTime < moveToLimbo) && (answer[m].info.latestSkillId !== limboskill)){
@@ -1725,7 +1728,7 @@ function proceedWithActions(){
 								limboChat(answer[m].info.conversationId, answer[m].info.latestAgentId);
 							}
 						}
-						else if ((answer[m].info.latestSkillId === limboskill) && whatTimeAgent){
+						else if ((answer[m].info.latestSkillId === limboskill) && (whatTimeAgent > 0)){
 
 							if (whatTimeAgent < closure){
 								console.log("***closing");
@@ -1745,6 +1748,8 @@ function proceedWithActions(){
 					console.log("whatTimeCustomer: " + whatTimeCustomer);
 					console.log("whatTimeAgent: " + whatTimeAgent);
 					console.log("closure: " + closure);
+					console.log("thisConversationHasResponse: " + thisConversationHasResponse);
+					
 				}
 			
 				if (m === (answer.length - 1)){
