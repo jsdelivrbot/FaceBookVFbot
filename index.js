@@ -1681,7 +1681,7 @@ function proceedWithActions(){
 					var postuma = 0;
 					if(lastTimeAwakened !== 0){
 						if (whatTimeAlert < lastTimeAwakened){
-							postuma = 1;
+							postuma = 0;
 						}
 					}
 
