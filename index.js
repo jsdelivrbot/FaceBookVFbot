@@ -1721,6 +1721,8 @@ function proceedWithActions(){
 						if(answer[m].info.conversationId == "73ff4268-171c-4398-9c11-f5c0c1c7770f"){
 							console.log("latestskill: " + answer[m].info.latestSkillId);
 							console.log("whatTimeAgent: " + whatTimeAgent);
+							console.log("isOutbound: " + isOutbound);
+							
 							console.log("we are inside");
 						}
 
