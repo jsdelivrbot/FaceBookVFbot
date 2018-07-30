@@ -1520,65 +1520,68 @@ function proceedWithActions(){
 			var isToBeAwakenedTimestamp = 0;
 
 
-			if(answer[m].info.latestSkillName === "Facebook_priv"){
+			if((answer[m].info.latestSkillName === "Facebook_priv") || (answer[m].info.latestSkillName === "facebook_risvegliate")){
 				channel = "facebook";
 				isFacebook = 1;
 				isOutbound = 0;
-			} else if(answer[m].info.latestSkillName === "Facebook_priv_night"){
+			} else if((answer[m].info.latestSkillName === "Facebook_priv_night") || (answer[m].info.latestSkillName === "Facebook_priv_night_risvegli")){
 				channel = "facebook_night";
 				isFacebook = 1;
 				isOutbound = 0;	
-			} else if(answer[m].info.latestSkillName === "Fixed"){
+			} else if((answer[m].info.latestSkillName === "Fixed") || (answer[m].info.latestSkillName === "Fixed_risvegliata")){
 				channel = "fixed";
 				isFacebook = 1;
 				isOutbound = 0;	
-			} else if(answer[m].info.latestSkillName === "human"){
+			} else if((answer[m].info.latestSkillName === "human") || (answer[m].info.latestSkillName === "human_risvegliate")){
 				channel = "web";
 				isFacebook = 0;
 				isOutbound = 0;	
-			} else if(answer[m].info.latestSkillName === "human_night"){
+			} else if((answer[m].info.latestSkillName === "human_night") || (answer[m].info.latestSkillName === "human_night_risvegliate")){
 				channel = "web_night";
 				isFacebook = 0;
 				isOutbound = 0;	
-			} else if(answer[m].info.latestSkillName === "Outbound"){
+			} else if((answer[m].info.latestSkillName === "Outbound") || (answer[m].info.latestSkillName === "outbound_risvegliate")){
 				channel = "outbound";
 				isFacebook = 0;
 				isOutbound = 1;	
-			} else if(answer[m].info.latestSkillName === "Outbound_fixed"){
+			} else if((answer[m].info.latestSkillName === "Outbound_fixed") || (answer[m].info.latestSkillName === "Outbound_fixed_risvegliate")){
 				channel = "outbound_fixed";
 				isFacebook = 0;
 				isOutbound = 1;	
 			} else if(answer[m].hasOwnProperty('transfers')){
 				if (typeof answer[m].transfers !== 'undefined' && answer[m].transfers.length > 0) {
 					for (var y = 0; y < (answer[m].transfers.length); y++){
-						if(answer[m].transfers[0].sourceSkillName === "Facebook_priv"){
+						if((answer[m].transfers[0].sourceSkillName === "Facebook_priv") || (answer[m].transfers[0].sourceSkillName === "facebook_risvegliate")){
 							channel = "facebook";
+							isFacebook = 1;
 							isOutbound = 0;	
 						}
-						if(answer[m].transfers[0].sourceSkillName === "Facebook_priv_night"){
+						if((answer[m].transfers[0].sourceSkillName === "Facebook_priv_night") || (answer[m].transfers[0].sourceSkillName === "Facebook_priv_night_risvegli")){
 							channel = "facebook_night";
+							isFacebook = 1;
 							isOutbound = 0;	
 						}
-						if(answer[m].transfers[0].sourceSkillName === "Fixed"){
+						if((answer[m].transfers[0].sourceSkillName === "Fixed") || (answer[m].transfers[0].sourceSkillName === "Fixed_risvegliata")){
 							channel = "fixed";
+							isFacebook = 1;
 							isOutbound = 0;	
 						}
-						if(answer[m].transfers[0].sourceSkillName === "human"){
+						if((answer[m].transfers[0].sourceSkillName === "human") || (answer[m].transfers[0].sourceSkillName === "human_risvegliate")){
 							channel = "web";
 							isFacebook = 0;
 							isOutbound = 0;	
 						}
-						if(answer[m].transfers[0].sourceSkillName === "human_night"){
+						if((answer[m].transfers[0].sourceSkillName === "human_night") || (answer[m].transfers[0].sourceSkillName === "human_night_risvegliate")){
 							channel = "web_night";
 							isFacebook = 0;
 							isOutbound = 0;	
 						}
-						if(answer[m].transfers[0].sourceSkillName === "Outbound"){
+						if((answer[m].transfers[0].sourceSkillName === "Outbound") || (answer[m].transfers[0].sourceSkillName === "outbound_risvegliate")){
 							channel = "outbound";
 							isFacebook = 0;
 							isOutbound = 1;	
 						}
-						if(answer[m].transfers[0].sourceSkillName === "Outbound_fixed"){
+						if((answer[m].transfers[0].sourceSkillName === "Outbound_fixed") || (answer[m].transfers[0].sourceSkillName === "Outbound_fixed_risvegliate")){
 							channel = "outbound_fixed";
 							isFacebook = 0;
 							isOutbound = 1;	
