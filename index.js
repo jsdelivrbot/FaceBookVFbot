@@ -1718,6 +1718,11 @@ function proceedWithActions(){
 
 					}
 					else{
+						if(answer[m].info.conversationId == "73ff4268-171c-4398-9c11-f5c0c1c7770f"){
+							console.log("latestskill: " + answer[m].info.latestSkillId);
+							console.log("whatTimeAgent: " + whatTimeAgent);
+							console.log("we are inside");
+						}
 
 						if (!postuma && thisConversationHasResponse && (answer[m].info.latestSkillId !== limboskill) && (isOutbound === 0) && (answer[m].info.latestSkillId !== freezeskill) && (answer[m].messageRecords[(answer[m].messageRecords.length - 1)].participantId !== botID)){
 							if((whatTime < moveToLimbo) && (answer[m].info.latestSkillId !== limboskill)){
@@ -1743,15 +1748,7 @@ function proceedWithActions(){
 
 				}
 				
-				if(answer[m].info.conversationId == "73ff4268-171c-4398-9c11-f5c0c1c7770f"){
-					console.log("WhatTime: " + whatTime);
-					console.log("whatTimeCustomer: " + whatTimeCustomer);
-					console.log("whatTimeAgent: " + whatTimeAgent);
-					console.log("closure: " + closure);
-					console.log("thisConversationHasResponse: " + thisConversationHasResponse);
-					
-				}
-			
+				
 				if (m === (answer.length - 1)){
 					console.log("END_ACTIONS");
 					setTimeout(function(){
