@@ -1722,6 +1722,7 @@ function proceedWithActions(){
 							console.log("latestskill: " + answer[m].info.latestSkillId);
 							console.log("whatTimeAgent: " + whatTimeAgent);
 							console.log("isOutbound: " + isOutbound);
+							console.log("postuma: " + postuma);
 							
 							console.log("we are inside");
 						}
