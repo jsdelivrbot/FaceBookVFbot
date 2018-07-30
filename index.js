@@ -1684,7 +1684,7 @@ function proceedWithActions(){
 					var postuma = 0;
 					if(lastTimeAwakened !== 0){
 						if (whatTimeAlert < lastTimeAwakened){
-							postuma = 0;
+							postuma = 1;
 						}
 					}
 
@@ -1721,14 +1721,6 @@ function proceedWithActions(){
 
 					}
 					else{
-						if(answer[m].info.conversationId == "73ff4268-171c-4398-9c11-f5c0c1c7770f"){
-							console.log("latestskill: " + answer[m].info.latestSkillId);
-							console.log("whatTimeAgent: " + whatTimeAgent);
-							console.log("isOutbound: " + isOutbound);
-							console.log("postuma: " + postuma);
-							
-							console.log("we are inside");
-						}
 
 						if (!postuma && thisConversationHasResponse && (answer[m].info.latestSkillId !== limboskill) && (isOutbound === 0) && (answer[m].info.latestSkillId !== freezeskill) && (answer[m].messageRecords[(answer[m].messageRecords.length - 1)].participantId !== botID)){
 							if((whatTime < moveToLimbo) && (answer[m].info.latestSkillId !== limboskill)){
