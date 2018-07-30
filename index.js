@@ -1677,20 +1677,6 @@ function proceedWithActions(answer){
 				
 				if (m === (answer.length - 1)){
 					console.log("END_ACTIONS");
-					setTimeout(function(){
-						agentsLogged = [];
-						totalAgentsLogged = [];
-						retrieveAgentsLogged();
-						setTimeout(function(){
-							answer = [];
-							console.log("fetching convs");
-							tryUntilSuccess(integer, function(err, resp) {
-								// Your code here...
-							});
-
-						}, 2000);
-						
-					}, 2000);
 				}
 			
 			}, 0, m);
@@ -1740,12 +1726,38 @@ function tryUntilSuccess(integer, callback) {
 					} else{
 						integer = 0;
 						console.log(conversationsPartial + "<--->" + conversationsToDownload);
-						proceedWithActions(b.conversationHistoryRecords);		      
+						proceedWithActions(b.conversationHistoryRecords);
+						setTimeout(function(){
+							agentsLogged = [];
+							totalAgentsLogged = [];
+							retrieveAgentsLogged();
+							setTimeout(function(){
+								console.log("fetching convs");
+								tryUntilSuccess(integer, function(err, resp) {
+									// Your code here...
+								});
+
+							}, 2000);
+
+						}, 2000);
 					}
 				} else{
 					integer = 0;
 					console.log(conversationsPartial + "<--->" + conversationsToDownload);
-					proceedWithActions(b.conversationHistoryRecords);	
+					proceedWithActions(b.conversationHistoryRecords);
+					setTimeout(function(){
+						agentsLogged = [];
+						totalAgentsLogged = [];
+						retrieveAgentsLogged();
+						setTimeout(function(){
+							console.log("fetching convs");
+							tryUntilSuccess(integer, function(err, resp) {
+								// Your code here...
+							});
+
+						}, 2000);
+
+					}, 2000);
 				}
 			}
 			
