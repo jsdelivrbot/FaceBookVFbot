@@ -772,7 +772,7 @@ function checkNPSwasSent(json, isFacebook, channel){
 	if (channel === "outbound"){
 		channelType = "OUT";
 	}
-	var myCustomMSG = "Ti ringrazio di avere utilizzato il nostro servizio Facebook e ti ricordo che cliccando sul link seguente puoi esprimere il tuo parere su quanto hai gradito il supporto che ti ho fornito. Per me è molto importante ricevere la tua risposta e che la tua soddisfazione sia massima! Ci conto :-) https://assets.kampyle.com/clients/vodafone/direct/form.html?region=prodEuIrland&websiteId=67241&formId=4313&caseID=" + convToClose + "&channel=facebook&group=" + myAgentGroup + "&type=" +  channelType;
+	var myCustomMSG = "Ti ringrazio di avere utilizzato il nostro servizio Facebook, ti rimetto in contatto con TOBi, se avrai bisogno di altre informazioni puoi chiedergliele direttamente! Ti ricordo che cliccando sul link seguente puoi esprimere il tuo parere su quanto hai gradito il supporto che ti ho fornito. Per me è molto importante ricevere la tua risposta e che la tua soddisfazione sia massima! Ci conto :-) https://assets.kampyle.com/clients/vodafone/direct/form.html?region=prodEuIrland&websiteId=67241&formId=4313&caseID=" + convToClose + "&channel=facebook&group=" + myAgentGroup + "&type=" +  channelType;
 	console.log(myCustomMSG);
 	var timestampNPSsent = 0;
 	var request = require('request');
@@ -941,16 +941,97 @@ function closeChat(dialogID, wasNPSsent, myCustomMSG){
 			console.log(dialogID);
 			
 			if(cond1 || cond2 || cond3 || cond4 || wasNPSsent){
+				
+				myCustomMSG = "Ti ringrazio di avere utilizzato il nostro servizio Facebook, Ti rimetto in contatto con TOBi, se avrai bisogno di altre informazioni puoi chiedergliele direttamente!";
+				console.log("sending simple closure message");
 				echoAgent.updateConversationField({
-					conversationId: dialogID,
-					conversationField: [{
-						field: "ConversationStateField",
-						conversationState: "CLOSE"
-					}]
+					'conversationId': dialogID,
+					'conversationField': [
+						{
+						field: 'ParticipantsChange',
+						type: 'ADD',
+						userId: customBotID,
+						role: 'MANAGER'
+						}]
+					}, (e, resp) => {
+   						if (e) { 
+							console.error(e);
+							console.error("error_adding_bot_NPS: " + dialogID);
+    						} else {
+							console.log("agent in");
+						}
 				});
+				
+				echoAgent.publishEvent({
+						'dialogId': dialogID,
+						'event': {
+							message: myCustomMSG, // escalation message
+							contentType: "text/plain",
+							type: "ContentEvent"
+							}
+
+						}, (e, resp) => {
+   						if (e) { 
+							console.error(e);
+							console.error("error_sending_closure_message: " + dialogID);
+    						} else {
+							console.log("message sent");
+							var myTimestamp = Date.now();
+							echoAgent.updateConversationField({
+								'conversationId': dialogID,
+								'conversationField': [
+									{
+										field: "Skill",
+										type: "UPDATE",
+										skill: limboskill
+									}]
+								}, (e, resp) => {
+								if (e) {
+									console.error(e);
+									console.error("error_changing_skill_NPS");
+								} else {
+									console.log("transfered completed");
+								}
+							});
+		
+			
+							echoAgent.updateConversationField({
+								'conversationId': dialogID,
+								'conversationField': [
+									{
+									field: 'ParticipantsChange',
+									type: 'REMOVE',
+									userId: customBotID,
+									role: 'MANAGER'
+									}]
+
+								}, (e, resp) => {
+   									if (e) { 
+										console.error(e);
+										console.error("error_removing_bot_NPS");
+    									}
+									else {
+										console.log("transfered completed");
+										setTimeout(function(){
+											echoAgent.updateConversationField({
+												conversationId: dialogID,
+												conversationField: [{
+													field: "ConversationStateField",
+													conversationState: "CLOSE"
+												}]
+											});
+										}, 3000);
+									}
+    									
+							});
+							
+
+						}
+					});
+				
 			
 			} else{
-				console.log("agent out");
+				console.log("sending NPS");
 				echoAgent.updateConversationField({
 					'conversationId': dialogID,
 					'conversationField': [
@@ -1048,11 +1129,9 @@ function closeChat(dialogID, wasNPSsent, myCustomMSG){
 
 						}
 					});
-
-
-		
-		
 			}
+
+
 
 
 		});
