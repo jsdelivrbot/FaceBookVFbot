@@ -1855,14 +1855,12 @@ function tryUntilSuccess(integer, callback) {
 
 var integer = 0;
 
-setTimeout(function(){
+echoAgent.on('connected', msg=>{
 	console.log("********* let's go! **********");
 	bearer = echoAgent.transport.configuration.token;
 	retrieveSkills();
 	setTimeout(function(){
 		console.log("first fetch");
-		agentsLogged = [];
-		totalAgentsLogged = [];
 		retrieveAgentsLogged();
 		setTimeout(function(){
 			console.log("fetching convs");
@@ -1872,4 +1870,4 @@ setTimeout(function(){
 						
 		}, 2000);
 	}, 2000);
-}, 10000);
+});
