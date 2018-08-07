@@ -1774,7 +1774,7 @@ function tryUntilSuccess(integer, callback) {
 
 
 	var now = Date.now();
-	var before = (Date.now() - (1000*60*60*24*60));    // only the conversation of the last 60 days will be fetched
+	var before = (Date.now() - (1000*60*60*24*30));    // only the conversation of the last 60 days will be fetched
 	var request = require('request');
 	var oauth = "Bearer " + bearer;
 	var body = {"start":{"from":before,"to":now}, "status": ["open"]};
@@ -1790,7 +1790,6 @@ function tryUntilSuccess(integer, callback) {
 		}, function (e, r, b) {
 			
 			if(integer == 0){
-				console.log(JSON.stringify(b));
 				conversationsToDownload = b._metadata.count;
 				conversationsPartial = 0;
 				myCheckConversationsPartial = 0;
