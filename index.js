@@ -1790,6 +1790,9 @@ function tryUntilSuccess(integer, callback) {
 		}, function (e, r, b) {
 			
 			if(integer == 0){
+				console.log(url);
+				console.log(body);
+				console.log(bearer);
 				conversationsToDownload = b._metadata.count;
 				conversationsPartial = 0;
 				myCheckConversationsPartial = 0;
