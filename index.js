@@ -1790,9 +1790,7 @@ function tryUntilSuccess(integer, callback) {
     			}
 		}, function (e, r, b) {
 			
-			if(e){
-				console.log(e)
-			} else{
+			
 			
 				if(integer == 0){
 					conversationsToDownload = b._metadata.count;
@@ -1845,7 +1843,7 @@ function tryUntilSuccess(integer, callback) {
 						}, 2000);
 					}
 				}
-			}
+			
 			
 			
 
