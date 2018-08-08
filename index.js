@@ -120,107 +120,30 @@ function checkValues(req, res, next) {
 			}
 		}, function (e, r, b) {
 			
-			if(b.hasOwnProperty('_metadata')){
-				var arraylength = 0;
-				if(b._metadata.hasOwnProperty('count')){
-					arraylength = b._metadata.count;
-				} else{
-					console.log("empty!!!!!");
-				}
-				for (var i = 0; i < arraylength; i++){
-					if(b.hasOwnProperty('conversationHistoryRecords')){
-						if(b.conversationHistoryRecords.length > 0){
-							if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
-								if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined' && b.conversationHistoryRecords[i].transfers.length > 0) {
-									var arraylength2 = b.conversationHistoryRecords[i].transfers.length;
-									for (var z = (arraylength2 -1); z > -1; z--){
-										if(b.conversationHistoryRecords[i].transfers[z].hasOwnProperty('contextData')){
-											if(b.conversationHistoryRecords[i].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
-												if(b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
-													var numero_telefono = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].name;
-													var numero_ricontatto = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[1].name;
-													var numero_cfiscale = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[2].name;
-													z = 0;
-													i = arraylength;
-									
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-				console.log(currentconvID);
-			
-				var request = require('request');
-				var oauth = "Bearer " + bearer;
-				var body = {"conversationId" : currentconvID};
-				var url = 'https://lo.msghist.liveperson.net/messaging_history/api/account/13099967/conversations/conversation/search';
-				request.post({
-					url: url,
-					json: true,
-					body: body,
-					headers: {
-						'Content-Type': 'application/json',
-						'Authorization': oauth
-					}
-				}, function (e, r, b) {
-					if(e){
-						res.send("errore");
+			if(b){
+				if(b.hasOwnProperty('_metadata')){
+					var arraylength = 0;
+					if(b._metadata.hasOwnProperty('count')){
+						arraylength = b._metadata.count;
 					} else{
-						var arraylength = 0;
-						if(b.hasOwnProperty('_metadata')){
-							if(b._metadata.hasOwnProperty('count')){
-								arraylength = b._metadata.count;
-							} else{
-								console.log("empty!!!!!");
-							}
-						}
-						// console.log("b length: " + arraylength);
-						if( arraylength > 0 ){
-							if(b.conversationHistoryRecords[0].hasOwnProperty('transfers')){
-								if (typeof b.conversationHistoryRecords[0].transfers !== 'undefined' && b.conversationHistoryRecords[0].transfers.length > 0) {
-									var arraylength2 = b.conversationHistoryRecords[0].transfers.length;
-									for (var z = (arraylength2 -1); z > -1; z--){
-										if(b.conversationHistoryRecords[0].transfers[z].hasOwnProperty('contextData')){
-											if(b.conversationHistoryRecords[0].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
-												if(b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
-													var vodafoneTag = b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[3].name;
-													var tripletta1 = b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[4].name;
-													var tripletta2 = b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[5].name;
-													var tripletta3 = b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[6].name;
-													z = 0;
-									
-												}
-											}
-										}
-									}
-									var noteTecniche = "";
-									var options = { year: 'numeric', month: 'short', day: 'numeric', hour:'numeric', minute:'numeric', second:'numeric' };
-									for (var f = 0; f < arraylength2; f++){
-										if(b.conversationHistoryRecords[0].transfers[f].hasOwnProperty('contextData')){
-											if(b.conversationHistoryRecords[0].transfers[f].contextData.hasOwnProperty('structuredMetadata')){
-												var timestampMyLog = new Date(b.conversationHistoryRecords[0].transfers[f].timeL + (3600000*2)).toLocaleString('it-IT', options);
-												if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
-													noteTecniche = noteTecniche + timestampMyLog + " --> tag\n";
-												}
-												if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].id === "NPSsent"){
-													noteTecniche = noteTecniche + timestampMyLog + " --> NPS\n";
-												}
-											
-												if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].id === "awakeLater"){
-													var timestampFreeze = new Date(parseInt(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].name) + (3600000*2)).toLocaleString('it-IT', options);
-													noteTecniche = noteTecniche + timestampMyLog + " --> freeze (" + timestampFreeze + ")\n";
-												}
-											
-												if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].id === "yesno"){
-													if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[2].name === "limbo"){
-														noteTecniche = noteTecniche + timestampMyLog + " --> limbo\n";
-													}
-													if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[2].name === "risvegliata"){
-														noteTecniche = noteTecniche + timestampMyLog + " --> risvegliata\n";
+						console.log("empty!!!!!");
+					}
+					for (var i = 0; i < arraylength; i++){
+						if(b.hasOwnProperty('conversationHistoryRecords')){
+							if(b.conversationHistoryRecords.length > 0){
+								if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
+									if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined' && b.conversationHistoryRecords[i].transfers.length > 0) {
+										var arraylength2 = b.conversationHistoryRecords[i].transfers.length;
+										for (var z = (arraylength2 -1); z > -1; z--){
+											if(b.conversationHistoryRecords[i].transfers[z].hasOwnProperty('contextData')){
+												if(b.conversationHistoryRecords[i].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
+													if(b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
+														var numero_telefono = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].name;
+														var numero_ricontatto = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[1].name;
+														var numero_cfiscale = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[2].name;
+														z = 0;
+														i = arraylength;
+
 													}
 												}
 											}
@@ -229,11 +152,90 @@ function checkValues(req, res, next) {
 								}
 							}
 						}
-					
-
-						res.send([numero_telefono,numero_ricontatto,numero_cfiscale,vodafoneTag,tripletta1,tripletta2,tripletta3,noteTecniche]);
 					}
-				});
+					console.log(currentconvID);
+
+					var request = require('request');
+					var oauth = "Bearer " + bearer;
+					var body = {"conversationId" : currentconvID};
+					var url = 'https://lo.msghist.liveperson.net/messaging_history/api/account/13099967/conversations/conversation/search';
+					request.post({
+						url: url,
+						json: true,
+						body: body,
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': oauth
+						}
+					}, function (e, r, b) {
+						if(e){
+							res.send("errore");
+						} else{
+							var arraylength = 0;
+							if(b.hasOwnProperty('_metadata')){
+								if(b._metadata.hasOwnProperty('count')){
+									arraylength = b._metadata.count;
+								} else{
+									console.log("empty!!!!!");
+								}
+							}
+							// console.log("b length: " + arraylength);
+							if( arraylength > 0 ){
+								if(b.conversationHistoryRecords[0].hasOwnProperty('transfers')){
+									if (typeof b.conversationHistoryRecords[0].transfers !== 'undefined' && b.conversationHistoryRecords[0].transfers.length > 0) {
+										var arraylength2 = b.conversationHistoryRecords[0].transfers.length;
+										for (var z = (arraylength2 -1); z > -1; z--){
+											if(b.conversationHistoryRecords[0].transfers[z].hasOwnProperty('contextData')){
+												if(b.conversationHistoryRecords[0].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
+													if(b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
+														var vodafoneTag = b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[3].name;
+														var tripletta1 = b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[4].name;
+														var tripletta2 = b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[5].name;
+														var tripletta3 = b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[6].name;
+														z = 0;
+
+													}
+												}
+											}
+										}
+										var noteTecniche = "";
+										var options = { year: 'numeric', month: 'short', day: 'numeric', hour:'numeric', minute:'numeric', second:'numeric' };
+										for (var f = 0; f < arraylength2; f++){
+											if(b.conversationHistoryRecords[0].transfers[f].hasOwnProperty('contextData')){
+												if(b.conversationHistoryRecords[0].transfers[f].contextData.hasOwnProperty('structuredMetadata')){
+													var timestampMyLog = new Date(b.conversationHistoryRecords[0].transfers[f].timeL + (3600000*2)).toLocaleString('it-IT', options);
+													if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
+														noteTecniche = noteTecniche + timestampMyLog + " --> tag\n";
+													}
+													if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].id === "NPSsent"){
+														noteTecniche = noteTecniche + timestampMyLog + " --> NPS\n";
+													}
+
+													if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].id === "awakeLater"){
+														var timestampFreeze = new Date(parseInt(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].name) + (3600000*2)).toLocaleString('it-IT', options);
+														noteTecniche = noteTecniche + timestampMyLog + " --> freeze (" + timestampFreeze + ")\n";
+													}
+
+													if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].id === "yesno"){
+														if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[2].name === "limbo"){
+															noteTecniche = noteTecniche + timestampMyLog + " --> limbo\n";
+														}
+														if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[2].name === "risvegliata"){
+															noteTecniche = noteTecniche + timestampMyLog + " --> risvegliata\n";
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+
+
+							res.send([numero_telefono,numero_ricontatto,numero_cfiscale,vodafoneTag,tripletta1,tripletta2,tripletta3,noteTecniche]);
+						}
+					});
+				}
 			}
 
 		});
