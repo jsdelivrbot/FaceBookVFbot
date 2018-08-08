@@ -1847,10 +1847,12 @@ function tryUntilSuccess(integer, callback) {
 				}
 				
 			} else{
-				console.log("error fetching");
-				tryUntilSuccess(integer, function(err, resp) {
-					// Your code here...
-				});
+				setTimeout(function(){
+					console.log("error fetching");
+					tryUntilSuccess(integer, function(err, resp) {
+						// Your code here...
+					});
+				}, 10000);
 			}
 			
 			
