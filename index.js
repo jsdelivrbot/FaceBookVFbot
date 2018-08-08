@@ -1792,7 +1792,7 @@ function tryUntilSuccess(integer, callback) {
     			}
 		}, function (e, r, b) {
 			
-			
+			if(b.hasOwnProperty('_metadata')){
 			
 				if(integer == 0){
 					conversationsToDownload = b._metadata.count;
@@ -1845,6 +1845,12 @@ function tryUntilSuccess(integer, callback) {
 						}, 2000);
 					}
 				}
+				
+			} else{
+				tryUntilSuccess(integer, function(err, resp) {
+					// Your code here...
+				});
+			}
 			
 			
 			
