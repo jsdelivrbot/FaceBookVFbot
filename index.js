@@ -236,6 +236,8 @@ function checkValues(req, res, next) {
 						}
 					});
 				}
+			}else{
+				res.send(["errore","errore","errore","","","","",""]);
 			}
 
 		});
