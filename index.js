@@ -1804,14 +1804,33 @@ function tryUntilSuccess(integer, callback) {
 					myCheckConversationsPartial = 0;
 				}
 				if (conversationsToDownload > 0){
-					conversationsPartial = conversationsPartial + b.conversationHistoryRecords.length;
-					if (myCheckConversationsPartial < conversationsPartial){
-						if(conversationsPartial < conversationsToDownload){
-							integer = conversationsPartial;
-							myCheckConversationsPartial = conversationsPartial;
-							console.log(conversationsPartial + "<--->" + conversationsToDownload);
-							proceedWithActions(b.conversationHistoryRecords);
-							tryUntilSuccess(integer, callback);
+					if(b.hasOwnProperty('conversationHistoryRecords')){
+						conversationsPartial = conversationsPartial + b.conversationHistoryRecords.length;
+						if (myCheckConversationsPartial < conversationsPartial){
+							if(conversationsPartial < conversationsToDownload){
+								integer = conversationsPartial;
+								myCheckConversationsPartial = conversationsPartial;
+								console.log(conversationsPartial + "<--->" + conversationsToDownload);
+								proceedWithActions(b.conversationHistoryRecords);
+								tryUntilSuccess(integer, callback);
+							} else{
+								integer = 0;
+								console.log(conversationsPartial + "<--->" + conversationsToDownload);
+								proceedWithActions(b.conversationHistoryRecords);
+								setTimeout(function(){
+									agentsLogged = [];
+									totalAgentsLogged = [];
+									retrieveAgentsLogged();
+									setTimeout(function(){
+										console.log("fetching convs");
+										tryUntilSuccess(integer, function(err, resp) {
+											// Your code here...
+										});
+
+									}, 2000);
+
+								}, 2000);
+							}
 						} else{
 							integer = 0;
 							console.log(conversationsPartial + "<--->" + conversationsToDownload);
@@ -1831,22 +1850,10 @@ function tryUntilSuccess(integer, callback) {
 							}, 2000);
 						}
 					} else{
-						integer = 0;
-						console.log(conversationsPartial + "<--->" + conversationsToDownload);
-						proceedWithActions(b.conversationHistoryRecords);
-						setTimeout(function(){
-							agentsLogged = [];
-							totalAgentsLogged = [];
-							retrieveAgentsLogged();
-							setTimeout(function(){
-								console.log("fetching convs");
-								tryUntilSuccess(integer, function(err, resp) {
-									// Your code here...
-								});
-
-							}, 2000);
-
-						}, 2000);
+						console.log("conversationHistoryRecords is null");
+						tryUntilSuccess(integer, function(err, resp) {
+							
+						});
 					}
 				}
 				
