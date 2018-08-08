@@ -1669,21 +1669,21 @@ function proceedWithActions(answer){
 
 
 					var whatTime = 0;
-					for (var k = (howManyMessages - 1); k > 0; k--){
+					for (var k = (howManyMessages - 1); k > -1; k--){
 						if(answer[m].messageRecords[k].sentBy === "Agent" && answer[m].messageRecords[k].participantId !== "1089636032"){
 							whatTime = answer[m].messageRecords[k].timeL;
 							k = 0;
 						}
 					}
 					var whatTimeAgent = 0;
-					for (var k = (howManyMessages - 1); k > 0; k--){
+					for (var k = (howManyMessages - 1); k > -1; k--){
 						if(answer[m].messageRecords[k].sentBy === "Agent"){
 							whatTimeAgent = answer[m].messageRecords[k].timeL;
 							k = 0;
 						}
 					}
 					var whatTimeCustomer = 0;
-					for (var k = (howManyMessages - 1); k > 0; k--){
+					for (var k = (howManyMessages - 1); k > -1; k--){
 						if(answer[m].messageRecords[k].sentBy === "Consumer"){
 							whatTimeCustomer = answer[m].messageRecords[k].timeL;
 							k = 0;
