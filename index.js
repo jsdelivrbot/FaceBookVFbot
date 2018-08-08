@@ -1789,23 +1789,45 @@ function tryUntilSuccess(integer, callback) {
     			}
 		}, function (e, r, b) {
 			
-			if(integer == 0){
-				console.log(url);
-				console.log(body);
-				console.log(bearer);
-				conversationsToDownload = b._metadata.count;
-				conversationsPartial = 0;
-				myCheckConversationsPartial = 0;
-			}
-			if (conversationsToDownload > 0){
-				conversationsPartial = conversationsPartial + b.conversationHistoryRecords.length;
-				if (myCheckConversationsPartial < conversationsPartial){
-					if(conversationsPartial < conversationsToDownload){
-						integer = conversationsPartial;
-						myCheckConversationsPartial = conversationsPartial;
-						console.log(conversationsPartial + "<--->" + conversationsToDownload);
-						proceedWithActions(b.conversationHistoryRecords);
-						tryUntilSuccess(integer, callback);
+			if(e){
+				console.log(e)
+			} else{
+			
+				if(integer == 0){
+					console.log(url);
+					console.log(body);
+					console.log(bearer);
+					conversationsToDownload = b._metadata.count;
+					conversationsPartial = 0;
+					myCheckConversationsPartial = 0;
+				}
+				if (conversationsToDownload > 0){
+					conversationsPartial = conversationsPartial + b.conversationHistoryRecords.length;
+					if (myCheckConversationsPartial < conversationsPartial){
+						if(conversationsPartial < conversationsToDownload){
+							integer = conversationsPartial;
+							myCheckConversationsPartial = conversationsPartial;
+							console.log(conversationsPartial + "<--->" + conversationsToDownload);
+							proceedWithActions(b.conversationHistoryRecords);
+							tryUntilSuccess(integer, callback);
+						} else{
+							integer = 0;
+							console.log(conversationsPartial + "<--->" + conversationsToDownload);
+							proceedWithActions(b.conversationHistoryRecords);
+							setTimeout(function(){
+								agentsLogged = [];
+								totalAgentsLogged = [];
+								retrieveAgentsLogged();
+								setTimeout(function(){
+									console.log("fetching convs");
+									tryUntilSuccess(integer, function(err, resp) {
+										// Your code here...
+									});
+
+								}, 2000);
+
+							}, 2000);
+						}
 					} else{
 						integer = 0;
 						console.log(conversationsPartial + "<--->" + conversationsToDownload);
@@ -1824,23 +1846,6 @@ function tryUntilSuccess(integer, callback) {
 
 						}, 2000);
 					}
-				} else{
-					integer = 0;
-					console.log(conversationsPartial + "<--->" + conversationsToDownload);
-					proceedWithActions(b.conversationHistoryRecords);
-					setTimeout(function(){
-						agentsLogged = [];
-						totalAgentsLogged = [];
-						retrieveAgentsLogged();
-						setTimeout(function(){
-							console.log("fetching convs");
-							tryUntilSuccess(integer, function(err, resp) {
-								// Your code here...
-							});
-
-						}, 2000);
-
-					}, 2000);
 				}
 			}
 			
