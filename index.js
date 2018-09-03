@@ -1801,7 +1801,13 @@ function tryUntilSuccess(integer, callback) {
 			if(b){
 			
 				if(integer == 0){
-					conversationsToDownload = b._metadata.count;
+					conversationsToDownload = 0;
+					if(b.hasOwnProperty('_metadata')){
+						if(b._metadata.hasOwnProperty('count')){
+							conversationsToDownload = b._metadata.count;
+						}
+					}
+
 					conversationsPartial = 0;
 					myCheckConversationsPartial = 0;
 				}
@@ -1857,6 +1863,21 @@ function tryUntilSuccess(integer, callback) {
 							
 						});
 					}
+				} else{
+					integer = 0;
+					setTimeout(function(){
+						agentsLogged = [];
+						totalAgentsLogged = [];
+						retrieveAgentsLogged();
+						setTimeout(function(){
+							console.log("fetching convs");
+							tryUntilSuccess(integer, function(err, resp) {
+								// Your code here...
+							});
+
+						}, 2000);
+
+					}, 2000);
 				}
 				
 			} else{
