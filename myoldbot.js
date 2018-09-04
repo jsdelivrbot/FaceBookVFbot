@@ -21,7 +21,6 @@ var agentsLogged = [];
 var totalAgentsLogged = [];
 var activeSkills = [];
 var FaceBookSkill = 1089726032;
-var answer = [];
 var limboskill = 1051213232;
 var freezeskill = 1096182732;
 var risvegliataskill = 1051213332;
@@ -57,6 +56,7 @@ var noteTecniche;
 var visitorID;
 var conversationsToDownload = 0;
 var conversationsPartial = 0
+var myCheckConversationsPartial = 0;
 
 
 
@@ -114,107 +114,30 @@ function checkValues(req, res, next) {
 			}
 		}, function (e, r, b) {
 			
-			if(b.hasOwnProperty('_metadata')){
-				var arraylength = 0;
-				if(b._metadata.hasOwnProperty('count')){
-					arraylength = b._metadata.count;
-				} else{
-					console.log("empty!!!!!");
-				}
-				for (var i = 0; i < arraylength; i++){
-					if(b.hasOwnProperty('conversationHistoryRecords')){
-						if(b.conversationHistoryRecords.length > 0){
-							if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
-								if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined' && b.conversationHistoryRecords[i].transfers.length > 0) {
-									var arraylength2 = b.conversationHistoryRecords[i].transfers.length;
-									for (var z = (arraylength2 -1); z > -1; z--){
-										if(b.conversationHistoryRecords[i].transfers[z].hasOwnProperty('contextData')){
-											if(b.conversationHistoryRecords[i].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
-												if(b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
-													var numero_telefono = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].name;
-													var numero_ricontatto = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[1].name;
-													var numero_cfiscale = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[2].name;
-													z = 0;
-													i = arraylength;
-									
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-				console.log(currentconvID);
-			
-				var request = require('request');
-				var oauth = "Bearer " + bearer;
-				var body = {"conversationId" : currentconvID};
-				var url = 'https://lo.msghist.liveperson.net/messaging_history/api/account/13099967/conversations/conversation/search';
-				request.post({
-					url: url,
-					json: true,
-					body: body,
-					headers: {
-						'Content-Type': 'application/json',
-						'Authorization': oauth
-					}
-				}, function (e, r, b) {
-					if(e){
-						res.send("errore");
+			if(b){
+				if(b.hasOwnProperty('_metadata')){
+					var arraylength = 0;
+					if(b._metadata.hasOwnProperty('count')){
+						arraylength = b._metadata.count;
 					} else{
-						var arraylength = 0;
-						if(b.hasOwnProperty('_metadata')){
-							if(b._metadata.hasOwnProperty('count')){
-								arraylength = b._metadata.count;
-							} else{
-								console.log("empty!!!!!");
-							}
-						}
-						// console.log("b length: " + arraylength);
-						if( arraylength > 0 ){
-							if(b.conversationHistoryRecords[0].hasOwnProperty('transfers')){
-								if (typeof b.conversationHistoryRecords[0].transfers !== 'undefined' && b.conversationHistoryRecords[0].transfers.length > 0) {
-									var arraylength2 = b.conversationHistoryRecords[0].transfers.length;
-									for (var z = (arraylength2 -1); z > -1; z--){
-										if(b.conversationHistoryRecords[0].transfers[z].hasOwnProperty('contextData')){
-											if(b.conversationHistoryRecords[0].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
-												if(b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
-													var vodafoneTag = b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[3].name;
-													var tripletta1 = b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[4].name;
-													var tripletta2 = b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[5].name;
-													var tripletta3 = b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[6].name;
-													z = 0;
-									
-												}
-											}
-										}
-									}
-									var noteTecniche = "";
-									var options = { year: 'numeric', month: 'short', day: 'numeric', hour:'numeric', minute:'numeric', second:'numeric' };
-									for (var f = 0; f < arraylength2; f++){
-										if(b.conversationHistoryRecords[0].transfers[f].hasOwnProperty('contextData')){
-											if(b.conversationHistoryRecords[0].transfers[f].contextData.hasOwnProperty('structuredMetadata')){
-												var timestampMyLog = new Date(b.conversationHistoryRecords[0].transfers[f].timeL + (3600000*2)).toLocaleString('it-IT', options);
-												if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
-													noteTecniche = noteTecniche + timestampMyLog + " --> tag\n";
-												}
-												if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].id === "NPSsent"){
-													noteTecniche = noteTecniche + timestampMyLog + " --> NPS\n";
-												}
-											
-												if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].id === "awakeLater"){
-													var timestampFreeze = new Date(parseInt(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].name) + (3600000*2)).toLocaleString('it-IT', options);
-													noteTecniche = noteTecniche + timestampMyLog + " --> freeze (" + timestampFreeze + ")\n";
-												}
-											
-												if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].id === "yesno"){
-													if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[2].name === "limbo"){
-														noteTecniche = noteTecniche + timestampMyLog + " --> limbo\n";
-													}
-													if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[2].name === "risvegliata"){
-														noteTecniche = noteTecniche + timestampMyLog + " --> risvegliata\n";
+						console.log("empty!!!!!");
+					}
+					for (var i = 0; i < arraylength; i++){
+						if(b.hasOwnProperty('conversationHistoryRecords')){
+							if(b.conversationHistoryRecords.length > 0){
+								if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
+									if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined' && b.conversationHistoryRecords[i].transfers.length > 0) {
+										var arraylength2 = b.conversationHistoryRecords[i].transfers.length;
+										for (var z = (arraylength2 -1); z > -1; z--){
+											if(b.conversationHistoryRecords[i].transfers[z].hasOwnProperty('contextData')){
+												if(b.conversationHistoryRecords[i].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
+													if(b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
+														var numero_telefono = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].name;
+														var numero_ricontatto = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[1].name;
+														var numero_cfiscale = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[2].name;
+														z = 0;
+														i = arraylength;
+
 													}
 												}
 											}
@@ -223,11 +146,92 @@ function checkValues(req, res, next) {
 								}
 							}
 						}
-					
-
-						res.send([numero_telefono,numero_ricontatto,numero_cfiscale,vodafoneTag,tripletta1,tripletta2,tripletta3,noteTecniche]);
 					}
-				});
+					console.log(currentconvID);
+
+					var request = require('request');
+					var oauth = "Bearer " + bearer;
+					var body = {"conversationId" : currentconvID};
+					var url = 'https://lo.msghist.liveperson.net/messaging_history/api/account/13099967/conversations/conversation/search';
+					request.post({
+						url: url,
+						json: true,
+						body: body,
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': oauth
+						}
+					}, function (e, r, b) {
+						if(e){
+							res.send("errore");
+						} else{
+							var arraylength = 0;
+							if(b.hasOwnProperty('_metadata')){
+								if(b._metadata.hasOwnProperty('count')){
+									arraylength = b._metadata.count;
+								} else{
+									console.log("empty!!!!!");
+								}
+							}
+							// console.log("b length: " + arraylength);
+							if( arraylength > 0 ){
+								if(b.conversationHistoryRecords[0].hasOwnProperty('transfers')){
+									if (typeof b.conversationHistoryRecords[0].transfers !== 'undefined' && b.conversationHistoryRecords[0].transfers.length > 0) {
+										var arraylength2 = b.conversationHistoryRecords[0].transfers.length;
+										for (var z = (arraylength2 -1); z > -1; z--){
+											if(b.conversationHistoryRecords[0].transfers[z].hasOwnProperty('contextData')){
+												if(b.conversationHistoryRecords[0].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
+													if(b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
+														var vodafoneTag = b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[3].name;
+														var tripletta1 = b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[4].name;
+														var tripletta2 = b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[5].name;
+														var tripletta3 = b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[6].name;
+														z = 0;
+
+													}
+												}
+											}
+										}
+										var noteTecniche = "";
+										var options = { year: 'numeric', month: 'short', day: 'numeric', hour:'numeric', minute:'numeric', second:'numeric' };
+										for (var f = 0; f < arraylength2; f++){
+											if(b.conversationHistoryRecords[0].transfers[f].hasOwnProperty('contextData')){
+												if(b.conversationHistoryRecords[0].transfers[f].contextData.hasOwnProperty('structuredMetadata')){
+													var timestampMyLog = new Date(b.conversationHistoryRecords[0].transfers[f].timeL + (3600000*2)).toLocaleString('it-IT', options);
+													if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
+														noteTecniche = noteTecniche + timestampMyLog + " --> tag\n";
+													}
+													if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].id === "NPSsent"){
+														noteTecniche = noteTecniche + timestampMyLog + " --> NPS\n";
+													}
+
+													if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].id === "awakeLater"){
+														var timestampFreeze = new Date(parseInt(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].name) + (3600000*2)).toLocaleString('it-IT', options);
+														noteTecniche = noteTecniche + timestampMyLog + " --> freeze (" + timestampFreeze + ")\n";
+													}
+
+													if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].id === "yesno"){
+														if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[2].name === "limbo"){
+															noteTecniche = noteTecniche + timestampMyLog + " --> limbo\n";
+														}
+														if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[2].name === "risvegliata"){
+															noteTecniche = noteTecniche + timestampMyLog + " --> risvegliata\n";
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+
+
+							res.send([numero_telefono,numero_ricontatto,numero_cfiscale,vodafoneTag,tripletta1,tripletta2,tripletta3,noteTecniche]);
+						}
+					});
+				}
+			}else{
+				res.send(["errore","errore","errore","","","","",""]);
 			}
 
 		});
@@ -770,7 +774,7 @@ function checkNPSwasSent(json, isFacebook, channel){
 	if (channel === "outbound"){
 		channelType = "OUT";
 	}
-	var myCustomMSG = "Ti ringrazio di avere utilizzato il nostro servizio Facebook e ti ricordo che cliccando sul link seguente puoi esprimere il tuo parere su quanto hai gradito il supporto che ti ho fornito. Per me è molto importante ricevere la tua risposta e che la tua soddisfazione sia massima! Ci conto :-) https://assets.kampyle.com/clients/vodafone/direct/form.html?region=prodEuIrland&websiteId=67241&formId=4313&caseID=" + convToClose + "&channel=facebook&group=" + myAgentGroup + "&type=" +  channelType;
+	var myCustomMSG = "Ti ringrazio di avere utilizzato il nostro servizio Facebook, ti rimetto in contatto con TOBi, se avrai bisogno di altre informazioni puoi chiedergliele direttamente! Ti ricordo che cliccando sul link seguente puoi esprimere il tuo parere su quanto hai gradito il supporto che ti ho fornito. Per me è molto importante ricevere la tua risposta e che la tua soddisfazione sia massima! Ci conto :-) https://assets.kampyle.com/clients/vodafone/direct/form.html?region=prodEuIrland&websiteId=67241&formId=4313&caseID=" + convToClose + "&channel=facebook&group=" + myAgentGroup + "&type=" +  channelType;
 	console.log(myCustomMSG);
 	var timestampNPSsent = 0;
 	var request = require('request');
@@ -939,16 +943,97 @@ function closeChat(dialogID, wasNPSsent, myCustomMSG){
 			console.log(dialogID);
 			
 			if(cond1 || cond2 || cond3 || cond4 || wasNPSsent){
+				
+				myCustomMSG = "Ti ringrazio di avere utilizzato il nostro servizio Facebook, Ti rimetto in contatto con TOBi, se avrai bisogno di altre informazioni puoi chiedergliele direttamente!";
+				console.log("sending simple closure message");
 				echoAgent.updateConversationField({
-					conversationId: dialogID,
-					conversationField: [{
-						field: "ConversationStateField",
-						conversationState: "CLOSE"
-					}]
+					'conversationId': dialogID,
+					'conversationField': [
+						{
+						field: 'ParticipantsChange',
+						type: 'ADD',
+						userId: customBotID,
+						role: 'MANAGER'
+						}]
+					}, (e, resp) => {
+   						if (e) { 
+							console.error(e);
+							console.error("error_adding_bot_NPS: " + dialogID);
+    						} else {
+							console.log("agent in");
+						}
 				});
+				
+				echoAgent.publishEvent({
+						'dialogId': dialogID,
+						'event': {
+							message: myCustomMSG, // escalation message
+							contentType: "text/plain",
+							type: "ContentEvent"
+							}
+
+						}, (e, resp) => {
+   						if (e) { 
+							console.error(e);
+							console.error("error_sending_closure_message: " + dialogID);
+    						} else {
+							console.log("message sent");
+							var myTimestamp = Date.now();
+							echoAgent.updateConversationField({
+								'conversationId': dialogID,
+								'conversationField': [
+									{
+										field: "Skill",
+										type: "UPDATE",
+										skill: limboskill
+									}]
+								}, (e, resp) => {
+								if (e) {
+									console.error(e);
+									console.error("error_changing_skill_NPS");
+								} else {
+									console.log("transfered completed");
+								}
+							});
+		
+			
+							echoAgent.updateConversationField({
+								'conversationId': dialogID,
+								'conversationField': [
+									{
+									field: 'ParticipantsChange',
+									type: 'REMOVE',
+									userId: customBotID,
+									role: 'MANAGER'
+									}]
+
+								}, (e, resp) => {
+   									if (e) { 
+										console.error(e);
+										console.error("error_removing_bot_NPS");
+    									}
+									else {
+										console.log("transfered completed");
+										setTimeout(function(){
+											echoAgent.updateConversationField({
+												conversationId: dialogID,
+												conversationField: [{
+													field: "ConversationStateField",
+													conversationState: "CLOSE"
+												}]
+											});
+										}, 3000);
+									}
+    									
+							});
+							
+
+						}
+					});
+				
 			
 			} else{
-				console.log("agent out");
+				console.log("sending NPS");
 				echoAgent.updateConversationField({
 					'conversationId': dialogID,
 					'conversationField': [
@@ -1046,13 +1131,11 @@ function closeChat(dialogID, wasNPSsent, myCustomMSG){
 
 						}
 					});
-
-
-		
-		
 			}
 
 
+
+
 		});
 		
 		
@@ -1061,312 +1144,6 @@ function closeChat(dialogID, wasNPSsent, myCustomMSG){
 }
 
 
-function FaceBookWelcomeMessage(dialogID, fbName){
-	
-	if(fbName === "Facebook user"){
-		fbName = "";
-	}
-
-	
-	var messageFB1 = "Ciao " +  fbName + "! Benvenuto nel Servizio Clienti Vodafone su Facebook.";
-	var messageFB2 = "Per poter gestire la tua richiesta abbiamo bisogno del numero di cellulare o di rete fissa per il quale richiedi assistenza e una descrizione dettagliata della richiesta ed un nostro consulente gestirà la tua richiesta di assistenza. Se hai gia’ indicato queste informazioni scrivi semplicemente “fatto”.";
-	
-
-	
-	echoAgent.updateConversationField({
-		'conversationId': dialogID,
-		'conversationField': [
-		{
-			field: 'ParticipantsChange',
-			type: 'ADD',
-			userId: customBotID,
-			role: 'ASSIGNED_AGENT'
-		}]
-		}, (e, resp) => {
-   			if (e) { 
-				console.error(e);
-				console.error("error_adding_bot_welcomeFB");
-    		}
-	});
-
-	
-
-	echoAgent.publishEvent({
-		'dialogId': dialogID,
-		'event': {
-			message: messageFB1, // escalation message
-			contentType: "text/plain",
-			type: "ContentEvent"
-			}
-
-		}, (e, resp) => {
-   			if (e) { 
-				console.error(e);
-				console.error("error_sending_msg_welcomeFB1");
-    			} 
-	});
-		
-	setTimeout(function(){
-		
-		echoAgent.publishEvent({
-			'dialogId': dialogID,
-			'event': {
-				message: messageFB2, // escalation message
-				contentType: "text/plain",
-				type: "ContentEvent"
-				}
-
-			}, (e, resp) => {
-   				if (e) { 
-					console.error(e);
-					console.error("error_sending_msg_welcomeFB2");
-    			}
-		});
-		
-
-		
-		
-		echoAgent.updateConversationField({
-			'conversationId': dialogID,
-			'conversationField': [
-							
-				{
-				field: 'ParticipantsChange',
-				type: 'REMOVE',
-				userId: customBotID,
-				role: 'ASSIGNED_AGENT'
-				}]
-
-			}, (e, resp) => {
-   				if (e) { 
-					console.error(e);
-					console.error("error_removing_bot_welcomeFB");
-    			}
-    			console.log("Transfering..." , resp)
-		});
-		
-	}, 1000);
-		
-	
-	
-	
-
-	
-
-	
-	
-}
-
-function TransferToAnAgentFB(dialogID, timestamp){
-	
-	var d = new Date(timestamp);
-	var dateOfWeek = d.getDay();
-	var hourOfWeek = d.getHours();
-	var minutesOfWeek = d.getMinutes();
-	
-	var messageFB = "Rispondiamo ai Messaggi Privati tutti i giorni dalle 08.00 alle 22.00. Un nostro consulente gestirà la tua richiesta di assistenza durante gli orari di apertura. Servizio Clienti Vodafone";
-	
-	if((hourOfWeek === 19) && (minutesOfWeek > 49)){
-		
-		echoAgent.updateConversationField({
-			'conversationId': dialogID,
-			'conversationField': [
-							
-				{
-				field: 'ParticipantsChange',
-				type: 'ADD',
-				userId: customBotID,
-				role: 'ASSIGNED_AGENT'
-				}]
-
-			}, (e, resp) => {
-   				if (e) { 
-					console.error(e);
-					console.error("error_adding_bot_transferFB_night");
-    			}
-    			console.log("Transfering..." , resp)
-		});	
-	
-		echoAgent.updateConversationField({
-			'conversationId': dialogID,
-			'conversationField': [
-			{
-				field: "Skill",
-				type: "UPDATE",
-				skill: facebook_night_skill
-			}]
-
-			}, function(err) {
-   				if (err) { 
-					console.error(err);
-					console.error("error_changing_skill_transferFB_night");
-    			} else {
-					console.log("transfered completed");
-				}
-		});
-
-		echoAgent.updateConversationField({
-			'conversationId': dialogID,
-			'conversationField': [
-							
-				{
-				field: 'ParticipantsChange',
-				type: 'REMOVE',
-				userId: customBotID,
-				role: 'ASSIGNED_AGENT'
-				}]
-
-			}, (e, resp) => {
-   				if (e) { 
-					console.error(e);
-					console.error("error_removing_bot_transferFB_night");
-    			}
-    			console.log("Transfering..." , resp)
-		});
-		
-	} 
-	else if ((hourOfWeek < 6) || (hourOfWeek > 19)){
-		
-		echoAgent.updateConversationField({
-			'conversationId': dialogID,
-			'conversationField': [
-							
-				{
-				field: 'ParticipantsChange',
-				type: 'ADD',
-				userId: customBotID,
-				role: 'ASSIGNED_AGENT'
-				}]
-
-			}, (e, resp) => {
-   				if (e) { 
-					console.error(e);
-					console.error("error_adding_bot_transferFB_night");
-    			}
-    			console.log("Transfering..." , resp)
-		});
-		
-		echoAgent.publishEvent({
-			'dialogId': dialogID,
-			'event': {
-				message: messageFB, // escalation message
-				contentType: "text/plain",
-				type: "ContentEvent"
-				}
-
-			}, (e, resp) => {
-   				if (e) { 
-					console.error(e);
-					console.error("error_sending_msg_transferFB_night");
-    			}
-		});
-	
-		echoAgent.updateConversationField({
-			'conversationId': dialogID,
-			'conversationField': [
-			{
-				field: "Skill",
-				type: "UPDATE",
-				skill: facebook_night_skill
-			}]
-
-			}, function(err) {
-   				if (err) { 
-					console.error(err);
-					console.error("error_changing_skill_transferFB_night");
-    			} else {
-					console.log("transfered completed");
-				}
-		});
-
-		echoAgent.updateConversationField({
-			'conversationId': dialogID,
-			'conversationField': [
-							
-				{
-				field: 'ParticipantsChange',
-				type: 'REMOVE',
-				userId: customBotID,
-				role: 'ASSIGNED_AGENT'
-				}]
-
-			}, (e, resp) => {
-   				if (e) { 
-					console.error(e);
-					console.error("error_removing_bot_transferFB_night");
-    			}
-    			console.log("Transfering..." , resp)
-		});
-		
-		
-	}
-	else{
-		
-		echoAgent.updateConversationField({
-			'conversationId': dialogID,
-			'conversationField': [
-							
-				{
-				field: 'ParticipantsChange',
-				type: 'ADD',
-				userId: customBotID,
-				role: 'ASSIGNED_AGENT'
-				}]
-
-			}, (e, resp) => {
-   				if (e) { 
-					console.error(e);
-					console.error("error_adding_bot_transferFB_day");
-    			}
-    			console.log("Transfering..." , resp)
-		});	
-	
-		echoAgent.updateConversationField({
-			'conversationId': dialogID,
-			'conversationField': [
-			{
-				field: "Skill",
-				type: "UPDATE",
-				skill: "1089726032"
-			}]
-
-			}, function(err) {
-   				if (err) { 
-					console.error(err);
-					console.error("error_changing_skill_transferFB_day");
-    			} else {
-					console.log("transfered completed");
-				}
-		});
-
-		echoAgent.updateConversationField({
-			'conversationId': dialogID,
-			'conversationField': [
-							
-				{
-				field: 'ParticipantsChange',
-				type: 'REMOVE',
-				userId: customBotID,
-				role: 'ASSIGNED_AGENT'
-				}]
-
-			}, (e, resp) => {
-   				if (e) { 
-					console.error(e);
-					console.error("error_removing_bot_transferFB_day");
-    			}
-    			console.log("Transfering..." , resp)
-		});
-		
-	}
-			
-	
-
-		
-
-		
-	
-}
 
 
 
@@ -1517,75 +1294,7 @@ function checkIfConnected(agentName){
 }
 
 
-function sendAlertMessageFB(dialogID, fbName) {
-	
-	/********************************** remove me before to go in  production *****************************
-	
-	
-		const metadata = [{
-			type: 'BotResponse', // Bot context information about the last consumer message
-			externalConversationId: dialogID,
-			businessCases: [
-				'RightNow_Categorization' // identified capability
-			],
-			intents: [ // Last consumer message identified intents
-			{
-				id: 'alert',
-				name: "alertFB",
-				confidenceScore: 1
-			}]
-		}];
-		
-		echoAgent.updateConversationField({
-			'conversationId': dialogID,
-			'conversationField': [
-				{
-				field: 'ParticipantsChange',
-				type: 'ADD',
-				userId: customBotID,
-				role: 'MANAGER'
-				}]
-			}, (e, resp) => {
-   				if (e) { 
-					console.error(e);
-					console.error("error_adding_bot_alertFB");
-    			}
-		});
-		echoAgent.publishEvent({
-			'dialogId': dialogID,
-			'event': {
-				message: "Ciao " + fbName + " attendiamo la tua risposta se hai ancora bisogno del nostro supporto :)", // escalation message
-				contentType: "text/plain",
-				type: "ContentEvent"
-				}
-			}, (e, resp) => {
-   				if (e) { 
-					console.error(e);
-					console.error("error_sending_msg_alertFB");
-    			}
-		});
-		
-		echoAgent.updateConversationField({
-			'conversationId': dialogID,
-			'conversationField': [
-							
-				{
-				field: 'ParticipantsChange',
-				type: 'REMOVE',
-				userId: customBotID,
-				role: 'MANAGER'
-				}]
-			}, (e, resp) => {
-   				if (e) { 
-					console.error(e);
-					console.error("error_removing_bot_alertFB");
-    			}
-    			console.log("Transfering..." , resp)
-		});
-		
-	********************************** remove me before to go in  production *****************************/
-	
-}
+
 
 
 
@@ -1799,7 +1508,7 @@ function wakeUpChat(dialogID, agentName, channel, comeFromLimbo) {
 
 
 
-function proceedWithActions(){
+function proceedWithActions(answer){
 
 	console.log("ACTIONS");
 	var nowIsTimeToAction = Date.now();
@@ -1810,343 +1519,250 @@ function proceedWithActions(){
 
 	for (var m = 0; m < (answer.length); m++){
 		
-		if (m === (answer.length - 1)){
-			console.log("END_ACTIONS");
-		}
-		    
-		    
-
-		var isFacebook = 0;
-		var isOutbound = 0;
-		var lastTimeAwakened = 0;
-		var lastTimeInLimbo = 0;
-		var lastTimeInFreeze = 0;
-		var channel = "web";
-		var isToBeAwakened = 0;
-		var isToBeAwakenedTimestamp = 0;
-		if(answer[m].hasOwnProperty('transfers')){
-			if (typeof answer[m].transfers !== 'undefined' && answer[m].transfers.length > 0) {
-				if(answer[m].transfers[0].sourceSkillName === "facebook_bot"){
-					isFacebook = 1;
-					channel = "facebook";
-				}
-			}
-		}
-		if(answer[m].hasOwnProperty('transfers')){
-			if (typeof answer[m].transfers !== 'undefined' && answer[m].transfers.length > 0) {
-				for (var y = 0; y < (answer[m].transfers.length); y++){
-					if(answer[m].transfers[y].targetSkillName === "human"){
-						channel = "web";
-						isFacebook = 0;
-						isOutbound = 0;
-					}
-					if(answer[m].transfers[y].targetSkillName === "human_night"){
-						channel = "web_night";
-						isFacebook = 0;
-						isOutbound = 0;
-					}
-					if(answer[m].transfers[y].targetSkillName === "Outbound"){
-						channel = "outbound";
-						isFacebook = 0;
-						isOutbound = 1;
-					}
-					if(answer[m].transfers[y].targetSkillName === "Outbound_fixed"){
-						channel = "outbound_fixed";
-						isFacebook = 0;
-						isOutbound = 1;
-					}
-					if(answer[m].transfers[y].targetSkillName === "Facebook_priv"){
-						channel = "facebook";
-						isOutbound = 0;
-					}
-					if(answer[m].transfers[y].targetSkillName === "Fixed"){
-						channel = "fixed";
-						isOutbound = 0;
-					}
-					if(answer[m].transfers[y].targetSkillName === "Facebook_priv_night"){
-						channel = "facebook_night";
-						isOutbound = 0;
-					}
-					if(answer[m].transfers[y].targetSkillName === "Test"){
-						channel = "facebook";
-						isOutbound = 0;
-					}
-					if(answer[m].transfers[y].targetSkillName.indexOf("utbound") > -1){
-						isOutbound = 1;
-					}
-				}
-			}
-		}
-						
-						
-					
-					
-
+		setTimeout(function(m) {
 		
-		if(answer[m].info.latestSkillName === "facebook_bot"){
-			
-			
-			
-			// closeChat(dialogID, wasNPSsent);
-			var agentAnswers = 0;
-			var consumerAnswers = 0;
-			var howManyMessagesFaceBook = answer[m].messageRecords.length;
-			var myTimeStampFBSendMessageOrNot = 0;
-			if(howManyMessagesFaceBook){
-				for (var p = 0; p < howManyMessagesFaceBook; p++){
-					if (answer[m].messageRecords[p].sentBy === "Agent"){
-						agentAnswers = 1;
-						p = howManyMessagesFaceBook;
-					}
-				}
-				if (answer[m].messageRecords[howManyMessagesFaceBook - 1].sentBy === "Consumer"){
-					consumerAnswers = 1;
-					myTimeStampFBSendMessageOrNot = answer[m].messageRecords[howManyMessagesFaceBook - 1].timeL;
-				}
 
-				
-				var firstMessageFB = answer[m].messageRecords[0].timeL;
-				if(agentAnswers === 0){
-					FaceBookWelcomeMessage(answer[m].info.conversationId, answer[m].consumerParticipants[0].firstName);
-				}
-				else if((agentAnswers === 1) && (consumerAnswers === 1)){
-					TransferToAnAgentFB(answer[m].info.conversationId, myTimeStampFBSendMessageOrNot);
-				}
-				else if (firstMessageFB < closure){
-					console.log("***closing FB");
-					closeChat(answer[m].info.conversationId, 1, "");
+			var isFacebook = 0;
+			var isOutbound = 0;
+			var lastTimeAwakened = 0;
+			var lastTimeInLimbo = 0;
+			var lastTimeInFreeze = 0;
+			var channel = "web";
+			var isToBeAwakened = 0;
+			var isToBeAwakenedTimestamp = 0;
+
+
+			if((answer[m].info.latestSkillName === "Facebook_priv") || (answer[m].info.latestSkillName === "facebook_risvegliate")){
+				channel = "facebook";
+				isFacebook = 1;
+				isOutbound = 0;
+			} else if((answer[m].info.latestSkillName === "Facebook_priv_night") || (answer[m].info.latestSkillName === "Facebook_priv_night_risvegli")){
+				channel = "facebook_night";
+				isFacebook = 1;
+				isOutbound = 0;	
+			} else if((answer[m].info.latestSkillName === "Fixed") || (answer[m].info.latestSkillName === "Fixed_risvegliata")){
+				channel = "fixed";
+				isFacebook = 1;
+				isOutbound = 0;	
+			} else if((answer[m].info.latestSkillName === "human") || (answer[m].info.latestSkillName === "human_risvegliate")){
+				channel = "web";
+				isFacebook = 0;
+				isOutbound = 0;	
+			} else if((answer[m].info.latestSkillName === "human_night") || (answer[m].info.latestSkillName === "human_night_risvegliate")){
+				channel = "web_night";
+				isFacebook = 0;
+				isOutbound = 0;	
+			} else if((answer[m].info.latestSkillName === "Outbound") || (answer[m].info.latestSkillName === "outbound_risvegliate")){
+				channel = "outbound";
+				isFacebook = 0;
+				isOutbound = 1;	
+			} else if((answer[m].info.latestSkillName === "Outbound_fixed") || (answer[m].info.latestSkillName === "Outbound_fixed_risvegliate")){
+				channel = "outbound_fixed";
+				isFacebook = 0;
+				isOutbound = 1;	
+			} else if(answer[m].hasOwnProperty('transfers')){
+				if (typeof answer[m].transfers !== 'undefined' && answer[m].transfers.length > 0) {
+					for (var y = 0; y < (answer[m].transfers.length); y++){
+						if((answer[m].transfers[0].sourceSkillName === "Facebook_priv") || (answer[m].transfers[0].sourceSkillName === "facebook_risvegliate")){
+							channel = "facebook";
+							isFacebook = 1;
+							isOutbound = 0;	
+						}
+						if((answer[m].transfers[0].sourceSkillName === "Facebook_priv_night") || (answer[m].transfers[0].sourceSkillName === "Facebook_priv_night_risvegli")){
+							channel = "facebook_night";
+							isFacebook = 1;
+							isOutbound = 0;	
+						}
+						if((answer[m].transfers[0].sourceSkillName === "Fixed") || (answer[m].transfers[0].sourceSkillName === "Fixed_risvegliata")){
+							channel = "fixed";
+							isFacebook = 1;
+							isOutbound = 0;	
+						}
+						if((answer[m].transfers[0].sourceSkillName === "human") || (answer[m].transfers[0].sourceSkillName === "human_risvegliate")){
+							channel = "web";
+							isFacebook = 0;
+							isOutbound = 0;	
+						}
+						if((answer[m].transfers[0].sourceSkillName === "human_night") || (answer[m].transfers[0].sourceSkillName === "human_night_risvegliate")){
+							channel = "web_night";
+							isFacebook = 0;
+							isOutbound = 0;	
+						}
+						if((answer[m].transfers[0].sourceSkillName === "Outbound") || (answer[m].transfers[0].sourceSkillName === "outbound_risvegliate")){
+							channel = "outbound";
+							isFacebook = 0;
+							isOutbound = 1;	
+						}
+						if((answer[m].transfers[0].sourceSkillName === "Outbound_fixed") || (answer[m].transfers[0].sourceSkillName === "Outbound_fixed_risvegliate")){
+							channel = "outbound_fixed";
+							isFacebook = 0;
+							isOutbound = 1;	
+						}
+					}
 				}
 			}
-		}
-		else{
 
 
-		var howManyMessages = answer[m].messageRecords.length;
-			if(howManyMessages){
-				var thisConversationHasResponse = 0;
-				var thisConversationHasAlert = 0;
-				var whatTimeAlert = answer[m].messageRecords[(howManyMessages - 1)].timeL;
-				for (var q = (howManyMessages - 1); q > 0; q--){
-					if(answer[m].messageRecords[q].sentBy === "Agent" && answer[m].messageRecords[q].participantId !== "1089636032"){
-						if((whatTimeAlert < sendAlert) && !thisConversationHasAlert && (isFacebook === 1)){
-							sendAlertMessageFB(answer[m].info.conversationId, answer[m].consumerParticipants[0].firstName);
+
+			var howManyMessages = answer[m].messageRecords.length;
+				if(howManyMessages){
+					var thisConversationHasResponse = 0;
+					var thisConversationHasAlert = 0;
+					var whatTimeAlert = answer[m].messageRecords[(howManyMessages - 1)].timeL;
+					for (var q = (howManyMessages - 1); q > 0; q--){
+						if(answer[m].messageRecords[q].sentBy === "Agent" && answer[m].messageRecords[q].participantId !== "1089636032"){
+							thisConversationHasResponse = 1;
+							q = 0;
 						}
-						thisConversationHasResponse = 1;
-						q = 0;
+						else if(answer[m].messageRecords[q].sentBy === "Consumer"){
+							q = 0;
+						}
+						else if(answer[m].messageRecords[q].sentBy === "Agent" && answer[m].messageRecords[q].participantId === "1089636032"){
+							thisConversationHasAlert = 1;
+						}
+
 					}
-					else if(answer[m].messageRecords[q].sentBy === "Consumer"){
-						q = 0;
-					}
-					else if(answer[m].messageRecords[q].sentBy === "Agent" && answer[m].messageRecords[q].participantId === "1089636032"){
-						thisConversationHasAlert = 1;
-					}
-					   
-				}
-				
-				if(answer[m].hasOwnProperty('transfers')){
-					if (typeof answer[m].transfers !== 'undefined' && answer[m].transfers.length > 0) {
-						var arraylength = answer[m].transfers.length;
-						for (var w = (arraylength - 1); w > 0; w--){
-							if(answer[m].transfers[w].hasOwnProperty('contextData')){
-								if(answer[m].transfers[w].contextData.hasOwnProperty('structuredMetadata')){
-									if(answer[m].transfers[w].contextData.structuredMetadata[0].botResponse.intents.length > 2){
-										if(answer[m].transfers[w].contextData.structuredMetadata[0].botResponse.intents[2].name === "risvegliata"){
-											lastTimeAwakened = answer[m].transfers[w].timeL;
-											w = 0;
+
+					if(answer[m].hasOwnProperty('transfers')){
+						if (typeof answer[m].transfers !== 'undefined' && answer[m].transfers.length > 0) {
+							var arraylength = answer[m].transfers.length;
+							for (var w = (arraylength - 1); w > 0; w--){
+								if(answer[m].transfers[w].hasOwnProperty('contextData')){
+									if(answer[m].transfers[w].contextData.hasOwnProperty('structuredMetadata')){
+										if(answer[m].transfers[w].contextData.structuredMetadata[0].botResponse.intents.length > 2){
+											if(answer[m].transfers[w].contextData.structuredMetadata[0].botResponse.intents[2].name === "risvegliata"){
+												lastTimeAwakened = answer[m].transfers[w].timeL;
+												w = 0;
+											}
 										}
 									}
 								}
 							}
-						}
-						for (var w = (arraylength - 1); w > 0; w--){
-							if(answer[m].transfers[w].hasOwnProperty('contextData')){
-								if(answer[m].transfers[w].contextData.hasOwnProperty('structuredMetadata')){
-									if(answer[m].transfers[w].contextData.structuredMetadata[0].botResponse.intents.length > 2){
-										if(answer[m].transfers[w].contextData.structuredMetadata[0].botResponse.intents[2].name === "limbo"){
-											lastTimeInLimbo = answer[m].transfers[w].timeL;
-											w = 0;
+							for (var w = (arraylength - 1); w > 0; w--){
+								if(answer[m].transfers[w].hasOwnProperty('contextData')){
+									if(answer[m].transfers[w].contextData.hasOwnProperty('structuredMetadata')){
+										if(answer[m].transfers[w].contextData.structuredMetadata[0].botResponse.intents.length > 2){
+											if(answer[m].transfers[w].contextData.structuredMetadata[0].botResponse.intents[2].name === "limbo"){
+												lastTimeInLimbo = answer[m].transfers[w].timeL;
+												w = 0;
+											}
 										}
 									}
 								}
 							}
-						}
-						if(arraylength > 2){
-							if(answer[m].transfers[(arraylength -2)].hasOwnProperty('contextData')){
-								if(answer[m].transfers[(arraylength -2)].contextData.hasOwnProperty('structuredMetadata')){
-									if(answer[m].transfers[(arraylength -2)].contextData.structuredMetadata[0].botResponse.intents.length == 1){
-										isToBeAwakened = answer[m].transfers[(arraylength -2)].contextData.structuredMetadata[0].botResponse.intents[0].id;
-										isToBeAwakenedTimestamp = parseInt(answer[m].transfers[(arraylength -2)].contextData.structuredMetadata[0].botResponse.intents[0].name);
-										lastTimeInFreeze = answer[m].transfers[(arraylength -2)].timeL;
+							if(arraylength > 2){
+								if(answer[m].transfers[(arraylength -2)].hasOwnProperty('contextData')){
+									if(answer[m].transfers[(arraylength -2)].contextData.hasOwnProperty('structuredMetadata')){
+										if(answer[m].transfers[(arraylength -2)].contextData.structuredMetadata[0].botResponse.intents.length == 1){
+											isToBeAwakened = answer[m].transfers[(arraylength -2)].contextData.structuredMetadata[0].botResponse.intents[0].id;
+											isToBeAwakenedTimestamp = parseInt(answer[m].transfers[(arraylength -2)].contextData.structuredMetadata[0].botResponse.intents[0].name);
+											lastTimeInFreeze = answer[m].transfers[(arraylength -2)].timeL;
+										}
 									}
 								}
 							}
-						}
-						
-					}
-					
-				}
 
-					
-				
-				
-				var whatTime = 0;
-				for (var k = (howManyMessages - 1); k > 0; k--){
-					if(answer[m].messageRecords[k].sentBy === "Agent" && answer[m].messageRecords[k].participantId !== "1089636032"){
-						whatTime = answer[m].messageRecords[k].timeL;
-						k = 0;
+						}
+
 					}
-				}
-				var whatTimeAgent = 0;
-				for (var k = (howManyMessages - 1); k > 0; k--){
-					if(answer[m].messageRecords[k].sentBy === "Agent"){
-						// var thisAgentMessageID = answer[m].messageRecords[k].messageId;
-						// if(answer[m].hasOwnProperty('messageStatuses')){
-							// var messageStatusesLength = answer[m].messageStatuses.length;
-							// for (var sxd = 0; sxd < messageStatusesLength; sxd++){
-								// if((answer[m].messageStatuses[sxd].messageId === thisAgentMessageID) && (answer[m].messageStatuses[sxd].messageDeliveryStatus === "ACCEPT")){
-									whatTimeAgent = answer[m].messageRecords[k].timeL;
-									k = 0;
-									// sxd = messageStatusesLength;
-								// }
-							// }
-						// }	
+
+
+
+
+					var whatTime = 0;
+					for (var k = (howManyMessages - 1); k > -1; k--){
+						if(answer[m].messageRecords[k].sentBy === "Agent" && answer[m].messageRecords[k].participantId !== "1089636032"){
+							whatTime = answer[m].messageRecords[k].timeL;
+							k = 0;
+						}
 					}
-				}
-				var whatTimeCustomer = 0;
-				for (var k = (howManyMessages - 1); k > 0; k--){
-					if(answer[m].messageRecords[k].sentBy === "Consumer"){
-						whatTimeCustomer = answer[m].messageRecords[k].timeL;
-						k = 0;
+					var whatTimeAgent = 0;
+					for (var k = (howManyMessages - 1); k > -1; k--){
+						if(answer[m].messageRecords[k].sentBy === "Agent"){
+							whatTimeAgent = answer[m].messageRecords[k].timeL;
+							k = 0;
+						}
 					}
-				}
-				var postuma = 0;
-				if(lastTimeAwakened !== 0){
-					if (whatTimeAlert < lastTimeAwakened){
-						postuma = 1;
+					var whatTimeCustomer = 0;
+					for (var k = (howManyMessages - 1); k > -1; k--){
+						if(answer[m].messageRecords[k].sentBy === "Consumer"){
+							whatTimeCustomer = answer[m].messageRecords[k].timeL;
+							k = 0;
+						}
 					}
-				}
-				
-				if(isToBeAwakened === "awakeLater"){
-					// console.log("thisIsToBeAwakened in " + (isToBeAwakenedTimestamp - Date.now()));
-					if(isToBeAwakenedTimestamp < nowIsTimeToAction){
-						console.log("***unfreezing");
-						wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel, false);
+					var postuma = 0;
+					if(lastTimeAwakened !== 0){
+						if (whatTimeAlert < lastTimeAwakened){
+							postuma = 1;
+						}
 					}
-				}
-				
-				if(answer[m].messageRecords[(answer[m].messageRecords.length - 1)].sentBy === "Consumer") {
-					if ((answer[m].info.latestSkillId === limboskill) && whatTimeCustomer){
-						if(whatTimeCustomer < closure){
-							console.log("***closing");
-							console.log("isFacebook = " + isFacebook);
-							checkNPSwasSent(answer[m], isFacebook, channel); //enable NPS
-						} else if (whatTimeCustomer > lastTimeInLimbo){
+
+					if(isToBeAwakened === "awakeLater"){
+						// console.log("thisIsToBeAwakened in " + (isToBeAwakenedTimestamp - Date.now()));
+						if(isToBeAwakenedTimestamp < nowIsTimeToAction){
+							console.log("***unfreezing");
+							wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel, false);
+						}
+					}
+
+					if(answer[m].messageRecords[(answer[m].messageRecords.length - 1)].sentBy === "Consumer") {
+						if ((answer[m].info.latestSkillId === limboskill) && whatTimeCustomer){
+							if(whatTimeCustomer < closure){
+								console.log("***closing");
+								console.log("isFacebook = " + isFacebook);
+								checkNPSwasSent(answer[m], isFacebook, channel); //enable NPS
+							} else if (whatTimeCustomer > lastTimeInLimbo){
+								wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel, true);
+							}
+
+						}
+						else if ((answer[m].info.latestSkillId === freezeskill) && (whatTimeCustomer > lastTimeInFreeze)){
+							console.log("***wakingup");
 							wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel, true);
-						}
-						
-					}
-					else if ((answer[m].info.latestSkillId === freezeskill) && (whatTimeCustomer > lastTimeInFreeze)){
-						console.log("***wakingup");
-						wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel, true);
-					} else if (answer[m].info.latestSkillName.indexOf("***") > -1){
-						if(whatTime < bringMeBackAtGeneral){
-							if (answer[m].info.latestQueueState === "IN_QUEUE"){
-								wakeUpChat(answer[m].info.conversationId, "56yghju765rfvbhu7656yg", channel, true);
-							}
-
-						}
-					}
-
-				}
-				else{
-					
-					if (!postuma && thisConversationHasResponse && (answer[m].info.latestSkillId !== limboskill) && (isOutbound === 0) && (answer[m].info.latestSkillId !== freezeskill) && (answer[m].messageRecords[(answer[m].messageRecords.length - 1)].participantId !== botID)){
-						if((whatTime < moveToLimbo) && (answer[m].info.latestSkillId !== limboskill)){
-							console.log("***Limbo");
-							limboChat(answer[m].info.conversationId, answer[m].info.latestAgentId);
-						}
-					}
-					else if ((answer[m].info.latestSkillId === limboskill) && whatTimeAgent){
-						
-						if (whatTimeAgent < closure){
-							console.log("***closing");
-							console.log("isFacebook = " + isFacebook);
-							checkNPSwasSent(answer[m], isFacebook, channel); //enable NPS
-							// checkNPSwasSent(answer[m], 0, channel);  //disable NPS
-							
-		 				}
-		 			}
-				}
-				
-				/**********
-				var isRealQueue = false;
-				if(answer[m].hasOwnProperty('transfers')){
-					var wer = answer[m].transfers.length;
-					if (wer > 0){
-						if(answer[m].transfers[(wer-1)].reason === "Back2Q"){
-							isRealQueue = true;
-						}
-					}
-				}
-				var goAhead = false;
-				if (answer[m].info.latestQueueState !== "IN_QUEUE"){
-					goAhead = true;
-				}
-				if (answer[m].info.latestQueueState === "IN_QUEUE" && !isRealQueue){
-					goAhead = true;
-				}
-				
-				
-				
-				
-				if (goAhead && (answer[m].info.latestSkillId !== limboskill) && (answer[m].info.latestSkillId !== freezeskill)){
-				
-				
-				
-				
-				if (answer[m].info.latestQueueState !== "IN_QUEUE"){
-					
-					var lastTimeThatIJoined = 0;
-					if (answer[m].hasOwnProperty('agentParticipants')){
-						var agentParticipantsLength = answer[m].agentParticipants.length;
-						for (var sdf = (agentParticipantsLength - 1); sdf >=0; sdf --){
-							if (answer[m].agentParticipants[sdf].permission === "ASSIGNED_AGENT"){
-								lastTimeThatIJoined = answer[m].agentParticipants[sdf].timeL;
-								sdf = 0;
-							}
-						}
-					}
-					if ((nowIsTimeToAction - lastTimeThatIJoined) > 70000){
-						if (totalAgentsLogged.indexOf(answer[m].info.latestAgentLoginName) <= -1){
-							console.log("nome agente: " + answer[m].info.latestAgentLoginName);
-							console.log("nowIsTimeToAction: " + nowIsTimeToAction);
-							console.log("whatTimeCustomer: " + whatTimeCustomer);
-							console.log("whatTimeAgent: " + whatTimeAgent);
-							if (((nowIsTimeToAction - whatTimeCustomer) < 3*60*1000) || ((nowIsTimeToAction - whatTimeAgent) < 3*60*1000)){
-								console.log("hooray agent! case wakeup1");
-								wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel, false);
-							} else{
-								if (whatTimeAgent > whatTimeCustomer){
-									console.log("hooray agent! case limbo");
-									limboChat(answer[m].info.conversationId, answer[m].info.latestAgentId);
-								} else{
-									console.log("hooray agent! case wakeup2");
-									wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel, false);
+						} else if (answer[m].info.latestSkillName.indexOf("***") > -1){
+							if(whatTime < bringMeBackAtGeneral){
+								if (answer[m].info.latestQueueState === "IN_QUEUE"){
+									wakeUpChat(answer[m].info.conversationId, "56yghju765rfvbhu7656yg", channel, true);
 								}
+
+							}
+						}
+
+					}
+					else{
+
+						if (!postuma && thisConversationHasResponse && (answer[m].info.latestSkillId !== limboskill) && (isOutbound === 0) && (answer[m].info.latestSkillId !== freezeskill) && (answer[m].messageRecords[(answer[m].messageRecords.length - 1)].participantId !== botID)){
+							if((whatTime < moveToLimbo) && (answer[m].info.latestSkillId !== limboskill)){
+								console.log("***Limbo");
+								limboChat(answer[m].info.conversationId, answer[m].info.latestAgentId);
+							}
+						}
+						else if ((answer[m].info.latestSkillId === limboskill) && (whatTimeAgent > 0)){
+							if(answer[m].info.conversationId == "73ff4268-171c-4398-9c11-f5c0c1c7770f"){
+								console.log("we are inside");
+							}
+
+							if (whatTimeAgent < closure){
+								console.log("***closing");
+								console.log("isFacebook = " + isFacebook);
+								checkNPSwasSent(answer[m], isFacebook, channel); //enable NPS
+								// checkNPSwasSent(answer[m], 0, channel);  //disable NPS
+
 							}
 						}
 					}
+
+
 				}
 				
 				
-				***************************/
-
-		 	}
+				if (m === (answer.length - 1)){
+					console.log("END_ACTIONS");
+				}
+			
+			}, 0, m);
 		
 		}
-		
-
-	}
 	
 
 
@@ -2159,7 +1775,7 @@ function tryUntilSuccess(integer, callback) {
 
 
 	var now = Date.now();
-	var before = (Date.now() - (1000*60*60*24*30));    // only the conversation of the last 30 days will be fetched
+	var before = (Date.now() - (1000*60*60*24*30));    // only the conversation of the last 60 days will be fetched
 	var request = require('request');
 	var oauth = "Bearer " + bearer;
 	var body = {"start":{"from":before,"to":now}, "status": ["open"]};
@@ -2174,43 +1790,99 @@ function tryUntilSuccess(integer, callback) {
     			}
 		}, function (e, r, b) {
 			
-			if(integer == 0){
-				conversationsToDownload = b._metadata.count;
-				conversationsPartial = 0;
-			}
-			if (conversationsToDownload > 0){
-				conversationsPartial = conversationsPartial + b.conversationHistoryRecords.length;
-				if(conversationsPartial < conversationsToDownload){
-					integer = conversationsPartial;
-					answer = answer.concat(b.conversationHistoryRecords);
-					tryUntilSuccess(integer, callback);
+			if(b){
+			
+				if(integer == 0){
+					conversationsToDownload = 0;
+					if(b.hasOwnProperty('_metadata')){
+						if(b._metadata.hasOwnProperty('count')){
+							conversationsToDownload = b._metadata.count;
+						}
+					}
+
+					conversationsPartial = 0;
+					myCheckConversationsPartial = 0;
 				}
-				else{
+				if (conversationsToDownload > 0){
+					if(b.hasOwnProperty('conversationHistoryRecords')){
+						conversationsPartial = conversationsPartial + b.conversationHistoryRecords.length;
+						if (myCheckConversationsPartial < conversationsPartial){
+							if(conversationsPartial < conversationsToDownload){
+								integer = conversationsPartial;
+								myCheckConversationsPartial = conversationsPartial;
+								console.log(conversationsPartial + "<--->" + conversationsToDownload);
+								proceedWithActions(b.conversationHistoryRecords);
+								tryUntilSuccess(integer, callback);
+							} else{
+								integer = 0;
+								console.log(conversationsPartial + "<--->" + conversationsToDownload);
+								proceedWithActions(b.conversationHistoryRecords);
+								setTimeout(function(){
+									agentsLogged = [];
+									totalAgentsLogged = [];
+									retrieveAgentsLogged();
+									setTimeout(function(){
+										console.log("fetching convs");
+										tryUntilSuccess(integer, function(err, resp) {
+											// Your code here...
+										});
+
+									}, 2000);
+
+								}, 2000);
+							}
+						} else{
+							integer = 0;
+							console.log(conversationsPartial + "<--->" + conversationsToDownload);
+							proceedWithActions(b.conversationHistoryRecords);
+							setTimeout(function(){
+								agentsLogged = [];
+								totalAgentsLogged = [];
+								retrieveAgentsLogged();
+								setTimeout(function(){
+									console.log("fetching convs");
+									tryUntilSuccess(integer, function(err, resp) {
+										// Your code here...
+									});
+
+								}, 2000);
+
+							}, 2000);
+						}
+					} else{
+						console.log("conversationHistoryRecords is null");
+						tryUntilSuccess(integer, function(err, resp) {
+							
+						});
+					}
+				} else{
 					integer = 0;
-					answer = answer.concat(b.conversationHistoryRecords);
-					proceedWithActions();		      
+					setTimeout(function(){
+						agentsLogged = [];
+						totalAgentsLogged = [];
+						retrieveAgentsLogged();
+						setTimeout(function(){
+							console.log("fetching convs");
+							tryUntilSuccess(integer, function(err, resp) {
+								// Your code here...
+							});
+
+						}, 2000);
+
+					}, 2000);
 				}
+				
+			} else{
+				setTimeout(function(){
+					console.log("error fetching");
+					tryUntilSuccess(integer, function(err, resp) {
+						// Your code here...
+					});
+				}, 10000);
 			}
 			
 			
 			
-			
-			/**********
-			if(b.hasOwnProperty('conversationHistoryRecords')){
-    				if((b.conversationHistoryRecords.length) == 100){
-	 				answer = answer.concat(b.conversationHistoryRecords);
-         				integer = integer + 100;
-         				tryUntilSuccess(integer, callback);
-    				}
-    				else{
-					integer = 0;
-					answer = answer.concat(b.conversationHistoryRecords);
-					proceedWithActions();
-    				}
-			}else{
-				tryUntilSuccess(integer, callback);
-			}
-			************/
 
 		});
 
@@ -2225,21 +1897,19 @@ function tryUntilSuccess(integer, callback) {
 
 var integer = 0;
 
-setTimeout(function(){
+echoAgent.on('connected', msg=>{
 	console.log("********* let's go! **********");
 	bearer = echoAgent.transport.configuration.token;
 	retrieveSkills();
-	setInterval(function(){
-		agentsLogged = [];
-		totalAgentsLogged = [];
+	setTimeout(function(){
+		console.log("first fetch");
 		retrieveAgentsLogged();
 		setTimeout(function(){
-			answer = [];
 			console.log("fetching convs");
 			tryUntilSuccess(integer, function(err, resp) {
     				// Your code here...
 			});
 						
 		}, 2000);
-	}, 60000);
-}, 10000);
+	}, 2000);
+});
