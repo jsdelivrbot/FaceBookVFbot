@@ -1,3 +1,10 @@
+
+
+
+
+
+
+
 var events = require('events');
 var emitter = new events.EventEmitter();
 
@@ -114,107 +121,52 @@ function checkValues(req, res, next) {
 			}
 		}, function (e, r, b) {
 			
-			if(b.hasOwnProperty('_metadata')){
-				var arraylength = 0;
-				if(b._metadata.hasOwnProperty('count')){
-					arraylength = b._metadata.count;
-				} else{
-					console.log("empty!!!!!");
-				}
-				for (var i = 0; i < arraylength; i++){
-					if(b.hasOwnProperty('conversationHistoryRecords')){
-						if(b.conversationHistoryRecords.length > 0){
-							if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
-								if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined' && b.conversationHistoryRecords[i].transfers.length > 0) {
-									var arraylength2 = b.conversationHistoryRecords[i].transfers.length;
-									for (var z = (arraylength2 -1); z > -1; z--){
-										if(b.conversationHistoryRecords[i].transfers[z].hasOwnProperty('contextData')){
-											if(b.conversationHistoryRecords[i].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
-												if(b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
-													var numero_telefono = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].name;
-													var numero_ricontatto = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[1].name;
-													var numero_cfiscale = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[2].name;
-													z = 0;
-													i = arraylength;
-									
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-				console.log(currentconvID);
-			
-				var request = require('request');
-				var oauth = "Bearer " + bearer;
-				var body = {"conversationId" : currentconvID};
-				var url = 'https://lo.msghist.liveperson.net/messaging_history/api/account/13099967/conversations/conversation/search';
-				request.post({
-					url: url,
-					json: true,
-					body: body,
-					headers: {
-						'Content-Type': 'application/json',
-						'Authorization': oauth
-					}
-				}, function (e, r, b) {
-					if(e){
-						res.send("errore");
+			if(b){
+				if(b.hasOwnProperty('_metadata')){
+					var arraylength = 0;
+					if(b._metadata.hasOwnProperty('count')){
+						arraylength = b._metadata.count;
 					} else{
-						var arraylength = 0;
-						if(b.hasOwnProperty('_metadata')){
-							if(b._metadata.hasOwnProperty('count')){
-								arraylength = b._metadata.count;
-							} else{
-								console.log("empty!!!!!");
-							}
-						}
-						// console.log("b length: " + arraylength);
-						if( arraylength > 0 ){
-							if(b.conversationHistoryRecords[0].hasOwnProperty('transfers')){
-								if (typeof b.conversationHistoryRecords[0].transfers !== 'undefined' && b.conversationHistoryRecords[0].transfers.length > 0) {
-									var arraylength2 = b.conversationHistoryRecords[0].transfers.length;
-									for (var z = (arraylength2 -1); z > -1; z--){
-										if(b.conversationHistoryRecords[0].transfers[z].hasOwnProperty('contextData')){
-											if(b.conversationHistoryRecords[0].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
-												if(b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
-													var vodafoneTag = b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[3].name;
-													var tripletta1 = b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[4].name;
-													var tripletta2 = b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[5].name;
-													var tripletta3 = b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[6].name;
-													z = 0;
-									
+						console.log("empty!!!!!");
+					}
+					var myGreenLight = false;
+					var numero_telefono = "";
+					var numero_ricontatto = "";
+					var numero_cfiscale = "";
+					
+					for (var i = 0; i < arraylength; i++){
+						if(b.hasOwnProperty('conversationHistoryRecords')){
+							if(b.conversationHistoryRecords.length > 0){
+								if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
+									if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined' && b.conversationHistoryRecords[i].transfers.length > 0) {
+										var arraylength2 = b.conversationHistoryRecords[i].transfers.length;
+										for (var z = (arraylength2 -1); z > -1; z--){
+											if(b.conversationHistoryRecords[i].transfers[z].hasOwnProperty('contextData')){
+												if(b.conversationHistoryRecords[i].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
+													if(b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
+														numero_telefono = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].name;
+														numero_ricontatto = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[1].name;
+														numero_cfiscale = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[2].name;
+														z = 0;
+														myGreenLight = true;
+													}
 												}
 											}
 										}
 									}
-									var noteTecniche = "";
-									var options = { year: 'numeric', month: 'short', day: 'numeric', hour:'numeric', minute:'numeric', second:'numeric' };
-									for (var f = 0; f < arraylength2; f++){
-										if(b.conversationHistoryRecords[0].transfers[f].hasOwnProperty('contextData')){
-											if(b.conversationHistoryRecords[0].transfers[f].contextData.hasOwnProperty('structuredMetadata')){
-												var timestampMyLog = new Date(b.conversationHistoryRecords[0].transfers[f].timeL + (3600000*2)).toLocaleString('it-IT', options);
-												if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
-													noteTecniche = noteTecniche + timestampMyLog + " --> tag\n";
-												}
-												if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].id === "NPSsent"){
-													noteTecniche = noteTecniche + timestampMyLog + " --> NPS\n";
-												}
-											
-												if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].id === "awakeLater"){
-													var timestampFreeze = new Date(parseInt(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].name) + (3600000*2)).toLocaleString('it-IT', options);
-													noteTecniche = noteTecniche + timestampMyLog + " --> freeze (" + timestampFreeze + ")\n";
-												}
-											
-												if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].id === "yesno"){
-													if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[2].name === "limbo"){
-														noteTecniche = noteTecniche + timestampMyLog + " --> limbo\n";
-													}
-													if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[2].name === "risvegliata"){
-														noteTecniche = noteTecniche + timestampMyLog + " --> risvegliata\n";
+								}
+								if(b.conversationHistoryRecords[i].hasOwnProperty('agentParticipants')){
+									if (typeof b.conversationHistoryRecords[i].agentParticipants !== 'undefined' && b.conversationHistoryRecords[i].agentParticipants.length > 0) {
+										var arraylength3 = b.conversationHistoryRecords[i].agentParticipants.length;
+										for (var z = (arraylength3 -1); z > -1; z--){
+											if(b.conversationHistoryRecords[i].agentParticipants[z].hasOwnProperty('contextData')){
+												if(b.conversationHistoryRecords[i].agentParticipants[z].contextData.hasOwnProperty('structuredMetadata')){
+													if(b.conversationHistoryRecords[i].agentParticipants[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
+														numero_telefono = b.conversationHistoryRecords[i].agentParticipants[z].contextData.structuredMetadata[0].botResponse.intents[0].name;
+														numero_ricontatto = b.conversationHistoryRecords[i].agentParticipants[z].contextData.structuredMetadata[0].botResponse.intents[1].name;
+														numero_cfiscale = b.conversationHistoryRecords[i].agentParticipants[z].contextData.structuredMetadata[0].botResponse.intents[2].name;
+														z = 0;
+														myGreenLight = true;
 													}
 												}
 											}
@@ -223,11 +175,150 @@ function checkValues(req, res, next) {
 								}
 							}
 						}
-					
-
-						res.send([numero_telefono,numero_ricontatto,numero_cfiscale,vodafoneTag,tripletta1,tripletta2,tripletta3,noteTecniche]);
+						if(myGreenLight){
+							i = arraylength;
+						}
 					}
-				});
+					console.log(currentconvID);
+
+					var request = require('request');
+					var oauth = "Bearer " + bearer;
+					var body = {"conversationId" : currentconvID};
+					var url = 'https://lo.msghist.liveperson.net/messaging_history/api/account/13099967/conversations/conversation/search';
+					request.post({
+						url: url,
+						json: true,
+						body: body,
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': oauth
+						}
+					}, function (e, r, b) {
+						if(e){
+							res.send("errore");
+						} else{
+							var arraylength = 0;
+							if(b.hasOwnProperty('_metadata')){
+								if(b._metadata.hasOwnProperty('count')){
+									arraylength = b._metadata.count;
+								} else{
+									console.log("empty!!!!!");
+								}
+							}
+							// console.log("b length: " + arraylength);
+							if( arraylength > 0 ){
+								var vodafoneTag = "";
+								var tripletta1 = "";
+								var tripletta2 = "";
+								var tripletta3 = "";
+								var noteTecniche = "";
+								var options = { year: 'numeric', month: 'short', day: 'numeric', hour:'numeric', minute:'numeric', second:'numeric' };
+								if(b.conversationHistoryRecords[0].hasOwnProperty('transfers')){
+									if (typeof b.conversationHistoryRecords[0].transfers !== 'undefined' && b.conversationHistoryRecords[0].transfers.length > 0) {
+										var arraylength2 = b.conversationHistoryRecords[0].transfers.length;
+										for (var z = (arraylength2 -1); z > -1; z--){
+											if(b.conversationHistoryRecords[0].transfers[z].hasOwnProperty('contextData')){
+												if(b.conversationHistoryRecords[0].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
+													if(b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
+														vodafoneTag = b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[3].name;
+														tripletta1 = b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[4].name;
+														tripletta2 = b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[5].name;
+														tripletta3 = b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[6].name;
+														z = 0;
+
+													}
+												}
+											}
+										}
+
+										for (var f = 0; f < arraylength2; f++){
+											if(b.conversationHistoryRecords[0].transfers[f].hasOwnProperty('contextData')){
+												if(b.conversationHistoryRecords[0].transfers[f].contextData.hasOwnProperty('structuredMetadata')){
+													var timestampMyLog = new Date(b.conversationHistoryRecords[0].transfers[f].timeL + (3600000*2)).toLocaleString('it-IT', options);
+													if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
+														noteTecniche = noteTecniche + timestampMyLog + " --> tag\n";
+													}
+													if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].id === "NPSsent"){
+														noteTecniche = noteTecniche + timestampMyLog + " --> NPS\n";
+													}
+
+													if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].id === "awakeLater"){
+														var timestampFreeze = new Date(parseInt(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].name) + (3600000*2)).toLocaleString('it-IT', options);
+														noteTecniche = noteTecniche + timestampMyLog + " --> freeze (" + timestampFreeze + ")\n";
+													}
+
+													if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[0].id === "yesno"){
+														if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[2].name === "limbo"){
+															noteTecniche = noteTecniche + timestampMyLog + " --> limbo\n";
+														}
+														if(b.conversationHistoryRecords[0].transfers[f].contextData.structuredMetadata[0].botResponse.intents[2].name === "risvegliata"){
+															noteTecniche = noteTecniche + timestampMyLog + " --> risvegliata\n";
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+								
+								
+								if(b.conversationHistoryRecords[0].hasOwnProperty('agentParticipants')){
+									if (typeof b.conversationHistoryRecords[0].agentParticipants !== 'undefined' && b.conversationHistoryRecords[0].agentParticipants.length > 0) {
+										var arraylength3 = b.conversationHistoryRecords[0].agentParticipants.length;
+										for (var z = (arraylength3 -1); z > -1; z--){
+											if(b.conversationHistoryRecords[0].agentParticipants[z].hasOwnProperty('contextData')){
+												if(b.conversationHistoryRecords[0].agentParticipants[z].contextData.hasOwnProperty('structuredMetadata')){
+													if(b.conversationHistoryRecords[0].agentParticipants[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
+														vodafoneTag = b.conversationHistoryRecords[0].agentParticipants[z].contextData.structuredMetadata[0].botResponse.intents[3].name;
+														tripletta1 = b.conversationHistoryRecords[0].agentParticipants[z].contextData.structuredMetadata[0].botResponse.intents[4].name;
+														tripletta2 = b.conversationHistoryRecords[0].agentParticipants[z].contextData.structuredMetadata[0].botResponse.intents[5].name;
+														tripletta3 = b.conversationHistoryRecords[0].agentParticipants[z].contextData.structuredMetadata[0].botResponse.intents[6].name;
+														z = 0;
+
+													}
+												}
+											}
+										}
+
+										for (var f = 0; f < arraylength3; f++){
+											if(b.conversationHistoryRecords[0].agentParticipants[f].hasOwnProperty('contextData')){
+												if(b.conversationHistoryRecords[0].agentParticipants[f].contextData.hasOwnProperty('structuredMetadata')){
+													var timestampMyLog = new Date(b.conversationHistoryRecords[0].agentParticipants[f].timeL + (3600000*2)).toLocaleString('it-IT', options);
+													if(b.conversationHistoryRecords[0].agentParticipants[f].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
+														noteTecniche = noteTecniche + timestampMyLog + " --> tag\n";
+													}
+													if(b.conversationHistoryRecords[0].agentParticipants[f].contextData.structuredMetadata[0].botResponse.intents[0].id === "NPSsent"){
+														noteTecniche = noteTecniche + timestampMyLog + " --> NPS\n";
+													}
+
+													if(b.conversationHistoryRecords[0].agentParticipants[f].contextData.structuredMetadata[0].botResponse.intents[0].id === "awakeLater"){
+														var timestampFreeze = new Date(parseInt(b.conversationHistoryRecords[0].agentParticipants[f].contextData.structuredMetadata[0].botResponse.intents[0].name) + (3600000*2)).toLocaleString('it-IT', options);
+														noteTecniche = noteTecniche + timestampMyLog + " --> freeze (" + timestampFreeze + ")\n";
+													}
+
+													if(b.conversationHistoryRecords[0].agentParticipants[f].contextData.structuredMetadata[0].botResponse.intents[0].id === "yesno"){
+														if(b.conversationHistoryRecords[0].agentParticipants[f].contextData.structuredMetadata[0].botResponse.intents[2].name === "limbo"){
+															noteTecniche = noteTecniche + timestampMyLog + " --> limbo\n";
+														}
+														if(b.conversationHistoryRecords[0].agentParticipants[f].contextData.structuredMetadata[0].botResponse.intents[2].name === "risvegliata"){
+															noteTecniche = noteTecniche + timestampMyLog + " --> risvegliata\n";
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+								
+							}
+
+
+							res.send([numero_telefono,numero_ricontatto,numero_cfiscale,vodafoneTag,tripletta1,tripletta2,tripletta3,noteTecniche]);
+						}
+					});
+				}
+			}else{
+				res.send(["errore","errore","errore","","","","",""]);
 			}
 
 		});
@@ -619,37 +710,16 @@ function markConvFB(currentconvID){
 			type: "ADD",
 			role: "READER"
 		}]
-		}, function(err) {
-			if(err) {
-				console.log(err);
-				console.error("error_adding_bot_markconvFB");
-			} else {
-				// console.log("joining completed");
-			}
-	});
-
-
-
-
-
-	echoAgent.updateConversationField({
-		conversationId: currentconvID,
-		conversationField: [{
-			field: "Skill",
-			type: "UPDATE",
-			skill: skill
-		}]
 		}, null, metadata, function(err) {
 			if(err) {
 				console.log(err);
-				console.error("error_changing_skill_markconvFB");
+				console.error("error_adding_bot_markconvFB");
 				emitter.emit(currentconvID, 'errore');
 			} else {
 				console.log("transfered completed");
 				emitter.emit(currentconvID, 'inviato');
 			}
 	});
-
 
 
 
@@ -873,36 +943,51 @@ function closeChat(dialogID, wasNPSsent, myCustomMSG){
 			if( arraylength > 0 ){	
 				console.log("inside closing");
 				console.log("dialogID " + dialogID);
-				arraylength = b.conversationHistoryRecords.length;
-				for (var i = 0; i < arraylength; i++){
-					if(b.hasOwnProperty('conversationHistoryRecords')){
-						if(b.conversationHistoryRecords.length > 0){
-							console.log("******* " + i);
-							if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
-						
-								if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined') {
-									var arraylength2 = b.conversationHistoryRecords[i].transfers.length;
-									for (var z = (arraylength2 -1); z > -1; z--){
-										if(b.conversationHistoryRecords[i].transfers[z].hasOwnProperty('contextData')){
-											if(b.conversationHistoryRecords[i].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
-												if(b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
-													pushedTags = JSON.stringify(b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[3].name);
-													triplettauno = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[4].name;
-													triplettadue = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[5].name;
-													triplettatre = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[6].name;
-													z = 0;
-													i = arraylength;
+
+				if(b.hasOwnProperty('conversationHistoryRecords')){
+					if(b.conversationHistoryRecords.length > 0){
+						if(b.conversationHistoryRecords[0].hasOwnProperty('transfers')){
+							if(typeof b.conversationHistoryRecords[0].transfers !== 'undefined') {
+								var arraylength2 = b.conversationHistoryRecords[0].transfers.length;
+								for (var z = (arraylength2 -1); z > -1; z--){
+									if(b.conversationHistoryRecords[0].transfers[z].hasOwnProperty('contextData')){
+										if(b.conversationHistoryRecords[0].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
+											if(b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
+												pushedTags = JSON.stringify(b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[3].name);
+												triplettauno = b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[4].name;
+												triplettadue = b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[5].name;
+												triplettatre = b.conversationHistoryRecords[0].transfers[z].contextData.structuredMetadata[0].botResponse.intents[6].name;
+												z = 0;
 									
-												}
 											}
 										}
 									}
 								}
 							}
 						}
-						
+						if(b.conversationHistoryRecords[0].hasOwnProperty('agentParticipants')){
+							if(typeof b.conversationHistoryRecords[0].agentParticipants !== 'undefined') {
+								var arraylength2 = b.conversationHistoryRecords[0].agentParticipants.length;
+								for (var z = (arraylength2 -1); z > -1; z--){
+									if(b.conversationHistoryRecords[0].agentParticipants[z].hasOwnProperty('contextData')){
+										if(b.conversationHistoryRecords[0].agentParticipants[z].contextData.hasOwnProperty('structuredMetadata')){
+											if(b.conversationHistoryRecords[0].agentParticipants[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
+												pushedTags = JSON.stringify(b.conversationHistoryRecords[0].agentParticipants[z].contextData.structuredMetadata[0].botResponse.intents[3].name);
+												triplettauno = b.conversationHistoryRecords[0].agentParticipants[z].contextData.structuredMetadata[0].botResponse.intents[4].name;
+												triplettadue = b.conversationHistoryRecords[0].agentParticipants[z].contextData.structuredMetadata[0].botResponse.intents[5].name;
+												triplettatre = b.conversationHistoryRecords[0].agentParticipants[z].contextData.structuredMetadata[0].botResponse.intents[6].name;
+												z = 0;
+									
+											}
+										}
+									}
+								}
+							}
+						}
 					}
+						
 				}
+				
 			}
 			
 			var cond1 = 0;
@@ -1666,21 +1751,21 @@ function proceedWithActions(answer){
 
 
 					var whatTime = 0;
-					for (var k = (howManyMessages - 1); k > 0; k--){
+					for (var k = (howManyMessages - 1); k > -1; k--){
 						if(answer[m].messageRecords[k].sentBy === "Agent" && answer[m].messageRecords[k].participantId !== "1089636032"){
 							whatTime = answer[m].messageRecords[k].timeL;
 							k = 0;
 						}
 					}
 					var whatTimeAgent = 0;
-					for (var k = (howManyMessages - 1); k > 0; k--){
+					for (var k = (howManyMessages - 1); k > -1; k--){
 						if(answer[m].messageRecords[k].sentBy === "Agent"){
 							whatTimeAgent = answer[m].messageRecords[k].timeL;
 							k = 0;
 						}
 					}
 					var whatTimeCustomer = 0;
-					for (var k = (howManyMessages - 1); k > 0; k--){
+					for (var k = (howManyMessages - 1); k > -1; k--){
 						if(answer[m].messageRecords[k].sentBy === "Consumer"){
 							whatTimeCustomer = answer[m].messageRecords[k].timeL;
 							k = 0;
@@ -1771,7 +1856,7 @@ function tryUntilSuccess(integer, callback) {
 
 
 	var now = Date.now();
-	var before = (Date.now() - (1000*60*60*24*60));    // only the conversation of the last 60 days will be fetched
+	var before = (Date.now() - (1000*60*60*24*30));    // only the conversation of the last 60 days will be fetched
 	var request = require('request');
 	var oauth = "Bearer " + bearer;
 	var body = {"start":{"from":before,"to":now}, "status": ["open"]};
@@ -1786,42 +1871,73 @@ function tryUntilSuccess(integer, callback) {
     			}
 		}, function (e, r, b) {
 			
-			if(integer == 0){
-				conversationsToDownload = b._metadata.count;
-				conversationsPartial = 0;
-				myCheckConversationsPartial = 0;
-			}
-			if (conversationsToDownload > 0){
-				conversationsPartial = conversationsPartial + b.conversationHistoryRecords.length;
-				if (myCheckConversationsPartial < conversationsPartial){
-					if(conversationsPartial < conversationsToDownload){
-						integer = conversationsPartial;
-						myCheckConversationsPartial = conversationsPartial;
-						console.log(conversationsPartial + "<--->" + conversationsToDownload);
-						proceedWithActions(b.conversationHistoryRecords);
-						tryUntilSuccess(integer, callback);
-					} else{
-						integer = 0;
-						console.log(conversationsPartial + "<--->" + conversationsToDownload);
-						proceedWithActions(b.conversationHistoryRecords);
-						setTimeout(function(){
-							agentsLogged = [];
-							totalAgentsLogged = [];
-							retrieveAgentsLogged();
+			if(b){
+			
+				if(integer == 0){
+					conversationsToDownload = 0;
+					if(b.hasOwnProperty('_metadata')){
+						if(b._metadata.hasOwnProperty('count')){
+							conversationsToDownload = b._metadata.count;
+						}
+					}
+
+					conversationsPartial = 0;
+					myCheckConversationsPartial = 0;
+				}
+				if (conversationsToDownload > 0){
+					if(b.hasOwnProperty('conversationHistoryRecords')){
+						conversationsPartial = conversationsPartial + b.conversationHistoryRecords.length;
+						if (myCheckConversationsPartial < conversationsPartial){
+							if(conversationsPartial < conversationsToDownload){
+								integer = conversationsPartial;
+								myCheckConversationsPartial = conversationsPartial;
+								console.log(conversationsPartial + "<--->" + conversationsToDownload);
+								proceedWithActions(b.conversationHistoryRecords);
+								tryUntilSuccess(integer, callback);
+							} else{
+								integer = 0;
+								console.log(conversationsPartial + "<--->" + conversationsToDownload);
+								proceedWithActions(b.conversationHistoryRecords);
+								setTimeout(function(){
+									agentsLogged = [];
+									totalAgentsLogged = [];
+									retrieveAgentsLogged();
+									setTimeout(function(){
+										console.log("fetching convs");
+										tryUntilSuccess(integer, function(err, resp) {
+											// Your code here...
+										});
+
+									}, 2000);
+
+								}, 2000);
+							}
+						} else{
+							integer = 0;
+							console.log(conversationsPartial + "<--->" + conversationsToDownload);
+							proceedWithActions(b.conversationHistoryRecords);
 							setTimeout(function(){
-								console.log("fetching convs");
-								tryUntilSuccess(integer, function(err, resp) {
-									// Your code here...
-								});
+								agentsLogged = [];
+								totalAgentsLogged = [];
+								retrieveAgentsLogged();
+								setTimeout(function(){
+									console.log("fetching convs");
+									tryUntilSuccess(integer, function(err, resp) {
+										// Your code here...
+									});
+
+								}, 2000);
 
 							}, 2000);
-
-						}, 2000);
+						}
+					} else{
+						console.log("conversationHistoryRecords is null");
+						tryUntilSuccess(integer, function(err, resp) {
+							
+						});
 					}
 				} else{
 					integer = 0;
-					console.log(conversationsPartial + "<--->" + conversationsToDownload);
-					proceedWithActions(b.conversationHistoryRecords);
 					setTimeout(function(){
 						agentsLogged = [];
 						totalAgentsLogged = [];
@@ -1836,7 +1952,16 @@ function tryUntilSuccess(integer, callback) {
 
 					}, 2000);
 				}
+				
+			} else{
+				setTimeout(function(){
+					console.log("error fetching");
+					tryUntilSuccess(integer, function(err, resp) {
+						// Your code here...
+					});
+				}, 10000);
 			}
+			
 			
 			
 
@@ -1853,14 +1978,12 @@ function tryUntilSuccess(integer, callback) {
 
 var integer = 0;
 
-setTimeout(function(){
+echoAgent.on('connected', msg=>{
 	console.log("********* let's go! **********");
 	bearer = echoAgent.transport.configuration.token;
 	retrieveSkills();
 	setTimeout(function(){
 		console.log("first fetch");
-		agentsLogged = [];
-		totalAgentsLogged = [];
 		retrieveAgentsLogged();
 		setTimeout(function(){
 			console.log("fetching convs");
@@ -1870,6 +1993,4 @@ setTimeout(function(){
 						
 		}, 2000);
 	}, 2000);
-}, 10000);
-
-
+});
