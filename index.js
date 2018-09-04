@@ -137,9 +137,7 @@ function checkValues(req, res, next) {
 											if(b.conversationHistoryRecords[i].transfers[z].hasOwnProperty('contextData')){
 												if(b.conversationHistoryRecords[i].transfers[z].contextData.hasOwnProperty('structuredMetadata')){
 													if(b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
-														console.log("inside1");
 														numero_telefono = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[0].name;
-														console.log(numero_telefono);
 														numero_ricontatto = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[1].name;
 														numero_cfiscale = b.conversationHistoryRecords[i].transfers[z].contextData.structuredMetadata[0].botResponse.intents[2].name;
 														z = 0;
@@ -157,9 +155,7 @@ function checkValues(req, res, next) {
 											if(b.conversationHistoryRecords[i].agentParticipants[z].hasOwnProperty('contextData')){
 												if(b.conversationHistoryRecords[i].agentParticipants[z].contextData.hasOwnProperty('structuredMetadata')){
 													if(b.conversationHistoryRecords[i].agentParticipants[z].contextData.structuredMetadata[0].botResponse.intents[0].id === "telefono"){
-														console.log("inside2");
 														numero_telefono = b.conversationHistoryRecords[i].agentParticipants[z].contextData.structuredMetadata[0].botResponse.intents[0].name;
-														console.log(numero_telefono);
 														numero_ricontatto = b.conversationHistoryRecords[i].agentParticipants[z].contextData.structuredMetadata[0].botResponse.intents[1].name;
 														numero_cfiscale = b.conversationHistoryRecords[i].agentParticipants[z].contextData.structuredMetadata[0].botResponse.intents[2].name;
 														z = 0;
