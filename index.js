@@ -123,9 +123,9 @@ function checkValues(req, res, next) {
 						console.log("empty!!!!!");
 					}
 					var myGreenLight = false;
-					var numero_telefono = "";
-					var numero_ricontatto = "";
-					var numero_cfiscale = "";
+					var numero_telefono = "---";
+					var numero_ricontatto = "---";
+					var numero_cfiscale = "---";
 					
 					for (var i = 0; i < arraylength; i++){
 						if(b.hasOwnProperty('conversationHistoryRecords')){
