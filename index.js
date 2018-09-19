@@ -824,16 +824,31 @@ function checkNPSwasSent(json, isFacebook, channel){
 			}
 		}
 	}
-	if (channel === "facebook"){
-		channelType = "PM";
+	var channelNPS;
+	if ((channel === "facebook") || (channel === "facebook_night")){
+		channelNPS = "facebook";
 	}
-	if (channel === "facebook_night"){
-		channelType = "PM";
+	if ((channel === "web") || (channel === "web_night")){
+		channelNPS = "web";
 	}
-	if (channel === "outbound"){
+	if (channel === "fixed") {
+		channelNPS = "fixed";
+	}
+	if ((channel === "outbound") || (channel === "outbound_fixed")){
+		channelNPS = "outbound";
+	}
+
+	
+	if ((channel === "outbound") || (channel === "outbound_fixed")){
 		channelType = "OUT";
+	} else{
+		channelType = "PM";
 	}
-	var myCustomMSG = "Ti ringrazio di avere utilizzato il nostro servizio Facebook, ti rimetto in contatto con TOBi, se avrai bisogno di altre informazioni puoi chiedergliele direttamente! Ti ricordo che cliccando sul link seguente puoi esprimere il tuo parere su quanto hai gradito il supporto che ti ho fornito. Per me è molto importante ricevere la tua risposta e che la tua soddisfazione sia massima! Ci conto :-) https://assets.kampyle.com/clients/vodafone/direct/form.html?region=prodEuIrland&websiteId=67241&formId=4313&caseID=" + convToClose + "&channel=facebook&group=" + myAgentGroup + "&type=" +  channelType;
+	if (myAgentGroup === "Main Group"){
+		myAgentGroup = "Main_Group";
+	}
+	
+	var myCustomMSG = "Ti ringrazio di avere utilizzato il nostro servizio Facebook, ti rimetto in contatto con TOBi, se avrai bisogno di altre informazioni puoi chiedergliele direttamente! Ti ricordo che cliccando sul link seguente puoi esprimere il tuo parere su quanto hai gradito il supporto che ti ho fornito. Per me è molto importante ricevere la tua risposta e che la tua soddisfazione sia massima! Ci conto :-) https://assets.kampyle.com/clients/vodafone/direct/form.html?region=prodEuIrland&websiteId=67241&formId=4313&caseID=" + convToClose + "&channel=" + channelNPS + "&group=" + myAgentGroup + "&type=" +  channelType;
 	console.log(myCustomMSG);
 	var timestampNPSsent = 0;
 	var request = require('request');
