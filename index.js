@@ -819,8 +819,10 @@ function checkNPSwasSent(json, isFacebook, channel){
 	if (arraylength2){
 		for (var u = (arraylength2 - 1); u >= 0; u--){
 			if(json.agentParticipants[u].userTypeName === "Human"){
-				myAgentGroup = json.agentParticipants[u].agentGroupName;
-				u = 0;
+				if(json.agentParticipants[u].permission === "ASSIGNED_AGENT"){
+					myAgentGroup = json.agentParticipants[u].agentGroupName;
+					u = 0;
+				}
 			}
 		}
 	}
