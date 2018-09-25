@@ -1823,12 +1823,12 @@ function proceedWithActions(answer){
 					else{
 
 						if (!postuma && thisConversationHasResponse && (answer[m].info.latestSkillId !== limboskill) && (isOutbound === 0) && (answer[m].info.latestSkillId !== freezeskill) && (answer[m].messageRecords[(answer[m].messageRecords.length - 1)].participantId !== botID)){
-							if(whatTime > whatTimeCustomer){
-								if((whatTimeCustomer < moveToLimbo) && (answer[m].info.latestSkillId !== limboskill)){
+							// if(whatTime > whatTimeCustomer){
+								if((whatTime < moveToLimbo) && (answer[m].info.latestSkillId !== limboskill)){
 									console.log("***Limbo");
 									limboChat(answer[m].info.conversationId, answer[m].info.latestAgentId);
 								}
-							}
+							// }
 						}
 						else if ((answer[m].info.latestSkillId === limboskill) && (whatTimeAgent > 0)){
 							if(answer[m].info.conversationId == "73ff4268-171c-4398-9c11-f5c0c1c7770f"){
