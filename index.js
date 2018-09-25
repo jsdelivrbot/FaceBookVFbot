@@ -1823,9 +1823,11 @@ function proceedWithActions(answer){
 					else{
 
 						if (!postuma && thisConversationHasResponse && (answer[m].info.latestSkillId !== limboskill) && (isOutbound === 0) && (answer[m].info.latestSkillId !== freezeskill) && (answer[m].messageRecords[(answer[m].messageRecords.length - 1)].participantId !== botID)){
-							if((whatTime < moveToLimbo) && (answer[m].info.latestSkillId !== limboskill)){
-								console.log("***Limbo");
-								limboChat(answer[m].info.conversationId, answer[m].info.latestAgentId);
+							if(whatTime > whatTimeCustomer){
+								if((whatTimeCustomer < moveToLimbo) && (answer[m].info.latestSkillId !== limboskill)){
+									console.log("***Limbo");
+									limboChat(answer[m].info.conversationId, answer[m].info.latestAgentId);
+								}
 							}
 						}
 						else if ((answer[m].info.latestSkillId === limboskill) && (whatTimeAgent > 0)){
