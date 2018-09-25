@@ -850,7 +850,39 @@ function checkNPSwasSent(json, isFacebook, channel){
 		myAgentGroup = "Main_Group";
 	}
 	
-	var myCustomMSG = "Ti ringrazio di avere utilizzato il nostro servizio Facebook, ti rimetto in contatto con TOBi, se avrai bisogno di altre informazioni puoi chiedergliele direttamente! Ti ricordo che cliccando sul link seguente puoi esprimere il tuo parere su quanto hai gradito il supporto che ti ho fornito. Per me è molto importante ricevere la tua risposta e che la tua soddisfazione sia massima! Ci conto :-) https://assets.kampyle.com/clients/vodafone/direct/form.html?region=prodEuIrland&websiteId=67241&formId=4313&caseID=" + convToClose + "&channel=" + channelNPS + "&group=" + myAgentGroup + "&type=" +  channelType;
+	var myForm = "";
+	if(json.hasOwnProperty('sdes')){
+		if(json.sdes.hasOwnProperty('events')){
+			if (typeof json.sdes.events !== 'undefined' && json.sdes.events.length > 0) {
+				if(json.sdes.events[0].hasOwnProperty('customerInfo')){
+					if(json.sdes.events[0].customerInfo.hasOwnProperty('customerInfo')){
+						if(json.sdes.events[0].customerInfo.customerInfo.hasOwnProperty('customerType')){
+							if((json.sdes.events[0].customerInfo.customerInfo.customerType).indexOf("acebook") > -1){
+								myForm = "4313";
+								console.log("FaceBook");
+							} else{
+								myForm = "3412";
+								console.log("Web");
+							}
+						}
+					}
+					if(json.sdes.events[1].customerInfo.hasOwnProperty('customerInfo')){
+						if(json.sdes.events[1].customerInfo.customerInfo.hasOwnProperty('customerType')){
+							if((json.sdes.events[1].customerInfo.customerInfo.customerType).indexOf("acebook") > -1){
+								myForm = "4313";
+								console.log("FaceBook");
+							} else{
+								myForm = "3412";
+								console.log("Web");
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	var myCustomMSG = "Ti ringrazio di avere utilizzato il nostro servizio Clienti, ti rimetto in contatto con TOBi, se avrai bisogno di altre informazioni puoi chiedergliele direttamente! Ti ricordo che cliccando sul link seguente puoi esprimere il tuo parere su quanto hai gradito il supporto che ti ho fornito. Per me è molto importante ricevere la tua risposta e che la tua soddisfazione sia massima! Ci conto :-) https://assets.kampyle.com/clients/vodafone/direct/form.html?region=prodEuIrland&websiteId=67241&formId=" + myForm + "&caseID=" + convToClose + "&channel=" + channelNPS + "&group=" + myAgentGroup + "&type=" +  channelType;
 	console.log(myCustomMSG);
 	var timestampNPSsent = 0;
 	var request = require('request');
@@ -1035,7 +1067,7 @@ function closeChat(dialogID, wasNPSsent, myCustomMSG){
 			
 			if(cond1 || cond2 || cond3 || cond4 || wasNPSsent){
 				
-				myCustomMSG = "Ti ringrazio di avere utilizzato il nostro servizio Facebook, Ti rimetto in contatto con TOBi, se avrai bisogno di altre informazioni puoi chiedergliele direttamente!";
+				myCustomMSG = "Ti ringrazio di avere utilizzato il nostro servizio Clienti, Ti rimetto in contatto con TOBi, se avrai bisogno di altre informazioni puoi chiedergliele direttamente!";
 				console.log("sending simple closure message");
 				echoAgent.updateConversationField({
 					'conversationId': dialogID,
