@@ -851,7 +851,9 @@ function checkNPSwasSent(json, isFacebook, channel){
 		myAgentGroup = "Main_Group";
 	}
 	
-	var myForm = "";
+	var myForm = "4313";
+	
+	/****
 	if(json.hasOwnProperty('sdes')){
 		if(json.sdes.hasOwnProperty('events')){
 			if (typeof json.sdes.events !== 'undefined' && json.sdes.events.length > 0) {
@@ -882,6 +884,8 @@ function checkNPSwasSent(json, isFacebook, channel){
 			}
 		}
 	}
+	
+	*****/
 	
 	var myCustomMSG = "Ti ringrazio di avere utilizzato il nostro servizio Clienti, ti rimetto in contatto con TOBi, se avrai bisogno di altre informazioni puoi chiedergliele direttamente! Ti ricordo che cliccando sul link seguente puoi esprimere il tuo parere su quanto hai gradito il supporto che ti ho fornito. Per me è molto importante ricevere la tua risposta e che la tua soddisfazione sia massima! Ci conto :-) https://assets.kampyle.com/clients/vodafone/direct/form.html?region=prodEuIrland&websiteId=67241&formId=" + myForm + "&caseID=" + convToClose + "&channel=" + channelNPS + "&group=" + myAgentGroup + "&type=" +  channelType;
 	console.log(myCustomMSG);
