@@ -906,18 +906,18 @@ function checkNPSwasSent(json, isFacebook, channel){
 		}
 	}, function (e, r, b) {
 			
-			var arraylength3 = 0;
-			if(b.hasOwnProperty('_metadata')){
-				if(b._metadata.hasOwnProperty('count')){
-					arraylength3 = b._metadata.count;
-				}
+		var arraylength3 = 0;
+		if(b.hasOwnProperty('_metadata')){
+			if(b._metadata.hasOwnProperty('count')){
+				arraylength3 = b._metadata.count;
 			}
-
-			console.log("isFacebook = " + isFacebook);
-			if(isFacebook < 1){
-			wasNPSsent = 1;
-			console.log("marked point 1");
 		}
+
+		console.log("isFacebook = " + isFacebook);
+		// if(isFacebook < 1){
+			// wasNPSsent = 1;
+			// console.log("marked point 1");
+		// }
 		if (arraylength3 === 0){
 			console.log("nessuna conv");
 			console.log("sto chiudendo. wasNPSsent = " + wasNPSsent);
