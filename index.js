@@ -890,7 +890,25 @@ function checkNPSwasSent(json, isFacebook, channel){
 	}
 	
 	
-	var myCustomMSG = "Ti ringrazio di avere utilizzato il nostro servizio Clienti, ti rimetto in contatto con TOBi, se avrai bisogno di altre informazioni puoi chiedergliele direttamente! Ti ricordo che cliccando sul link seguente puoi esprimere il tuo parere su quanto hai gradito il supporto che ti ho fornito. Per me è molto importante ricevere la tua risposta e che la tua soddisfazione sia massima! Ci conto :-) https://assets.kampyle.com/clients/vodafone/direct/form.html?region=prodEuIrland&websiteId=67241&formId=" + myForm + "&caseID=" + convToClose + "&channel=" + channelNPS + "&group=" + myAgentGroup + "&type=" +  channelType;
+	
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth()+1; //January is 0!
+	var yyyy = today.getFullYear();
+	if(dd<10){
+		dd='0'+dd;
+	}
+	if(mm<10){
+		mm='0'+mm;
+	}
+	var myToday = dd+'/'+mm+'/'+yyyy;
+
+	
+
+	
+	
+	
+	var myCustomMSG = "Ti ringrazio di avere utilizzato il nostro servizio Clienti, ti rimetto in contatto con TOBi, se avrai bisogno di altre informazioni puoi chiedergliele direttamente! Ti ricordo che cliccando sul link seguente puoi esprimere il tuo parere su quanto hai gradito il supporto che ti ho fornito. Per me è molto importante ricevere la tua risposta e che la tua soddisfazione sia massima! Ci conto :-) https://assets.kampyle.com/clients/vodafone/direct/form.html?region=prodEuIrland&websiteId=67241&formId=" + myForm + "&caseID=" + convToClose + "&channel=" + channelNPS + "&group=" + myAgentGroup + "&type=" +  channelType + "&date=" + myToday;
 	console.log(myCustomMSG);
 	var timestampNPSsent = 0;
 	var request = require('request');
@@ -2039,21 +2057,6 @@ function tryUntilSuccess(integer, callback) {
 var integer = 0;
 
 echoAgent.on('connected', msg=>{
-	
-	var today = new Date();
-		var dd = today.getDate();
-		var mm = today.getMonth()+1; //January is 0!
-		var yyyy = today.getFullYear();
-		if(dd<10){
-			dd='0'+dd;
-		}
-		if(mm<10){
-			mm='0'+mm;
-		}
-		var myToday = dd+'/'+mm+'/'+yyyy;
-	console.log(myToday);
-	
-
 	
 	
 	console.log("********* let's go! **********");
