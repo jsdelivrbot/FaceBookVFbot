@@ -2041,8 +2041,8 @@ var integer = 0;
 
 echoAgent.on('connected', msg=>{
 	
-	var d = new Date();
-    var options = { month: '2-digit', day: '2-digit', year: 'numeric' };
+	var d = new Date(1538400496000);
+
 
     var n = d.toLocaleString('it-IT', options);
 	
