@@ -2041,8 +2041,8 @@ var integer = 0;
 
 echoAgent.on('connected', msg=>{
 	
-	var d = new Date();
-	var today = d.toLocaleString('it-IT');;
+	var today = new Date();
+	// var today = d.toLocaleString('it-IT');;
 		var dd = today.getDate();
 		var mm = today.getMonth()+1; //January is 0!
 		var yyyy = today.getFullYear();
