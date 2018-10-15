@@ -2036,7 +2036,6 @@ function tryUntilSuccess(integer, callback) {
 
 
 
-
 var integer = 0;
 
 echoAgent.on('connected', msg=>{
