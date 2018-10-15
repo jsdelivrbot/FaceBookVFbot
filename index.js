@@ -2041,12 +2041,18 @@ var integer = 0;
 
 echoAgent.on('connected', msg=>{
 	
-	var d = new Date(1538400496000);
-
-
-    var n = d.toLocaleString('it-IT');
-	
-	console.log(n);
+	var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth()+1; //January is 0!
+		var yyyy = today.getFullYear();
+		if(dd<10){
+			dd='0'+dd;
+		}
+		if(mm<10){
+			mm='0'+mm;
+		}
+		var myToday = dd+'/'+mm+'/'+yyyy;
+	console.log(myToday);
 	
 	
 	
