@@ -123,8 +123,11 @@ function checkValues(req, res, next) {
 				if(b.hasOwnProperty('_metadata')){
 					var arraylength = 0;
 					if(b._metadata.hasOwnProperty('count')){
-						arraylength = b._metadata.count;
-						console.log("count --> " + arraylength);
+						if(b._metadata.count > 50){
+							arraylength = 50;
+						} else{
+							arraylength = b._metadata.count;
+						}
 					} else{
 						console.log("empty!!!!!");
 					}
