@@ -133,9 +133,11 @@ function checkValues(req, res, next) {
 					var numero_cfiscale = "---";
 					
 					for (var i = 0; i < arraylength; i++){
-						console.log(i);
 						if(b.hasOwnProperty('conversationHistoryRecords')){
 							if(b.conversationHistoryRecords.length > 0){
+								console.log("   ");
+								console.log(b.conversationHistoryRecords[i]);
+								console.log("   ");
 								if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
 									if (typeof b.conversationHistoryRecords[i].transfers !== 'undefined' && b.conversationHistoryRecords[i].transfers.length > 0) {
 										var arraylength2 = b.conversationHistoryRecords[i].transfers.length;
