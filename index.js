@@ -123,6 +123,7 @@ function checkValues(req, res, next) {
 					var arraylength = 0;
 					if(b._metadata.hasOwnProperty('count')){
 						arraylength = b._metadata.count;
+						console.log("count --> " + arraylength);
 					} else{
 						console.log("empty!!!!!");
 					}
@@ -132,6 +133,7 @@ function checkValues(req, res, next) {
 					var numero_cfiscale = "---";
 					
 					for (var i = 0; i < arraylength; i++){
+						console.log(i);
 						if(b.hasOwnProperty('conversationHistoryRecords')){
 							if(b.conversationHistoryRecords.length > 0){
 								if(b.conversationHistoryRecords[i].hasOwnProperty('transfers')){
