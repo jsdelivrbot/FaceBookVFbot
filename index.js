@@ -1671,6 +1671,7 @@ function proceedWithActions(answer){
 	var nowIsTimeToAction = Date.now();
 	var closure = (nowIsTimeToAction - (1000*60*60*24));            // timestamp closure conversation
 	var closureWeb = (nowIsTimeToAction - (1000*60*60*24));            // timestamp closureWeb conversation
+	var closureMyTest = (nowIsTimeToAction - (1000*60));            // timestamp closureWeb conversation
 	var moveToLimbo = (nowIsTimeToAction - (1000*60*20));            // timestamp "move to Limbo" conversation
 	var bringMeBackAtGeneral = (nowIsTimeToAction - (1000*60*10));  // timestamp "move to the general risveglio" conversation
 	var sendAlert = (nowIsTimeToAction - (1000*60*60*23));            // timestamp "send Alert" conversation
@@ -1870,6 +1871,10 @@ function proceedWithActions(answer){
 							console.log("***unfreezing");
 							wakeUpChat(answer[m].info.conversationId, answer[m].info.latestAgentLoginName, channel, false);
 						}
+					}
+					
+					if((whatTimeCustomer < closure)||(((channel==="facebook")||(channel==="facebook_night")) && (whatTimeCustomer < closureMyTest))){
+						console.log("close this one");
 					}
 
 					if(answer[m].messageRecords[(answer[m].messageRecords.length - 1)].sentBy === "Consumer") {
